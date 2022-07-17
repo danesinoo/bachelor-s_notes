@@ -1,0 +1,182 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		  & \\
+		Microprogrammazione & Cablato \\
+		  &  \\
+		\hline
+		  & \\
+	versatile & medesimi calcoli\\
+  complessa & poco complessa\\
+  microcircuiti & circuito unico\\
+  lenta & veloce\\
+  costosa & economica\\
+  & \\
+  \hline
+	\end{tabular}
+	\caption{Microprogrammazione e Embedded System}
+\end{table}
+
+
+\paragraph{Ciclo di fetch/execute completo:}
+\begin{enumerate}
+    \item instruction fetch: si estrae l'istruzione dalla memoria;
+		\item instruction operation decoding: si comprende l'operazione da eseguire;
+    \item operand address calculation: si calcola l'indirizzo degli operandi;
+    \item operand fetch: si recuperano gli operandi;
+    \item data operation: l'ALU esegue le operazioni richieste;
+    \item operand address calculation: si calcola l'indirizzo del risultato;
+    \item operand store: si salva il risultato;
+    \item interrupt check: si contralla se la CU ha inoltrato interrupt;
+    \item interrupt: si recuperano le informazioni dell'interrupt;
+    \item instruction address calculation: si calcola l'indirizzo dell'istruzione;
+\end{enumerate}
+
+\paragraph{Descrivere il bus di sistema}
+\begin{itemize}
+	\item[--] serve per trasportare i dati;
+	\item[--] livello dati, indirizzi e controllo;
+	\item[--] linee, ampiezza dei bit;
+	\item[--] arbitro del bus;
+\end{itemize}
+
+\paragraph{Mapping dei blocchi}
+\begin{itemize}
+ \item associazione diretta:
+ 	\begin{itemize}
+		\item la linea del blocco è univoca: indirizzo del blocco modulo n. righe della cache;
+		\item veloce;
+		\item swap molto frequente;
+	\end{itemize}
+
+ \item associzione completa:
+ 	\begin{itemize}
+		\item il blocco è posizionato nella prima riga disponibile;
+		\item miss lento ad essere identificato;
+		\item efficienza della cache massima;
+	\end{itemize}
+
+ \item associazione a gruppi:
+ 	\begin{itemize}
+		\item il set del blocco è univoco: indirizzo del blocco modulo n. set nella cache;
+		\item swap non troppo frequente;
+		\item capacità della memoria sufficientemente ottimizzata;
+	\end{itemize}
+\end{itemize}
+
+\paragraph{Write through e write back}
+\begin{itemize}
+	\item write through:
+	 \begin{itemize}
+		 \item le momorie sono aggiornate contemporaneamente ogni volta che un dato è modificato;
+		 \item collo di bottiglia tra le momorie;
+		 \item la memoria è sempre aggiornata;
+	 \end{itemize}
+
+	\item write back:
+	 \begin{itemize}
+		 \item la memoria superiore è aggiornata quando c'è uno swap nella memoria inferiore;
+		 \item dirty bit;
+		 \item la memoria non è aggiornata, problema nei multicore;
+	 \end{itemize}
+ \end{itemize}
+
+\paragraph{CD-ROM}
+\begin{itemize}
+	\item[--] memoria ottica;
+	\item[--] una traccia a spirale;
+	\item[--] settori che contengono la medesima quantità di dati;
+	\item[--] velocità lineare costante;
+	\item[--] prima del blocco sequnza 00 FFx10 00, tempo lettura, codice correzione finale;
+\end{itemize}
+
+\paragraph{Memorie a semiconduttori}
+\begin{itemize}
+ \item[--] random access;
+ \item[--] ROM e RAM;
+ \item[--] DRAM e SRAM;
+ \item[--] ROM per il BIOS;
+ \item[--] EPROM erasebla;
+ \item[--] EEPROM lente, modificabili con l'elettrcità;
+ \item[--] flash come le EEPROM ma veloci;
+\end{itemize}
+
+\paragraph{DRAM}
+\begin{itemize}
+	\item[--] volatili, scrittura e lettura;
+	\item[--] analogiche;
+	\item[--] il dato è salvato in un condensatore;
+	\item[--] refresh;
+	\item[--] lettura: il condensatore è scaricato, il segnale passa attraverso un amplificatore, refresh;
+	\item[--] scrittura: si accede attraverso la linea indirizzo, nel condensatore si piazza la carica;
+  \item[--] economiche;
+	\item[--] sono utilizzate per la RAM;
+\end{itemize}
+
+\paragraph{Miss e come diminuirli}
+\begin{itemize}
+	\item[--] miss di primo accesso: irrimediabile;
+	\item[--] miss per capacità: maggiore dimensione dei blocchi;
+	\item[--] miss per conflitto: aumentare il numero di vie, separare cache dati e cache istruzioni;
+\end{itemize}
+
+\paragraph{I Raid}
+\begin{itemize}
+	\item[--] 0: stripping;
+	\item[--] 1: mirroring di ciascun disco;
+	\item[--] 2: stripping stretto, hamming dei dischi necessari aggiungendo dischi;
+	\item[--] 3: stripping stretto, parità;
+	\item[--] 4: stripping largo, parità, collo di bottiglia;
+	\item[--] 5: stripping largo, parità con round robin;
+	\item[--] 6: stripping largo, parità con round robin, algoritmo di backup aggiuntivo;
+\end{itemize}
+
+\paragraph{Dischi Rigidi}
+\begin{itemize}
+	\item[--] memorie magnetiche;
+	\item[--] tracce e sezioni e gap tra le divisioni;
+	\item[--] CAV o MZR;
+	\item[--] economici, capienti, possono essere messi in raid;
+	\item[--] estraibili o no;
+	\item[--] cilindri o no;
+	\item[--] doppia faccia o no;
+\end{itemize}
+
+\paragraph{Gestione I/O programmata}
+\begin{itemize}
+	\item[--] la CPU si occupa di tutta la gestione delle periferiche;
+	\item[--] controllo, test, lettura, scrittura;
+	\item[--] la CPU richiede periodicamente lo stato della periferica;
+	\item[--] la CPU si occupa di trasferire i dati;
+\end{itemize}
+
+\paragraph{Gestione I/O interrupt driven}
+\begin{itemize}
+	\item[--] la CPU si occupa di tutta la gestione delle periferiche;
+	\item[--] la CPU riceve gli interrupt;
+	\item[--] Controllo, test, lettura, scrittura;
+\end{itemize}
+
+\paragraph{DMA}
+\begin{itemize}
+	\item[--] la CPU manda alla DMA tutte le comunicazioni per i dispositivi di I/O;
+	\item[--] la DMA comunica con le periferiche;
+	\item[--] la DMA inoltra eventuali interrupt;
+	\item[--] la DMA comunica parole o blocchi;
+\end{itemize}
+
+\paragraph{Codice Hamming}
+\begin{itemize}
+	\item[--] nessun errore, si può correggere l'errore, non è possibile correggere l'errore;
+	\item[--] identifica 2 bit sbagliati, ne corregge 1;
+	\item[--] il codice di correzione è salvato con i dati;
+	\item[--] in lettura è controllato il dato estratto;
+\end{itemize}
+
+
+\end{document}
