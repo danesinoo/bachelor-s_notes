@@ -1,0 +1,27 @@
+Realizziamo una versione del gioco tris, nel quale due giocatori, X e O, immettono a turno il loro simbolo su una board 3x3. Vince chi riesce a formare con il proprio simbolo 3 valori uguali su una riga, una colonna o una diagonale. Nell'esempio sotto se X mette il prossimo simbolo in (0,2) vince perché si avranno 3 X nella prima riga:
+
+     |     |     
+  X  |  X  |    
+_____|_____|_____
+     |     |     
+     |  O  |    
+_____|_____|_____
+     |     |     
+     |     |  O 
+     |     |     
+
+Siete stati assunti a lavoro già iniziato, per cui molte delle funzioni sono state già implementate. Dovete orientarvi nel codice già scritto, e completare le seguenti funzioni mancanti (vedete il file .h corrispondente per capire come vanno implementate): 
+
+1) in giocatore.c:
+    1.1) void scegli_mossa_computer(char board[], int *x, int *y);
+
+2) in board.c: 
+    2.1) int mossa_ammissibile(char board[], int x, int y);
+    2.2) int tris_in_colonna(char board[], int num_col);
+    2.3) int tris_in_diagonali(char board[]);
+
+3) in partita.c:
+    3.1) void gioca(char board[], void (*p1)(int *x, int *y), void (*p2)(int *x, int *y));
+    Nel file .h vi indichiamo come implementare gioca(), seguite le istruzioni cercando di utilizzare le funzioni negli altri file (board.h) che realizzano le funzionalità che indichiamo (non reimplementatele voi!). 
+
+IMPORTANTE: notate che il gioco sarà funzionante solamente quando avrete implementato tutte le funzioni. Per controllare che le funzioni in 1) e 2) siano corrette, potete aggiungere al codice delle funzioni di test. 
