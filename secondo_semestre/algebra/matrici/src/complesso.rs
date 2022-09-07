@@ -12,17 +12,18 @@ where T: Display + AddAssign + SubAssign + Mul + Clone + Copy {
 
 impl CoefficienteMatrice for Complesso<Gen> {
     fn new() -> Self {
-        Complesso { re: 1., im: 1. }
+        Complesso { re: 1., im: 0. }
     }
 
     fn nullo(&self) -> bool {
         self.re == 0. && self.im == 0.
     }
 
-    fn opposto(&mut self) -> Self {
-        self.re = self.re * -1.;
-        self.im = self.im * -1.;
-        *self
+    fn opposto(&self) -> Self {
+        Complesso {
+            re: self.re * -1.,
+            im: self.im * -1.
+        }
     }
 }
 

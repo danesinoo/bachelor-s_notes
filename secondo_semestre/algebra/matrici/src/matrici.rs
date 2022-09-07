@@ -1,13 +1,15 @@
 use std::ops::{Add, Div, Sub, Mul};
 use std::fmt::Display;
+use prettytable::{Table, Row, Cell};
+use prettytable::format;
 
 pub trait CoefficienteMatrice: Add<Output = Self> + Div<Output = Self> + Mul<Output = Self> + Sub<Output = Self> + Display + Clone + Copy {
     fn new() -> Self; // serve per inizializzare la matrice, è comodo, inizializza ad 1;
     fn nullo(&self) -> bool; // ritorna true se vale 0, false altrimenti
-    fn opposto(&mut self) -> Self; // moltiplica per -1
+    fn opposto(&self) -> Self; // self * -1
 }
 
-pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
+pub trait Matrice<E: CoefficienteMatrice>: Clone {
     fn new(righe: usize, colonna: usize) -> Self; // la prende dal terminale
         //fn from_vector<T: Matrice>(vect: &T, righe: usize, colonne: usize) -> Box<Self>;
     fn colonne(&self) -> usize;
@@ -54,7 +56,7 @@ pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
     //    let mut i = riga +1;
     //    while i< self.righe() {
         let mut j = 0;
-        while self.nullo(riga1 * j) {   // controlla se il valore attuale è nullo
+        while self.nullo(riga1 + j) {   // controlla se il valore attuale è nullo
             j+= 1;
         }
         let sup = self.value(riga2 + j);    // indica la costare da moltiplicare
@@ -72,32 +74,34 @@ pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
     //type E= f32; // da cambiare
 
     // trova la colonna dominante e ritorna il suo indice
-    fn dominante(&self, index: usize) -> Option<usize> {
+    fn dominante(&self, index: usize) -> Result<usize, &str> {
         let mut j: usize= 0;
         while j<self.colonne() {
             let mut i: usize= index;
             while i<self.righe() {
-                if !self.nullo(i*self.colonne() +j) { return Some(i);}
+                if !self.nullo(i*self.colonne() +j) { return Ok(i);}
                 i+= 1;
             }
             j+= 1;
         }
-        None
+        Err("Non ci sono più righe non nulle")
     }
 
     // effettua l'eliminazione di gauss, ritorna None se non è fattibile (se non si tratta di una matrice)
     // altrimenti ritorna k| k * det(matrice_risultante) = det(matrice iniziale) (Calcolo del determinante con l'algoritmo di Gauss)
-    fn elm_gauss(&mut self) -> Option<E> {
-        if self.len() != self.righe() * self.colonne() { return None; }
+    fn elm_gauss(&mut self) -> Result<E, &str> {
+        if self.len() == self.righe() * self.colonne() { 
+            return Err("le righe e le colonne non combaciano con la dimensione della matrice"); 
+        }
         let mut i= 0;
         let mut k= E::new();
         while i<self.righe() {
             match self.dominante(i) {
-                None => { return Some(k); }
-                Some(x) => { 
+                Err(_) => { break }
+                Ok(x) => { 
                     if x>i {
                         self.scambia_righe(i, x);
-                        k.opposto();
+                        k = k.opposto();
                     }
                 }
             }
@@ -109,43 +113,47 @@ pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
     //      printf("\n");
             i += 1;
         }
-        Some(k)
+       Ok(k)
     }
 
     // calcola il rango della matrice
-    fn rango(&self) -> usize {
+    fn rango(&self) -> Result<usize, &str> {
         let mut mat = self.clone();  // non cambia la matrice iniziale
-        mat.elm_gauss();    // effettua l'eliminazione di gauss
+        match mat.elm_gauss() {
+            Err(_) => {return Err("elm_gauss: le righe e le colonne non combaciano con la dimensione della matrice");},
+            _ => {}
+        }
+            // effettua l'eliminazione di gauss
         let mut j = 0;
         for i in 0..self.righe() {
             match mat.dominante(i) {
-                None => { return j; }
-                Some(x) => {
+                Err(_) => { break }
+                Ok(x) => {
                     if x == i { 
                         j += 1;    // conta le colonne dominanti
                     }
                 }
             }
         }
-        j   // ritorna il numero di colonne dominanti
+        Ok(j)   // ritorna il numero di colonne dominanti
     }
 
     // considerando il rango di una matrice ne calcola il numero di soluzioni: la matrice deve essere già ridotta
-    fn check_soluzioni(&self, b: &Self) -> Option<usize> {
+    fn check_soluzioni(&self, b: &Self) -> isize {
         for i in 0..self.colonne() {
             match self.dominante(i) {
-                None => {
+                Err(_) => {
                     if b.len() > i {
                         for j in i..b.len() {
-                            if !b.nullo(j) { return None; }
+                            if !b.nullo(j) { return 0;}
                         }
-                        return Some(self.colonne() - self.rango());
+                        return (self.colonne() as isize - self.rango().unwrap() as isize).abs();
                     }
                 }
                 _ => {}
             }
         }
-        Some(0)
+        0        
     }
 
     // Operazioni con le matrici
@@ -168,8 +176,8 @@ pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
         let mut k = E::new();
         while i< self.righe() {
             match self.dominante(i) {
-                None => { return k; }
-                Some(x) => { if x> i {
+                Err(_) => { return k; }
+                Ok(x) => { if x> i {
                     self.scambia_righe(i, x);
                     b.scambia_righe(i, x);
                     k.opposto();
@@ -187,45 +195,97 @@ pub trait Matrice<E: CoefficienteMatrice>: Display + Clone {
         k
     }
 
-    fn risolvi_sistema(&mut self, b: &mut Self) -> Option<usize> {
-        if self.len() != self.righe() * self.colonne() || self.righe() != b.righe() { return None; }
+    fn risolvi_sistema(&mut self, b: &mut Self) -> Result<isize, &str> {
+        if self.len() != self.righe() * self.colonne() || self.righe() != b.righe() { 
+            return Err("La matrice non ha le dimensioni adeguate, oppure il vettore dei termini noti non ha lo stesso numero di righe delle matrice"); 
+        }
         let mut mat =self.clone();
         mat.elm_gauss_per_sistema(b);
         // println!("{}\n{}", self, b); // so far funziona!
-        if self.rango() < self.colonne() { return mat.check_soluzioni(b);}
+        if self.rango()? < self.colonne() { return Ok(mat.check_soluzioni(b));}
         // println!("{}\n{}", self, b); // so far funziona! 
         else {
             mat.trova_incognite(b);
-            Some(0)
+            Ok(0)
         }
     }
 
     // calcolo del determinante con l'algoritmo di gauss
-    fn determinante(&self) -> Option<E> {
-        if self.colonne() != self.righe() { None }
+    fn determinante(&self) -> Result<E, &str> {
+        if self.colonne() != self.righe() { Err("La matrice non è quadrata") }
         else {
-            let mut mat = self.clone();
-            let mut det = mat.elm_gauss()?;
-            for i in 0..mat.colonne() {
-                det = det * mat.value(i * self.colonne() + i);
+            let mut tmp = self.clone();
+            let mut det = match tmp.elm_gauss() {
+                Ok(x) => { x },
+                Err(_) => { return Err("elm_gauss: le righe e le colonne non combaciano con la dimensione della matrice"); }
+            };
+            for i in 0..self.righe() {
+                det = det * tmp.value(i * tmp.righe() + i);
             }
-            Some(det)
+            Ok(det)
         }
     }
 
-    fn mol_mat(&self, a: &Self) -> Option<Self> {
-        if self.colonne() != a.righe() {return None;}
-        let mut mat = Self::new(self.righe(), a.colonne());
-        for riga in 0..mat.righe() {
-            for colonna in 0..mat.colonne() {
-                *mat.mut_value(riga * mat.colonne() + colonna) = E::new() - E::new();
+    fn mul(&self, a: &Self) -> Result<Self, &str> {
+        if self.colonne() != a.righe() {
+            return Err("Stai moltiplicando due matrici che hanno righe e colonne diverse, il codominio della seconda non coincide con il dominio della prima");
+        }
+        let mut tmp = Self::new(self.righe(), a.colonne());
+        for riga in 0..tmp.righe() {
+            for colonna in 0..tmp.colonne() {
+                *tmp.mut_value(riga * tmp.colonne() + colonna) = E::new() - E::new();
                 for ptr in 0..self.colonne() {
-                    *mat.mut_value(riga * mat.colonne() + colonna) = mat.value(riga * mat.colonne() + colonna) + self.value(riga * self.colonne() + ptr) * a.value(ptr * a.colonne() + colonna);
+                    *tmp.mut_value(riga * tmp.colonne() + colonna) = tmp.value(riga * tmp.colonne() + colonna) + self.value(riga * self.colonne() + ptr) * a.value(ptr * a.colonne() + colonna);
                 }
             }
         }
-        Some(mat)
+        Ok(tmp)
+    }
+
+    fn add(&self, rhs: &Self) -> Result<Self, &str> {
+        if self.righe() != rhs.righe() || self.colonne() != rhs.colonne() {
+            return Err("Sono sommate due matrici con dimensioni differenti");
+        }
+        let mut tmp= Self::new(self.righe(), self.colonne());
+        for i in 0..self.righe() * self.colonne() {
+            *tmp.mut_value(i) = self.value(i) + rhs.value(i);
+        }
+        Ok(tmp)
+    }
+
+    fn trasposta(&self) -> Self {
+        let mut tmp = Self::new(self.colonne(), self.righe());
+        for i in 0..self.righe() {
+            for j in 0..self.colonne() {
+                *tmp.mut_value(j * tmp.colonne() + i) = self.value(i * tmp.colonne() + j);
+            }
+        }
+        tmp
+    }
+
+    fn table(&self) -> Table {
+        let mut table = Table::new();
+        let format = format::FormatBuilder::new()
+            .borders('|')
+            .separators(&[format::LinePosition::Top,
+                        format::LinePosition::Bottom],
+                        format::LineSeparator::new(' ', '+', '+', '+'))
+            .padding(1, 5)
+            .build();
+        table.set_format(format);
+
+        let mut row;
+        for i in 0..self.righe() {
+            row = Row::empty();
+            for j in 0..self.colonne() {
+                row.add_cell(Cell::new(&self.value(i * self.colonne() + j).to_string()));
+            }
+            table.add_row(row);
+        }
+        table
+    }
+
+    fn print(&self) {
+        print!("{}", self.table())
     }
 }
-
-// 

@@ -57,3 +57,29 @@ impl Matrice<Complesso<Gen>> for MatriceComplessa {
 
     }
 }
+
+/*
+    let matrice: Vec<Complesso<Gen>> = vec![
+        Complesso{re: 9., im: 0.},
+        Complesso{re: 6., im: 1.},
+        Complesso{re: 1., im: 0.},
+
+        Complesso{re: 3., im: 0.},
+        Complesso{re: 18., im: 0.},
+        Complesso{re: 1., im: 0.},
+
+        Complesso{re: 1., im: 0.},
+        Complesso{re: 2., im: 1.},
+        Complesso{re: 1., im: 0.}
+    ];
+
+    let mut mat_comp= MatriceComplessa{
+        matrice,
+        righe: 3,
+        colonne: 3
+    };
+
+    mat_comp = mat_comp.mul(&mat_comp).unwrap();
+
+    print!("{}\n", mat_comp.table());
+    */
