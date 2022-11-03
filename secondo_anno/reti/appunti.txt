@@ -1,0 +1,56 @@
+Premessa:
+    onda:
+        frequenza;
+        lunghezza d'onda;
+
+    Unità di misura per il trasferimento dei dati:
+        misura fisica: bandwidth (larghezza di banda)
+        
+        le altre misure derivano dalla bandwidth:
+            data rate / bit rate / bit/s / ... 
+
+    Bandwidth:
+        insieme di frequenza che sono trasmesse su un canale
+        
+        si misura in Hertz (Hz)
+
+    Data Rate:
+        quanta informazione passa in un secondo;
+
+        bit rate: quanti bit al secondo trasferiamo
+
+        baud rate: quanti simboli al secondo trasmettiamo
+            un alfabeto di trasmissione che ha un certo numero di simboli;
+            il boud rate misura relativamente a questo alfabeto;
+
+            esempio: posso trasmettere un impulso usando 4 frequenza diverse;
+
+            l'informazione in bit esprimibile da un alfabeto con V simboli
+            equivale a log_{2}(V);
+
+    La quantità di informazione dipende dal materiale e dal segnale.
+    Per poter trasmettere a frequenze più alte, occore una potenza maggiore (più
+    energia). La potenza per creare trasmissioni ad alta frequenza cresce col
+    quadrato della stessa.
+
+    Fourier:
+        Fornisce l'ordine più economiche da scegliere per una data larghezza di
+        banda.
+
+        un simbolo -> viene descritta da f(x) = \alpha \sin(x)
+
+        le onde a bassa frequenza passano attraverso ogni superficie.
+
+        Due frequenze diverse lanciate assieme generano delle onde che sono
+        somme del seno a meno di qualche coeffieciente:
+            
+            f(x_1, ..., x_n) = \alpha_1 \sin(x_1) + ... + \alpha_n \sin(x_n)
+
+        In cui \alpha è una costante dipendende dalla frequenza/ lunghezza
+        d'onda
+
+    L'onda S:
+        servono tante frequenze diverse. (permette di disegnare Homer Simpson, e
+        anche tante altre cose)
+
+

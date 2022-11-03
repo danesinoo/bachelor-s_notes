@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Operatori}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}namespace}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}ADT}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Classe}{3}{subsection.1.4}%
+\contentsline {subsubsection}{In line}{3}{section*.2}%
+\contentsline {subsubsection}{Costruttore}{3}{section*.3}%
+\contentsline {subsection}{\numberline {1.5}information hiding}{4}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}The rule of three}{4}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}Array}{4}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}Friend function}{4}{subsection.1.8}%

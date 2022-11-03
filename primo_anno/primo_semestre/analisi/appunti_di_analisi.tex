@@ -1,0 +1,721 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[mathscr]{eucal}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=21.5 cm}
+	\geometry{left=3cm}
+	\geometry{right=3 cm}
+	\geometry{top=3.5 cm}
+
+
+\title{\vspace{4cm}\textbf{Appunti di Analisi}}
+\author{\textbf{29} settembre \textbf{2021}}
+\date{\vspace{2mm}\textbf{Carlo Rosso}}
+
+\begin{document}
+\setcounter{secnumdepth}{1}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+Raccomando di controllare wolfarm.com
+%Runner.instance_.setSpeed(10000), su https://chromedino.com/
+%voglio provare questa cosa
+%ho installato latex sull'air
+%ptrace() -> to check the security of a program
+%0xCC è un'istruzione che viene inviata per fermare un momento un programma che sta venendo debuggato da un altro programma. 0xCC è un'istruzione che è mandata all'ALU. L'ALU deve rispondere in un determinato modo, così che il kernel comprenda che va tutto bene.
+%Il programma può debuggare se stesso, se viene fuori -1 comprende che sta venendo debuggato a propria volta.
+%patching?
+
+
+\newpage
+
+\section{Le Relazioni}
+
+\subsection{Definizione di prodotto cartesiano}
+Si dice prodotto cartesiano $A \times B$ l'insieme di tutte le coppie ordinate $(a,b)$, con $a \in A$ e $b \in B$.
+
+
+\subsection{Definizione di relazione}
+Una relazione $\mathcal{R}$ è un sottoinsieme di un prodotto cartesiano tra due insiemi.
+
+\paragraph{Proprietà delle relazioni}
+\begin{itemize}
+	\item riflessiva: se $x \mathcal{R} x \ \forall x \in A$;
+	\item transitiva: se $x \mathcal{R} a$ e $a \mathcal{R} b$ allora $x \mathcal{R} b$;
+	\item simmetrica: se $x \mathcal{R} y$ e $y \mathcal{R} x \ \forall x,y$;
+	\item antisimmetrica: se $x \mathcal{R} y$ e $x \mathcal{R} y$ allora $x = y$.
+
+Si chiama relazione di \textbf{equivalenza} ogni relazione che gode delle proprietà:
+\textbf{riflessiva}, \textbf{transitiva} e \textbf{simmetrica}. Per esempio l'uguaglianza è una relazione
+di equivalenza.\\
+
+Si chiama relazione \textbf{d'ordine} ogni relazione che gode delle proprietà: \textbf{riflessiva}, \textbf{transitiva} e
+\textbf{antisimmetrica}. Le relazioni minore e maggiore sono relazioni d'ordine.
+Ci sono alcuni casi in cui esiste la relazione d'ordine solo tra alcuni elementi di un insieme,
+è il caso della relazione \textbf{d'ordine parziale}, un esempio è la relazione $ \subset $ degli insiemi.\\
+
+Il \textbf{massimo} in un insieme è sempre contenuto nell'insieme, idem per il minimo.\\
+Un \textbf{maggiorante} è superiore o uguale a ogni elemento di un insieme. Può essere contenuto, ma ciò non è detto.
+Lo stesso vale per un minorante. \\
+L'\textbf{estremo superiore} è il più piccolo dei maggioranti. L'estremo inferiore è il più
+grande dei minoranti. \textbf{NB:} possono essere compresi oppure no.\\
+Se un insieme non ha maggioranti si dice \textbf{superiormente illimitato}, viceversa si dice
+inferiormente illimitato.
+
+\subsection{Definizione di funzione}
+Una funzione $ f: A \rightarrow B $ è una relazione $ A \rightarrow B$, tale che:
+
+\begin{enumerate}
+	\item $ \forall x \in A \ \exists y \ | \ (x,y) \in f$ ;
+	\item se $(x,y) \in f$ e $(x, y') \in f \Rightarrow y= y' $.
+
+\end{enumerate}
+
+In questo caso si dice che $y $ è univoca. In breve vale la regola della retta verticale e tutto il dominio ha un'immagine nel codominio.
+
+\paragraph{Proprietà delle funzioni:}
+\begin{itemize}
+	\item surriettiva: l'insieme di arrivo coincide con il codominio;
+	\item iniettiva: regola della retta orizzontale.
+\end{itemize}
+
+Biunivoca: entrambe le precedenti.
+
+\end{itemize}
+
+\section{Gli Insiemi}
+
+\subsection{Definizione di completezza} si dice che un insieme ordinato $(X, \leq)$ è \textit{completo} se ogni suo sottoinsieme $A \neq \emptyset $ che sia superiormente limitato ammette estremo superiore
+
+\newtheorem{dimostrazione}{Dimostrazione}[section]
+
+\begin{dimostrazione} \textbf{$\mathbb{Q}$} non è completo\\
+	Per esempio prendiamo $A= \{x \in \mathbb{Q}| 0 \leq x $ e $x^2 \leq 2\}$.
+	Per assurdo diciamo che:
+	\begin{equation*}
+		\lambda= \sup A
+	\end{equation*}
+Ma allora una di queste ipotesi deve essere vera:
+
+\begin{enumerate}
+	\item \label{h1}$ \lambda^2 < 2$
+	\item \label{h2}$ \lambda^2 = 2$
+	\item \label{h3}$ \lambda^2 > 2$
+\end{enumerate}
+
+andiamo con ordine, \autoref{h1}:
+\begin{equation*}
+	\lambda^2<2 \iff \exists \epsilon \in \mathbb{Q} | (\lambda + \epsilon)^2<2
+\end{equation*}
+
+che vuol dire:
+
+\begin{equation*}
+	\lambda<(\lambda + \epsilon) \in A
+\end{equation*}
+
+E duqnue $\lambda \neq \sup A$. Ma ciò è assurdo.
+
+
+\autoref{h2}:
+
+\begin{equation*}
+	\lambda^2= 2
+\end{equation*}
+
+poichè $\lambda \in \mathbb{Q} \iff \lambda=\frac{p}{q} \ | \ p,q \in \mathbb{N}$ e $p,q$ sono primi tra loro. Questo vuol dire che:
+
+\begin{equation*}
+	\frac{p^2}{q^2}=2 \iff p^2=2q^2
+\end{equation*}
+
+Ma poichè p è un \textbf{intero} allora è pari $\iff p=2r$. Questo vuol dire che
+
+\begin{equation*}
+	4r^2=2q^2 \iff 2r^2=q^2
+\end{equation*}
+
+Questo vuol dire che anche $q$ è pari. Ma $p,q$ sono primi tra loro per ipotesi, è assurdo e dunque $\lambda^2 \neq 2$.
+
+Il \autoref{h3} è analogo al \autoref{h1}.
+
+\end{dimostrazione}
+
+\subsection{Definizione di gruppo commutativo} Un gruppo commutatico è un insieme dotato di un'operazione binaria $ * : X \times X \rightarrow X$ che gode delle seguenti proprietà:
+	\begin{enumerate}
+		\item \label{p1} associativa ($x * (a*b)= (x*a)*b$)
+		\item \label{p2} ha l'elemento neutro ($x*a =x, \forall x \in X$)
+		\item \label{p3} Esiste l'elemento inverso $\forall x \in X$(se $x*y= y*x=e$)
+		\item \label{p4} proprietà commutativa $\forall x,y \in X: \ x*y= y*x$
+
+	\end{enumerate}
+
+Si chiama \textbf{gruppo} un insieme $X$ dotato di un'operazione binaria che gode delle proprietà: \autoref{p1}, \autoref{p2} e \autoref{p3}.\\
+
+Si chiama \textbf{semigruppo} un insieme $X$ dotato di un'operazione binaria che gode solo della proprietà associativa, \autoref{p1}. \\
+
+\subsection{Definizione di $\mathbb{R}$} $(\mathbb{R},+,\cdot,\leq)$ è totalmente ordinato e completo.\\
+\indent \textbf{NB:} è importante ricordare che c'è bisogno che le operazioni binarie siano tra loro compatibili.
+
+\subsection{Definizione di modulo o valore assoluto}
+	\begin{equation}
+		|x|:= \max\{x, -x\}
+	\end{equation}
+
+
+\subsection{Definizione di insieme induttivo}
+\begin{enumerate}
+	\item $1 \in I$;
+	\item $x \in I \Rightarrow x+1 \in I $.
+
+\end{enumerate}
+
+
+\subsection{Definizione dei Numeri Naturali}
+
+\begin{equation*}
+	\mathbb{N}= \bigcap_{I \in  \mathcal{F}} I
+\end{equation*}
+
+
+\newtheorem{corollario}{Corollario}
+
+\begin{corollario}
+	Sia P(n) una progressione dipendente da un indice $n \in N$. Si assuma che:
+
+	\begin{enumerate}
+		\item $P(1)$ è vera;
+		\item Se $P(n)$ è vera, allora $P(n+1)$ è vera.
+
+	\end{enumerate}
+
+	allora $P(n)$ è vera $\forall n \in \mathbb{N}$
+
+\end{corollario}
+
+La quarta lezione di analisi è cominciata rispolverando calcolo combinatorio, banalmente siamo arrivati alla definizione di coefficiente binomiale.
+
+\section{Le Succesioni}
+
+\subsection{Definizione di Coefficiente Binomiale} \label{CoefficienteBinomiale}
+	\begin{equation*}
+		\binom{a}{b}:= \frac{a!}{(a-b)!b!}
+	\end{equation*}
+
+
+In questa lezione abbiamo dimostrato che:
+
+\begin{equation}
+	(a+b)^n= \sum_{k=0}^{n}\binom{n}{k}a^k \cdot b^{n-k}
+\end{equation}
+
+Per esercizio, provare che:
+\begin{equation*}
+	\binom{n}{n-k}+ \binom{n}{k}= \binom{n+1}{k}
+\end{equation*}
+\vspace{1mm}
+\begin{equation*}
+	\iff \frac{n!}{(n+1-k)!\cdot (k-1)!}+\frac{n!}{(n-k)! \cdot k!}= \frac{(n+1)!}{(n+1-k)!\cdot k!}
+\end{equation*}
+\vspace{1mm}
+\begin{equation*}
+	\iff \frac{(n+1-k)!k!}{(n+1-k)!(k-1)!}+ \frac{(n+1-k)!k!}{(n-k)! \cdot k!}= n+1
+\end{equation*}
+\vspace{1mm}
+\begin{equation*}
+	\iff k+n+1-k=n+1
+\end{equation*}
+\begin{equation*}
+	\iff n=n \ \square
+\end{equation*}
+
+Dimostriamo che $x^n<y \iff \exists \epsilon \in \mathbb{R}, \epsilon > 0 : \ (x+\epsilon)^n<y$, $\forall x,y \in \mathbb{R}, x,y \geq 0$.
+
+\begin{dimostrazione}
+	\begin{equation*}
+		x^n<y, \exists z \in \mathbb{R}: z^n= y
+	\end{equation*}
+	per il teorema 2.2.1. Sostituiamo $y$ con $z^n$ ottenendo:
+	\begin{align*}
+		x^n<z^n \\
+		\iff x<z
+	\end{align*}
+	per la P1. E poiché $\mathbb{R}$ è denso, $\exists \epsilon \in \mathbb{R}: x<x+\epsilon<z$, se e solo se $x^n<(x+\epsilon)^n<z^n=y \ \square$.
+
+\end{dimostrazione}
+
+\subsection{Definizione di successione}
+Si chiama successione una qualsiasi funzione $f:\mathbb{N} \rightarrow \mathbb{X}$.\\
+\indent Per indicare una successione si usano le notazioni:
+
+\begin{equation*}
+	\{f_n\}_{n \in \mathbb{N}}, \ \{f_n\}, \ f_1, f_2, f_3, \dots, f_n, \dots
+\end{equation*}
+
+\vspace{2mm} $f_n$ si chiama termine \textit{n-esimo} della successione $\{f_n\}$.
+
+La successione $\{f_{k_n}\}$ si dice \textit{sotto-successione} o estratta di $\{f_n\}$.
+
+\subsection{Definizione di Limite}
+
+Si dice che $a_n$ tende a $l \in \mathbb{R}$ per $n \rightarrow \infty$ e si scrive $\lim_{n \to + \infty}a_n=l$ se
+\begin{equation*}
+	\forall \epsilon > 0, \exists n': \forall n \in \mathbb{N}, n>n' \Rightarrow |a_n - l|<\epsilon
+\end{equation*}
+
+Per l'insegnante Montefalcone gli indici corrispondono ai numeri naturali.
+
+\begin{dimostrazione}\textbf{Il limite è unico}\\
+	Per assurdo diciamo che $m \neq l$ e $ \exists \epsilon,n>n': |l-a_n|<\frac{\epsilon}{2}$ e $\exists \epsilon,n>n'': |l-a_n|<\frac{\epsilon}{2}$.
+	\begin{align*}
+		\iff |l-m|=|(l-a_n)+(a_n-m)| \leq |l-a_n|+|a_n-m| \leq 2\frac{\epsilon}{2}\\
+		\iff |l-m| \leq \epsilon \forall \epsilon >0
+	\end{align*}
+	E quindi $l=m \ \square$
+
+\end{dimostrazione}
+
+Se $\{a_n\} \subset \mathbb{R}$ converge a $l \in \mathbb{R}$ allora ogni sua sotto-successione $\{a_{k_n}\}$ converge a $l \in \mathbb{R}$.\\
+
+Siano $ \{a_n\, \{b_n\} \subset \mathbb{R}, \lim_{n \to + \infty} a_n= l$ e $\lim_{n \to + \infty} b_n= m$ allora:
+\begin{enumerate}
+	\item $a_n+b_n \rightarrow_{n \rightarrow + \infty} l + m$
+	\item $a_n \cdot b_n \rightarrow_{n \rightarrow + \infty} l \cdot m $
+	\item $a_n \neq 0 \ \forall n \in \mathbb{N}, l \neq 0 \Rightarrow \lim_{n \to + \infty} \frac{1}{a_n}= \frac{1}{l}$
+\end{enumerate}
+
+\subsection{\textbf{Il teorema Bolzano-Weierstrass}}\label{bolzanoweierstrass}
+Ogni successione $\{a_n\}$ reale limitata ammette una sotto-successione $\{a_{k_n}\}$ convergente.
+\begin{dimostrazione}
+	Che vuol dire che data $ \{a_n\}_{n \in \mathbb{N} }$ inferiormente limitata, esiste $ \{a_{k_n}\}$  tale $k_n \in \mathbb{N}$, tale che $k_n$ strettamente crescente.
+	\begin{align*}
+		|\{a_n\}|<M \\
+ 		\alpha_n=\sup\{a_k, k\geq n\}\\
+		\iff \lim_{n \to \infty}\alpha_n:=l\\
+		\iff \forall p \in \mathbb{N},\ \alpha_p> l-\epsilon\\
+		\iff \forall n \geq p, n \in \mathbb{N}, a_n \geq l- \epsilon
+	\end{align*}
+
+	Esite un'estratta di $\{a_n\}$, $\{a_{k_n}\}$ tale che:
+		\begin{enumerate}
+			\item $ k_1=\min\{a_n,k>n|a_n>l-1\};$
+			\item $ k_{n+1}=\min\{a_n, k>k_n, a_n>l-\frac{1}{n+1}\}$
+		\end{enumerate}
+	\end{dimostrazione}
+
+\section{Cardinalità}
+\subsection{Definizione di Equipotenza}
+Dati due insiemi $A, B \neq \emptyset $, si dicono equipotenti se esiste una funzione biiettiva tra i due insiemi. E si scrive: $A \cong B$. \\
+Da questo deriva che se $A$ è finito e $B$ è un suo sottoinsieme, $B$ è finito.
+Allo stesso modo se $B$ è infinito e $B \subset A$ allora $A$ è infinito. Se $A$ è finito allora il numero di elementi di $A$ è unico. Se $A$ è finito e $ B \subsetneq A$, $\exists a \in A:a \notin B$, $A$ non è equipotente a $B$. \\
+\textit{NB} la relazione di equipotenza è una relazione d'equivalenza.
+
+\subsection{Definizione di numerabile}
+Un insieme si dice numerabile se è equipotente ad $ \mathbb{N}$.\\
+
+Ogni sottoinsieme infinito di un insieme numerabile è numerabile.\\
+
+L'unione di un'inifità numerabile di insiemi nuberabili è numerabile.
+
+\section{I limiti di funzione}
+\subsection{Definizione di punto di accumulazione}
+Siano $A \supset \mathbb{R}, x_0 \in \mathbb{R}$, si dice che $x_0$ è un punto di accumulazione se di $A$ se $\forall W \in \mathcal{U}_{x_0}$ vale:
+\begin{equation*}
+	A \setminus \{x_0\} \cap W \neq \emptyset
+\end{equation*}
+Dove $W$ vuol dire $]x_0- \rho;x_0+ \rho[$. L'insime dei punti di accumulazione di $A$ si chiama derivato di $A$ e si scrive $D(A)$. Se $x \in A, x \notin D(A)$ allora si dice che $x$ è un punto isolato.\\
+Notare che il derivato di un insime finito è vuoto ed il derivato dell'insieme vuoto è l'insieme vuoto. Inoltre se il derivato di un insieme non è l'insieme vuoto all'ora quell'insieme è infinito.\\
+Sia $A \in \mathbb{R}, x_0 \in \mathbb{R}$ e $x_0 \in D(A)$ allora esiste una successione con codominio in A, tale che abbia limite all'infinito in $x_0$.\\
+\textbf{NB} non è necessario che $x_0 \in A$, ma se $x_0 \in A$ allora si dice che $X_0$ è aderente ad $A$.\\
+Sia $A \subset \mathbb{R}$, allora $A \cup D(A) = \overline A$.\\
+Se $A= \overline A$ se e solo se $A$ è chiuso. $\iff$ se $\{x_n\} \subset A$ e $\lim_{n \to \infty}x_n \rightarrow x_0$ allora $x_0 \in A$.
+\subsection{Definizione di Compatto}
+Un insieme $A$ si dice \textit{compatto} se per ogni successione di $A$ esiste un'estratta che tende ad un punto di $A$ (per ogni punto di $A$).\\
+$A$ compatto se e solo se $A$ è chiuso e limitato.
+
+\begin{dimostrazione}$A$ è compatto se e solo se $A$ è chiuso e limitato.
+Se $A$ è compatto allora $\exists {x_n} \in A$ tale che $\lim_{n \to \infty}x_n \rightarrow x_0$, $x_0 \in A$ per la compattezza dell'insieme; allora $A$ è chiuso.\\
+Mostriamo che $A$ deve essere limitato: Per assurdo diciamo che $A$ non è limitato, allora esiste una successione $\{x_n\}$ che diverge a $+ \infty$ strettamente crescente. Poiché $A$ è compatto questa successione deve ammettere un'estratta convergente ad un punto di $A$. Ciò è assurdo.\\
+
+Mostriamo che se $A$ è chiuso e limitato allora $A$ è compatto: $A$ è limitato, allora per il teorema di Bolzano-Weierstrass \ref{bolzanoweierstrass}, $\forall \{x_n\} \in A$ esiste un'estratta convergente ad un punto $x_0$. Poiché $A$ è chiuso $x_0 \in A$. Ma allora $A$ è compatto. $\square$
+
+\end{dimostrazione}
+
+Se $]x_0- \rho ; x_0 + \rho[ \in A$, allora si dice che $x_0$ è un \textbf{interno} di $A$. Notare che per ogni elemento di $\mathbb{Q}$, questa cosa non vale, mentre ogni elemento di $\mathbb{Q}$ è un punto di accumulazione. In un caso tutto $D(A)$ è contenuto nell'insieme, nell'altro basta che molti elementi di $D(A)$ sino contenuti nell'insieme. Vedi $A$ e $\overline A$.
+Se $\forall x \in A$, $x$ è un interno, allora si dice che $A$ è un \textbf{aperto}.\\
+
+Il complementare in $\mathbb{R}$ di un aperto è un chiuso.
+
+\subsection{Definizione di limite di una funzione}
+\begin{equation*}
+	V \in \mathcal{U}_\lambda, \ \exists W \in \mathcal{U}_{x_0}:f(x)\in V \quad \forall x \in A \setminus \{x_0\}\cap W
+\end{equation*}
+allora si scrive $\lim_{x \to x_0}f(x)\rightarrow \lambda$.
+
+\subsection{Località del limite}
+
+Siano $A \subset \mathbb{R}, x_0 \in D(A)$ e $f,g:A\rightarrow \mathbb{R}$. Se esiste $\overline W \in \mathcal{U}_{x_0}:f(x)=g(x) \quad \forall x \in W \cap (A \setminus \{x_0\})$ ed esiste $\lim_{x \to x_0}f(x)$ allora $ \lim_{x \to x_0}f(x)=\lim_{x \to x_0}g(x)$.
+
+\subsection{Definizione di limite Destro e limite Sinistro}
+Dati gli insiemi $A:= \mathbb{R}\setminus \{x_0\}$, $B_1=]x_0;+ \infty[$ e $B_2=]- \infty;x_0[$, allora il limite destro e il limite sinistro di $f$ in $x_0$ sono definiti ponendo:
+\begin{equation*}
+    \lim_{x \to x^\pm_0} f(x):=\lim_{x \to x_0}f_{|]x;\pm \infty[}(x)
+\end{equation*}
+
+Inoltre il limite per una funzione che tende ad $x_0$ esiste se e solo se il limite da destra e il limite da sinistra della stessa funzione coincidono.
+
+\subsection{Teorema dei Due Carabinieri}
+Siano $A \subset \mathbb{R}, x_0 \in D(A) \cap \overline{\mathbb{R}}, f,g,h: A\rightarrow \mathbb{R}$. Se esiste $W \in \mathcal{U}_{x_0}$ tale che
+\begin{equation*}
+    f(x)<h(x)<g(x) \quad \forall x \in D(A) \setminus {x_0}
+\end{equation*}
+e se $\lim_{x \to x_0}f(x)=\lim_{x \to x_0}g(x)=\lambda \in \overline{\mathbb{R}}$ allora $\lim_{x \to x_0}h(x)=\lambda$.
+
+\subsection{\textbf{Teorema di Cauchy}}
+Esiste in $\mathbb{R}, \lambda$ limite di $f(x)$ che tende a $x_0$ se e solo se, se $\forall \epsilon>0$ esiste un intorno di $x_0$ tale che, $\forall x,y\in A\setminus {x_0}$, $x,y$ siano contenuti nell'intorno, allora $|f(x)-f(y)|<\epsilon$.
+
+\section{Funzioni limitate}
+\subsection{Definizione di funzione limitata}
+Data una funzione $f:A\rightarrow \mathbb{R}$, si dice che $f$ è \textbf{superiormente limitata} se l'insieme $f(A)$ è superiormente limitato. Il ragionamento è analogo per quanto rigurda una funzione inferiormente limitata. Se una funzione è sia superiormente limitata che inferiormente limitata allora si dice che è limitata.
+Il limite superiore di $f$ è definito in questo modo:
+\begin{equation*}
+    \sup f:=\sup(f(A))
+\end{equation*}
+In modo analogo è definito il limite inferiore di $f$. E si ha:
+\begin{equation*}
+    \sup f=\lambda \iff f(x) \leq \lambda \forall x \in A, \forall \epsilon >0 \; \exists \overline{x}\in A: \lambda - \epsilon<f(\overline{x}).
+\end{equation*}
+
+\subsection{Definizione di Monotonia}
+Si dice che una funzione $f:A \rightarrow \mathbb{R}$ è \textbf{monotona crescente} se $\forall x,y \in A, x \leq y$ allora $f(x) \leq f(y).$
+Il ragionamento è analogo per una funzione strettamente crescente, monotona decrescente e strettamente decrescente.
+
+\subsection{Definizione di Continuità}
+Sia $f:A\rightarrow\mathbb{R}$ e $x_0 \in A$. $f$ è continua se e solo se
+\begin{equation*}
+    \forall V \in \mathcal{U}_{f(x_0)} \ \exists W \in \mathcal{U}_{x_0}: \forall x \in A, x \in W \Rightarrow f(x) \in V
+\end{equation*}
+Notare che se $x_0 \notin A$ $f$ è continua. Mentre se $\lim_{x \to x_0}f(x)\neq f(x_0)$ la funzione di dice discontinua.
+
+\subsection{\textbf{Teorema di Weierstrass}}\label{weierstrass}
+Sia $f:A \rightarrow\mathbb{R}$ e sia $A \subset \mathbb{R}$ compatto allora f ha $\max, \min$ su A.
+\begin{dimostrazione}
+A è compatto $\Rightarrow$ A è limitato $\iff$ esiste estremo superiore ed estremo inferiore.\\
+A è compatto $\Rightarrow$ A è chiuso e dunque gli estremi sono in A. $\square$
+\end{dimostrazione}
+
+\subsection{\textbf{Teorema di Bolzano}}\label{bolzano}
+Siano $a,b \in \mathbb{R}, a < b$ e sia $f \in C([a;b])$($C([a;b]$ vuol dire che $[a;b]$ è continuo), tale che
+\begin{equation*}
+	f(a)\cdot f(b)\leq 0
+\end{equation*}
+allora esiste $x_0 \in [a;b]$ tale che $f(x_0)= 0$.
+
+Osservazioni fike riguardo alla continuità:
+\begin{enumerate}
+	\item Se $f \in C(I)$ e $f$ iniettiva allora $f$ è (strettamente) monotona;
+	\item Se $f$ è monotona e $f(I)$ è un intervallo allora allora $f \in C(I)$.
+\end{enumerate}
+
+\subsection{Definizione di uniformemente continua}
+Siano $A \subset \mathbb{R}, f: A \rightarrow \mathbb{R}$. Si dice che $f$ è uniformemente continua su $A$ se
+\begin{equation*}
+	\forall \epsilon>0 \; \exists \delta >0 : \forall x,y\in A (|x-y|<\delta \Rightarrow |f(x)-f(y)<\epsilon)
+\end{equation*}
+Praticamente il quoziente tra due elementi diversi da $0$ è sempre proporzionale al quoziente delle rispettive immagini. Notare però che se una funzione è uniformemente continua allora è continua.
+
+\subsection{I limiti notevoli}
+Attraverso alcune approssimazioni note come "serie di Taylor" è possibile calcolare il limite di alcune funzioni. Le serie di Taylor sono polinomi che approssimano una funzione non polinomiale come le funzioni seno, coseno e tangente oppure esponenzile, ...
+
+\section{La Derivata}
+
+\subsection{Definizione di Derivata}
+
+La derivata di una funzione è il limite per $x \rightarrow x_0$ del loro rapporto incrementale. E si scrive:
+\begin{equation*}
+	Df(x)= \lim_{x \to x_0}\frac{f(x_0)-f(x)}{x-x_0}
+\end{equation*}
+
+Si può riscrivere più semplicemente:
+\begin{equation}
+	Df(x)= \lim_{h \to 0}\frac{f(x)-f(x+h)}{h}
+\end{equation}
+
+In questo caso $h$ si chiama "incremento che tende a 0" (piuttosto banale).
+Per la definizione di limite ne deriva che la derivata di una funzione è definita se e solo se la derivata di destra è uguale a quella di sinistra.
+
+\subsection{Il Teorema di Rolle}
+
+Il teorema di Rolle afferma che data una funzione $f$ derivabile e continua in un intervallo limitato $I$ di estremi $a$ e $b$, tali che $f(a)=f(b)$ allora esiste $x_0$, $a \leq x_0\leq b$ tale che $Df(x_0)=0$.
+
+\subsection{Teorema di Lagrange}
+
+Data una funzione $f$ derivabile e continua in un intervallo limitato $I$ di estremi $a$ e $b$, esiste $x_0 \in I $ tale che $Df(x_0)$ è uguale al coefficiente angolare della retta passante per $f(a)$ e $f(b)$.
+
+\subsection{Teorema di Cauchy}
+
+Date due funzioni $f, g$ continue  e derivabili in un intervallo $I$, avente come estremi $a,b$ e $a<b$. Allora esiste $x_0$ tale che:
+\begin{equation}
+	\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(x_0)}{g'(x_0)}
+\end{equation}
+
+\section{Le serie di Taylor}
+
+Poichè abbiamo trattato le derivate è utile introdurre un linguaggio nuovo: con $C^n(X)$ si intende che la derivata n-esima è della funzione $f: X \rightarrow \mathbb{R}$ è continua.
+
+\paragraph{Definizione di spazio vettoriale}
+Si chiama spazio vettoriale un insieme chiuso per addizioni infinite tra gli elementi dell'insieme; in aggiunta, moltiplicando un qualunque elemento dell'insieme per una costante si ottiene un altro elemento dell'insieme di partenza.\\
+
+\paragraph{Definizione di polinomio di grado n}
+Si chiama polinomio di grado $n$ un qualunque polinomio esprimibile con la seguente formula:
+\begin{equation*}
+	p(x)=\sum_{k=0}^na_k \cdot x^k \qquad \forall x \in \mathbb{R}
+\end{equation*}
+
+\subsection{Il polinomio di Taylor}
+
+Sia $f:I \rightarrow \mathbb{R}$, dove $I \subset \mathbb{R}$ è un intervallo aperto. Sia $x_0 \in I$ e si assuma $f$ derivabile $n$ volte in $x_0$. Si pone
+\begin{equation}
+	T^{x_0}_n:= \sum^n_{k=0}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k \qquad (x \in \mathbb{R})
+\end{equation}
+
+$T^{x_0}_n$ si chiama polinomio di Taylor di f di ordine n, relativo al punto $x_0$. Banalmente, $T^{x_0}_n,n \rightarrow \infty= f(x)$, quindi si cerca di riscrivere la funzione come se fosse un polinomio. Considerando che il limite di addizioni o moltiplicazioni di polinomi è sempre ben definito si comprende l'utilità di questa formula. \\
+Dal momento che $T^{x_0}_n= f(x)$, solo se $n$ tende ad infinito, per una $n\in \mathbb{R}$ allora di fatto $T^{x_0}_n \neq f(x)$. Per questo motivo esiste il resto di Peano ed il resto di Lagrange che identificano la differenza tra $T^{x_0}_n$ e $f(x)$. In particolare il resto di Peano dice che $T^{x_0}_n-f(x)\approx o(x^n)$. Per questo motivo quando si risolvono dei limiti si può ignorare la differenza tra il polinomio di Taylor e la funzione. \\
+Il resto di Lagrange è un po' più carino:
+\begin{gather*}
+	T^{x_0}_n-f(x) \approx \frac{f^{n+1}(y)}{(n+1)!}(x-x_0)^{n+1}\\
+	f(y)=\frac{f(x)}{x-x_0}
+\end{gather*}
+
+In sostanza, il resto di Lagrange afferma che $T^{x_0}_{n+1}$ è un'approssimazione più precisa della funzione $f$ in $x_0$ rispetto a $T^{x_0}_n$. Risultato piuttosto intuitivo. Notare che in realtà $n+1$esimo termine del polinomio di Taylor differisce dal resto di Lagrange, però i due termini sono molto molto simili, in particolare il resto di Lagrange tende ad essere il termine $n+1$esimo. Notare che né il resto di Peano né il resto di Lagrange non sono precisi\\
+Il polinomio di Taylor per $x_0=0$ si chiama polinomio di McLaurin.
+
+\subsection{Esempi di calcolo di Polinomi di Taylor di qualche funzione}
+
+Sviluppi di McLaurin per alcune funzioni fondamentali:\\
+
+\begin{align*}
+	1.\; (\sin(x))^0_3&= \sum^3_{k=0}\frac{f^k(0)}{k!}\cdot(x-0)^k\\
+	&=\frac{\sin(0)}{0!}\cdot (x-0)^0+\frac{\cos(0)}{1!}\cdot (x-0)^1 + \frac{-\sin(0)}{2!}\cdot (x-0)^2 + \frac{-\cos(0)}{3!}\cdot (x-0)^3\qquad \qquad\qquad \qquad\qquad \qquad\\
+	&=0+x+0-\frac{x^3}{6}
+\end{align*}
+
+
+\begin{align*}
+	2.\; (e^x)^0_3&= \sum^3_{k=0}\frac{f^k(0)}{k!}\cdot(x-0)^k\\
+	&=\frac{e^0}{0!}\cdot (x-0)^0+\frac{e^0}{1!}\cdot (x-0)^1+\frac{e^0}{0!}\cdot (x-0)^2+ \frac{e^0}{3!}\cdot (x-0)^3 \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad\\
+	&=1+x+\frac{x^2}{2}+\frac{x^3}{6}
+\end{align*}
+
+\begin{align*}
+	3.\; (\sinh(x))^0_3&=\sum^n_{k=0}\frac{\sinh(0)}{k!}(x-0)^k\\
+	&=\frac{\sinh(0)}{0!}(x-x_0)^0+\frac{\cosh(0)}{1!}(x-x_0)^1+\frac{\sinh(0)}{2!}(x-x_0)^2+\frac{\cosh(0)}{3!}(x-x_0)^3\qquad \qquad\qquad \qquad\qquad \qquad\\
+	&=0+x+0+\frac{x^3}{6}
+\end{align*}
+
+\begin{align*}
+	4.\; (\cosh(x))^0_3&=\sum^n_{k=0}\frac{\cosh(0)}{k!}(x-0)^k\\
+	&=\frac{\cosh(0)}{0!}(x-x_0)^0+\frac{\sinh(0)}{1!}(x-x_0)^1+\frac{\cosh(0)}{2!}(x-x_0)^2+\frac{\sinh(0)}{3!}(x-x_0)^3\qquad \qquad\qquad \qquad\qquad \qquad\\
+	&=1+0+\frac{x^2}{2}+0
+\end{align*}
+
+\subsection{Definizione di Convessità e Concavità di una funzione}
+
+Sia $I \subset \mathbb{R}$ un intervallo non banale e sia $f:I\rightarrow \mathbb{R}$. Si dice che $f$ è convessa su $I$ se
+\begin{equation*}
+	\forall x_1,x_2 \in I, \forall t \in ]0;1[ \Rightarrow f(tx_1+(1-t)x_2)\leq tf(x_1)+(1-t)f(x_2)
+\end{equation*}
+
+Praticamente, l'incremento di $f(x)$ rispetto ad $x$ deve essere almeno una proporzionalità diretta, la derivata prima deve essere monotona crescente, la derivata seconda deve essere positiva.\\
+Al contrario, se la derivata prima è strettamente crescente allora la funzione si dice concava. In conclusione, se la derivata seconda è negativa in un intervallo $I$, la funzione $f$ è concava nell'intervallo $I$.
+
+\section{Studio di Funzione}
+
+Lo studio di funzione deve essere ordinato e svolto con ordine:
+\begin{enumerate}
+	\item Dominio: si enuncia il dominio, i punti in cui la funzione è definita;
+
+	\item Limite: si calcola il limite agli estremi del dominio; si verifica l'eventuale esistenza di asintoti, obliqui e non;
+
+	\item Zeri della funzione: studiare in quali punti la funzione si annulla;
+
+	\item Derivata Prima: si calcola la derivata prima della funzione e si comprende in quali intervalli è crescente oppure decrescente;
+
+	\item Derivata Seconda: si studia la concavità e la convessità del grafico ed eventuali punti di flesso.
+\end{enumerate}
+
+Gli asintoti obliqui si calcolano con le seguenti equazioni:
+
+\begin{gather}
+	\lim_{x \to x_0}f(x)= \pm \infty \\
+	\lim_{x \to x_0}\frac{f(x)}{x}= m \\
+	\lim_{x \to x_0}f(x)- mx= c \\
+	y= mx + c
+\end{gather}
+
+La prima condizione è di esistenza del limite obliquo. Nella seconda equazione si calcola la tangente, il coefficiente angolare, della limite obliquo. Grazie alla terza equazione, calcoliamo l'intercetta del limite obliquo. Infine, mettiamo assieme tutte le informazioni e scriviamo la formula del limite obliquo. \textbf{NB}: il limite obliquo è una retta a cui la funzione tende all'infinito.\\
+
+\section{L'Integrale di Riemann}
+
+Si chiama scomposizione di $I0[a;b]$ un sottoinsieme $\sigma$ finito di I tale che $a,b \in \sigma$.\\
+
+Si definisce misura di $I_k=[x_{k-1}, x_k]$ per $k=1, \dots , n$: $mis(I_k)=x_k-x_{k-1}$.\\
+Si pone $|\sigma|=\max\{mis(I_k):k=1, \dots, n\}$. Il numero $|\sigma|$ si chiama finezza della scoposizione $\sigma$. Praticamente la finezza di una scomposizione è la distanza più grande tra gli elementi successivi di una scomposizione.\\
+\noindent L'insieme di tutte le scomposizioni di $[a,b]$ è indicato con il simbolo $\Omega_{[a,b]}$. Se $\sigma_2 \subset \sigma_1$ si dice che $\sigma_1$ è più fine di $\sigma_2$. Notare che è sufficiente che $\sigma_1$ contenga almeno tutti gli elementi di $\sigma_2$ perchè risulti più fine.\\
+Per definizione $S(f, \sigma):= \sum^n_{k=1}\sup f \cdot mis(I_k)$. Cioè la somma delle aree infinitesimali ottenute moltiplicando le distanze tra gli elementi di $\sigma$ per il maggiore dei due elementi si dice \textit{somma superiore}.\\
+\noindent D'altro canto, la somma delle aree infinitesimali ottenute moltiplicando le distanze tra gli elementi di $\sigma$ per il minore dei due elementi si dice \textit{somma inferiore} e si indica con $s(f,\sigma):=\sum^n_{k=1}\inf f \cdot mis(I_k)$. Si dice che una funzione $f$ è integrabile nell'intervallo $I$ se e solo se la somma superiore e la somma inferiore del più fine degli elementi di $\Omega_{[a,b]}$ sono uguali. $f$ è integrabile in $I$ se e solo se
+\begin{equation*}
+	\sup\{s(f,\sigma): \sigma \in \Omega_{[a,b]}\}=\inf\{S(f,\sigma): \sigma \in \Omega_{[a,b]}\}
+\end{equation*}
+In particolare $\sup\{s(f,\sigma): \sigma \in \Omega_{[a,b]}\}$ è denominato integrale inferiore e $\inf\{S(f,\sigma): \sigma \in \Omega_{[a,b]}\}$ è chiamato integrale superiore. Se l'integrale inferiore e l'integrale superiore coincidono, allora il medesimo valore è definito integrale.\\
+La funzione di Dirichlet è uno specimen di funzione non Riemann integrabile.
+
+\subsection{Teorema di Riemann}
+Sia $f:[a,b]\rightarrow \mathbb{R}$ limitata. Allora
+\begin{equation*}
+	f \in \mathcal{R}_{[a,b]} \iff \forall \epsilon > 0 \exists \sigma \in \Omega_{[a,b]}: S(f, \sigma )-s(f, \sigma )<\epsilon
+\end{equation*}
+$\mathcal{R}_{[a,b]}$ è l'insieme delle funzioni derivabili nell'insieme $[a,b]$.
+
+\paragraph{Teorema 10.1.2} Se $f\in C([a,b])$ allora $f\in \mathcal{R}_{[a,b]}$. Se $f$ è continua in $I$ allora $f$ è integrabile in $I$ (non se e solo se).
+
+\paragraph{Teorema 10.1.3} Se $f:[a,b] \rightarrow \mathbb{R}$ è una funzione limitata, tale che l'insieme $F=\{x \in [a,b]:f $ non è continua in $ x\}$ è finito. Allora $f\in \mathcal{R}_[a,b]$.
+
+\paragraph{Proposizione 10.1.2} Sia $f:[a,b] \rightarrow \mathbb{R}$ monotona. Allora $f \in \mathcal{R}_{[a,b]}$.
+
+\dimostrazione{Proposizione 10.1.2} Sia $f:[a,b] \rightarrow \mathbb{R}$ monotona. Allora $f$ è iniettiva in $[a,b]$. Per la suriettività è sufficiente prendere il codominio opportuno: l'insieme delle immagini di $f:[a,b] \rightarrow \mathbb{R}$. Allora $f$ è biiettiva se e solo se $f$ è invertibile. Definiamo $f^{-1}:[f(a),f(b)]\rightarrow [a,b]$ oppure $f^{-1}:[f(b),f(a)]\rightarrow [a,b]$, a seconda che $f$ sia monotona crescente oppure decrescente.
+In particolare $f^{-1}$ è continua nel suo dominio, quindi $f^{-1}$ è derivabile nel suo dominio. Dunque l'integrale di $f$ nel suo dominio è uguale a $|(f(a)- f(b))\cdot(a-b)|$.
+\\
+
+\section{Teoremi con nome}
+
+\subsection{Teorema della permanenza del segno}
+
+Sia $\{a_n\}_{n \in \mathbb{N}} \in \mathbb{R}$, $\lim_{n \to \infty}a_n= l$. Se $l>0$ allora $\exists \overline n : \forall n> \overline n, \ a_n>0 $.
+
+\subsection{Teorema dei due carabinieri}
+
+Siano $\{a_n\}>\{b_n\}>\{c_n\}$ e sia $\lim_{n \to \infty}a_n=\lim_{n \to \infty}c_n=l$. Allora $\lim_{n \to \infty}b_n=l$.
+
+\subsection{Teorema di Bolzano-Weierstrass}
+
+Sia $\{a_n\}_{n \in \mathbb{N}} \in \mathbb{R}$ una successione limitata, allora ammette sottosuccessione convergente.
+(Bisogna costruire una sottossuccessione monotona. Tutte le successioni monotone ammettono limite; la sottossucessione è limitata e allora è convergente).
+
+\subsection{Definizione di successione di Cauchy}
+
+Una successione è chiamata di Cauchy se i suoi termini sono arbitrariamente vicini tra loro purchè gli indici siano abbastanza grandi:
+
+\begin{equation*}
+	\forall \epsilon > 0 \ \exists \overline n: \forall n,m> \overline n \ |a_n-a_m|<\epsilon
+\end{equation*}
+
+\subsection{Teorema di completezza sequenziale di $ /mathbb{R}$}
+
+Se una serie è di Cauchy in $\mathbb{R}$ allora converge in $\mathbb{R}$
+
+\subsection{Definizione di punto di accuulazione}
+
+Siano $A \subset \mathbb{R}$ e $x_0 \in A$, si dice che $x_0$ è un punto di accumulazione in A se $\forall W \in \mathcal{U}_{x_0}$ $A \backslash \{ x_0\} \cap W \neq \emptyset$.
+
+\subsection{Teorema di Cauchy}
+
+Dato $A \subset \mathbb{R}$, $x_0 \in D(A)\cap  \mathbb{\overline R}$ ed $f:A\rightarrow \mathbb{R}$
+
+ $\lim_{x \to x_0}f(x)= \lambda \iff \forall\epsilon \exists W \in \mathcal{U_{x_0}} (\forall x,y \in W \Rightarrow |f(x)-f(y)|<\epsilon)$.
+
+\subsection{Teorema di composizione}
+
+Siano $f \in C(A)$ e $g\in C(f(A))$, allora $g(f(A)) \in C(A)$.
+
+\subsection{Teorema di Weierstrass}
+
+Sia $A \subset \mathbb{R}$ un insieme compatto. Se $f \in C(A)$ allora $f$ ha $max$ e $min$.
+
+\subsection{Teorema di Bolzano}
+
+Siano $a,b \in \mathbb{R}: a<b$ e sia $f:[a,b] \rightarrow \mathbb{R}$, $f \in C([a,b])$. $f(a) \cdot f(b)< 0 \Rightarrow \exists x_0 \in [a,b]: f(x_0)=0$.
+
+\subsection{Teorema di Rolle}
+
+Sia $f:[a,b]\rightarrow \mathbb{R}$ derivabile in $[a,b]$. $f(a)=f(b) \Rightarrow \exists x_0 \in [a,b]: f'(x_0)=0$.
+
+\subsection{Teorema di Lagrange}
+
+Sia $f:[a,b]\rightarrow \mathbb{R}$ derivabile in $[a,b]$. $\exists x_0 \in [a,b]: f'(x_0)=\frac{f(b)-f(a)}{b-a}$.
+
+\subsection{Teorema di Cauchy}
+
+Siano $f,g:[a,b]\rightarrow \mathbb{R}$ derivabili in $[a,b]$. $\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(x_0)}{f'(x_0)}$
+
+\subsection{Formula di Taylor con resto di Peano}
+
+Sia $f:I \rightarrow \mathbb{R}$, una funzione derivabile n volte nell'aperto $I$, allora
+\begin{equation*}
+	f(x)_n^{x_0}= \sum_{k = 0}^n \frac{f^k(x_0)}{k!}(x-x_0)^k+o((x-x_0)^n)
+\end{equation*}
+
+\subsection{Formula di Taylor con resto di Lagrange}
+
+Sia $f:I \rightarrow \mathbb{R}$ derivabile $n+1$ volte nell'aperto $I$ e sia $x_0 \in I$, allora
+
+\begin{equation*}
+ f(x)^{x_0}_n = \sum_{k = 0}^n \frac{f^k(x_0)}{k!}(x-x_0)^k+\frac{f^{n+1}(y)}{(n+1)!}(x-x_0)^{n+1}
+\end{equation*}
+
+\subsection{Teorema di Riemann}
+
+Sia $f:I \rightarrow \mathbb{R}$ continua e limitata nell'intervallo chiuso $I$, allora
+\begin{equation*}
+	f \in \mathcal{R}_I \iff \forall \epsilon >0 \exists \sigma \in \Omega : (S(f,\sigma)-s(f,\sigma)<\epsilon)
+\end{equation*}
+
+\subsection{Teorema della media integrale}
+
+Sia $f:[a,b]\rightarrow$ integrabile nell'intervallo definito, allora $\inf_{[a,b]}f < \mu < \sup_{[a,b]}f$ tale che $\mu$ sia uguale all'integrale tra gli estremi dell'intervallo e diviso per la differenza degli estremi.
+
+\subsection{I Teorema fondamentale del calcolo}
+
+Sia $f \in \mathcal{R}_{[a,b]}$, posto $I_f:[a,b]\rightarrow \mathbb{R}$: integrale di $f$ nell'intervallo $[a,b]$. Allora
+\begin{itemize}
+	\item $I_f$ è continua in $[a,b]$;
+
+	\item Se $f$ è continua in $x_0\in [a,b]$ allora $f(x_0)$ è la derivata di $I_f$ in $x_0$.
+\end{itemize}
+
+\subsection{II Teorema fondamentale del calcolo}
+
+Sia $f \in \mathcal{R}_{[a,b]}$, posto $I_f:[a,b]\rightarrow \mathbb{R}$: integrale di $f$ nell'intervallo $[a,b]$. Allora l'integrale nell'intervallo $[a,b]$ di $f$ è uguale a $I_f(b)-I_f(a)$.
+
+\subsection{Teorema del confronto}
+
+Sia $f(x)=O(g(x))$ per $x\rightarrow$ allora se $g(x)\rightarrow l\in \mathbb{\overline R}$ per $x\rightarrow x_0$ $f(x)\rightarrow kl$ per $x\rightarrow x_0$ tale che $k=\frac{f(x)}{g(x)}$ per $x\rightarrow x_0$.
+
+\subsection{Teorema della convergenza degli integrali oscillanti}
+
+Dato l'integrale $I_{f\cdot g}:=$ integrale di $f\cdot g$, $f,g:[a,b[\rightarrow \mathbb{R}$ continue nel dominio e la derivata di g è continua nel dominio. $I_{f\cdot g}\rightarrow l\in \mathbb{R}$ per $x\rightarrow \infty$ se:
+\begin{enumerate}
+	\item l'integlrale di $f$ è limitato nel dominio;
+
+	\item $g$ è monotona;
+
+	\item $g\rightarrow 0$ per $x\rightarrow \infty$.
+\end{enumerate}
+
+Ovvero se le ipotesi sono vere l'integrale del prodotto tra $g$ ed $f$ è integrabile in senso generalizzato.
+
+\end{document}

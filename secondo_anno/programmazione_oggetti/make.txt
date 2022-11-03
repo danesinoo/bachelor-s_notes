@@ -1,0 +1,105 @@
+Make
+
+sequenza di regole:
+
+Target: Dependencies
+    command
+
+dipendenze -> anche altri target
+commandi -> che devono essere eseguiti per portare a termine il target
+
+metadirettive per il makefile:
+CC = g++
+CCflag = -Wall (-march=x86-64)
+
+my_prog: main.o kbd.o video.o help.o print.o
+    ${CC} $(CCflag) -o my_prog main.c kbd.o video.o help.o print.o
+
+main.o: main.cpp config.h
+    ${CC} ${CCflag} -c main.cpp -o main.o
+
+kbd.o: kbd.cpp config.h
+    ${CC} ${CCflag} -c kbd.cpp -o kbd.o
+
+video.o: video.cpp config.h
+    ${CC} ${CCflag} -c video.cpp -o video.o
+
+help.o: help.cpp config.h
+    ${CC} ${CCflag} -c help.cpp -o help.o
+    
+print.o: print.cpp config.h
+    ${CC} ${CCflag} -c print.cpp -o print.o
+
+clean :
+    rm *.o
+    echo "pulizia completata"
+
+altri appunti:
+
+valgrind: debugger, soprattutto per buchi di memoria o per memory leak
+gbb: uguale
+
+valkyrie: interfaccia grafica
+
+Modularizzare le classi:
+
+relazione has-a:
+    relazione di composizione dove un oggetto (oggetto costituito) appartiene ad
+    un altro oggetto.
+
+    e.g.
+        #ifndef TELEFONATA.H
+        #define TELEFONATA.H
+
+        class telefonata {
+            private:
+                orario inizio, fine; // relazoine has-a
+                const int numero;         // per il campo dati è consigliabile seguire
+                                    // seguire un ordine logico
+            public:
+            telefonata(orario, orario, int);
+            telefonata();
+            orario Inizio() const;
+            orario Fine() const;
+            int Numero() const;
+            bool operator==(const telefonata&) const;
+        };
+
+        ostream& operator<<(ostream&, const telefonata&);
+
+        #endif
+
+
+    Come si comporta il costruttore:
+    
+        L'ordine in cui sono chiamati i costruttori dei campi dati di una classe
+        segue l'ordine nella definizione della classe.
+
+        Tipo non classe (primitivo o derivato) -> puntatore, alias, array
+            per questi tipi il valore viene lasciato indefinito;
+
+        Tipo classe -> viene invocato il costruttore di default;
+
+        Alla fine viene eseguito il codice del costruttore.
+        
+        Se un campo dati è segnato const c'è un problema: 
+            non si può cambiare il valore del field targato const dopo che il
+            costruttore è stato chiamato.
+
+        Allora bisogna assegnare il valore prima che sia chiamato il
+        costruttore:
+            telefonata::telefonata(const orario& i, const orario& f, int n)
+                    // si potrebbe mettere const int&, ma in realtà prende più
+                    // spazio
+                        : inizio(i), fine(f), numero(n) {};
+
+            In questo caso non cambia se l'ordine degli argomenti è diverso da
+            quello della dichiarazione, l'ordine di dichiarazione/
+            inizializzazione non cambia, segue l'ordine nella definizione della
+            classe.
+
+            
+
+
+
+
