@@ -15,7 +15,7 @@ fn main() {
         for i in 0..6 {
             pos[i] = 0;
         }
-        println!("{}", passi(tmp, pos);
+        println!("{}", passi(tmp, pos));
     }
 }
 

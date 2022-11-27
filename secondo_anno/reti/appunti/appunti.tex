@@ -1,0 +1,462 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+
+
+\title{\vspace{2cm}\textbf{Appunti di Programmazione\ a Oggetti}}
+\author{\vspace{3mm}4 ottobre 2022}
+\date{\vspace{3mm} \textbf{Rosso Carlo}}
+
+\begin{document}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+\tableofcontents
+\newpage
+
+\section{Introduzione}
+\paragraph{Computer network} un insieme di computer connessi, in un modo per cui
+altrimenti sarebbero disconnessi o autonomi.
+
+\paragraph{client-server model} coinvolge due processi: un processo è il client,
+l'altro è il server. Tutti i client si connettono al medesimo server ed
+interagicono con esso o mediante esso.
+ 
+\paragraph{peer-to-peer} ogni utente mantiene un database locale e una lista
+degli utenti. I dati sono trasferiti da un utente all'altro.
+
+\paragraph{PAN} Personal Area Network sono le comunicazioni che avvengono tra
+dispositivi appartenenti alla stessa persona (e.g. apple watch, airpods,
+smartphone).
+
+\paragraph{LAN} Local Area Network una rete privata che opera in singolo
+edificio: per esempio il wifi.
+
+\paragraph{MAN} Metropolitan Area Network una rete che si estende per un centro
+abitato: per esempio i cavi della TV.
+
+\paragraph{WAN} Wide Area Network una rete che si estende per un continente (tipo
+le reti satellitari).
+
+\paragraph{Protocol Layering} I protocolli sono dei regole sulle comunicazioni:
+mediante i protocolli i computer sanno come interagire tra loro.
+I layer servono per astrarre la tecnologia ed essere in grado di controllare le
+comunicazione. In realtà esiste solo il livello hardware. 
+Ciascun layer controlla le informazione inerenti al proprio layer e le 
+passa al layer sottostante. Ogni layer comunica con un layer del proprio
+livello mediante un protocollo. Per passare da un layer a quello superiore o
+sottostante si utilizzano le interfacce (il layer sottostante da origine,
+compone quello sovrastante).\\
+Una serie di layer e protocolli si chiama architettura del network. 
+
+\section{Il layer fisico}
+Il livello fisico è quello mediante cui sono passati i dati. Ci sono tre
+tipologlie di trasmissioni: 
+\begin{itemize}
+	\item con cavo (wired);
+	\item senza cavo (wireless);
+	\item satellitari.
+\end{itemize}
+
+\subsection{Wired}
+Lo scopo del layer fisico è quello di trasportare o trasferire bit da un
+computer ad un altro. Le reti di comunicazione più comuni sono formate da cavi
+in rame o dalla fibra ottica.\\
+Ciascun tipo di comunicazione ha le proprie caratteristiche: frequenza, 
+larghezza di banda (bandwidth), ritardo (delay), costo, semplicità 
+nell'installazione e manutenibilità. La larghezza di banda indica la velocità 
+di trasmissione di bit di un medium, si misura in Hertz (Hz).
+
+\subsubsection{Persistent Storage} 
+Per portare i bit da un computer ad un altro possiamo salvarli in una memoria
+esterna e trasportare fisicamente la memoria fino al secondo computer dove gli 
+saranno resi accessibili.
+Dal momento che la densità con cui sono memorizzati i bit in un dispositivo
+fisico aumenta in modo esponenziale (nel tempo, scala bene) questo metodo rimane uno dei
+più economici.\\
+NB le trasmissioni da un computer ad un altro richiedono circa un
+giorno: il tempo che impiega la memoria a raggiungere il secondo computer
+partendo dal primo. D'altro canto con questo metodo è possibile spostare enormi
+quantità di dati nell'arco di una sola giornata; la velocità media di queste
+trasmissioni è di 70 Gbps per ciascuna scatola $60 \cdot 60 \cdot 60 cm^3$.\\
+In questo caso la larghezza di banda è di circa 70 Gbps; questa tecnologia è
+molto economica, ma ha anche un ampio delay, i dati ci mettono una giornata ad
+arrivare dalla "richiesta".
+
+\subsubsection{Twisted Pairs}
+Twisted Pair è una connessione mediate due cavi in rame torti (torcere) tra di
+loro, come il DNA, in questo modo i campi magnetici prodotti dai cavi si
+annullano tra loro e l'informazione arriva più lontano. Un bit è rappresentato
+dalla differenza di carica dei due cavi: se i due cavi trasportano la medesima
+carica il segnale è 0 altrimenti è 1. I doppini intrecciati sono in grado di
+percorrere chilometri senza bisogno di ripetitori. Se sono utilizzati  
+più doppini intrecciati, allora sono protetti da uno scudo che diminuisce le
+interferenze dall'esterno. Le twisted pairs trasmettono abbastanza dati:
+qualche centinaio di Mbps su un tragitto di qualche chilometro. Sono semplici
+da produrre e costano poco, per questo motivo sono molto diffusi a livello
+globale.\\
+Diverse LAN utilizzano questa tipologia di cavi.
+
+\paragraph{full-duplex} twisted pairs che trasmettono i bit in
+entrambe le direzioni nello stesso momento.
+
+\paragraph{half-duplex} twisted pairs che trasmettono i bit in entrambe le
+direzioni, ma in momenti diversi. 
+
+\paragraph{simplex} twisted pairs che trasmettono i bit in una solo direzione.\\
+
+Più i due cavi sono torti tra loro, minore sarà l'interferenza che producono, 
+migliore sarà il segnale nelle lunghe distanze. Per aumentare la velocità 
+delle comunicazioni è sufficiente aumentare lo spessore dei cavi. 
+Un ulteriore distizione consiste nell'UTP: unshielded twisted pair, in 
+questo caso i cavi non sono protetti.
+
+\subsubsection{Coaxial Cable}
+Il cavo coassiale è più schermato e ha una larghezza di banda maggiore rispetto
+ai doppini intrecciati. Il cavo coassiale sta venendo sostituito con la fibra
+ottica. Fu utilizzato per le comunicazioni telefoniche ed è ancora adoperato per
+la televisione e per le comunicazioni a livello MAN.
+
+\subsubsection{Power Lines} 
+Le connessioni per alimentare gli elettrodomestici di casa possono essere
+utilizzate per trasmettere dati. Poichè accendere e spegnere la luce causa
+interferenze, queste connessioni sono utilizzate in ambito domestico, per cui la
+perdita di dati nella connessione è poco rilevante. Permette di
+trasmettere fino a 500 Mbps.
+
+\subsubsection{Fiber Optic}
+Le connessioni mediante la fibra ottica potrebbero arrivare a 50,000 Gbps, ma
+non siamo in grado di convertire i segnali luminosi così trasmessi alla medesima
+velocità. Ad oggi, il limite della larghezza di banda è di circa 100 Gbps. In
+generale, è simpatico notare che è più costoso trasportare i bit piuttosto che
+calcolarli, ma è più veloce trasportare i bit invece di calcolarli.\\
+Un sistema di trasmissione ottico è formato da tre componenti: la sorgente, dove
+viene prodotto il segnale luminoso; il media, il materiale attraverso cui passa
+la luce (si tratta di qualcosa di molto trasparente); il detector, lo strumento
+che assorbe la luce e la trasforma in segnale elettrico. Il media consiste in un
+cavo in vetro molto sottile. Se il diametro del cavo è inferiore ai 10 microns
+allora si dice che la fibra è single-mode; un media così sottile permette alla
+luce di viaggiare solamente in linea retta: sono diminuite le dispersioni. 
+Una fibra single-mode permette di percorrere maggiori distanze senza ripetitori: 
+arriva fino a 100 Gbps per una distanza di 100Km senza ripetitore.\\
+Alla fibra del tipo single-mode, si affianca quella multimode, in questo caso il
+cavo può essere anche più spesso di 50 microns. Il cavo multimode è
+attraversato da diversi raggi di luce nello stesso momento. La fibra multimode è
+più economica, ma la larghezza di banda diminuisce con l'aumentare della
+distanza.\\
+
+Due fibre possono essere connesse in tre modi: 
+\begin{itemize}
+	\item gli estremi terminano in un cottore che è connesso ad un fiber socket,
+		in questo caso è perso dal 10 al 20\% del segnale;
+	\item possono essere accostate meccanicamente; ad un tecnico richiede 5
+		minuti unire due fibre in questo modo e si perde il 10\% del segnale;
+	\item i due estremi sono fusi, saldati, assieme. In questo caso si ottiene
+		una fibra che è praticamente come una fibra unica, ma è un tipo di
+		collegamento più complesso. 
+\end{itemize}
+
+Ci sono due tipi di sorgente di luce: LED (light emitting diodes) e laser
+semiconduttori;
+
+\begin{table}[ht]
+	\label{sorgenti_luminose}
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline 
+		item & LED & semiconductor laser \\
+		\hline
+		data rate & low & high \\
+		fiber type & multi-mode & multimode o single-mode \\
+		distanza & breve & lunga \\
+		durabilità & lunga & breve \\
+		sensibilità della temperatura & nessuna & sostanziale \\
+		costo & economica & costosa \\
+		\hline
+	\end{tabular}
+	\caption{differenze tra una sorgente led e una laser}
+\end{table}
+
+I raggi di luce sono assorbiti da un fotodiodo che trasforma la luce in segnali
+elettrici. Il tempo di risposta del fotodiodo limita la velocità di banda a 100
+Gbps.\\
+
+\subsubsection{Differenze tra fibra ottica e cavo in rame}
+
+\begin{table}[ht]
+	\label{ottica_rame}
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		 item & fibra ottica & cavo in rame \\
+		 \hline
+		 data rate & fino a 100 Gbps & centinaia di Mbps \\
+		 distanza & fino a 50 km & 5 km \\
+		 interferenze & temperatura & tutte, meno temperatura \\
+		 diametro & molto fino & molto grosso \\
+		 peso & leggera (100 kg) & pesante (8000 kg) \\
+		 costo di installazione & basso & elevato \\
+		 direzione & unidirezionale o due frequenze & duplex \\
+		 tap & impossibile & molto semplice \\
+		 personale & pochi la sanno maneggiare & molti elettricisti \\
+		 costo dell'interfaccia & elevato & economico \\
+		 \hline
+	\end{tabular}
+	\caption{differenze tra fibra ottica e cavo in rame}
+\end{table}
+
+\subsection{Wireless}
+Le telecomunicazioni wireless avvengono tutte con la medesima tecnologia: sono
+sfruttate le onde elettromagnetiche per propagare le informazioni (proprio come
+avviene per le comunicazioni wired). In questo caso le onde sono propagate in
+tutte le deirezioni (in realtà dipende dalla frequenza delle onde utilizzata). 
+La quantità di informazioni trasferibile dipende dalla
+potenza che arriva e dalla larghezza di banda. Per mandare le informazioni sono
+utilizzate le onde: più onde sommate assieme riescono a descrivere una funzione
+che rappresenta i bit. In particolare, se la derivata della funzione descritta è
+maggiore di 0 allora stiamo mandando un bit di valore 1, se la derivata della
+funzione è minore di 0 allora stiamo mandando un bit di valore 0. Per capire il
+segno della derivata è sufficiente memorizzare il valore dell'onda, misurarlo di
+nuovo e confrontare i due valori. Avendo più frequenze è possibile modificare
+la somma delle frequenze d'onda in modo più preciso: ogni volta che viene
+aggiunta una frequenza in più è possibile raddoppiare la quantità di
+informazioni che sono mandate.\\
+
+Le connessioni wireless si distinguono per il range delle lunghezze d'onda, ma
+anche per le singole frequenze utilizzate: produrre alcune onde
+elettromagnetiche è più economico di altre. Per esempio produrre le onde
+elettromagnetiche che trasmettono i canali della radio è piuttosto economico.
+Comunicare mediante onde ultraviolette è ben più costoso (inoltre queste onde
+sono nocive alle forme di vita). Minore è la frequenza d'onda maggiore è la
+distanza che quell'onda riesce a percorrere, minore è il costo per produrla. Ci
+sono dei pro e dei contro a questo: un'onda che non si ferma mai, che passa
+attraverso la Terra, è intercettabile ovunque, per cui deve trasmettere
+informazioni non segrete, altrimenti ha bisogno di essere criptata. Questo tipo 
+di onda trasmette meno dati di un onda più costosa.\\
+
+Il numero di oscillazioni al secondo di un'onda è chiamato frequenza e si misura
+in Hertz (Hz). La distanza tra due massime (oppure tra due minime) è chiamata
+lunghezza d'onda. I bit sono codificati modificando la portata (ampiezza), la
+frequenza o la fase dell'onda. Gli ultravioletti e i raggi gamma sono in grado
+di trasferire più informazioni, perchè la loro frequenza è maggiore; ma sono
+difficili da produrre e da modulare, non passano attraverso gli oggetti (ogni
+tanto anche il tempo atmosferico li blocca) e sono nocivi per gli animali (noi).
+
+\subsubsection{Frequency hopping spread spectrum}
+Questa tecnologia permette di diminuire le interferenze e rende le onde
+elettromagnetiche più difficili da rintracciare: le frequenze per trasmettere le
+informazioni cambiano centinaia di volte al secondo. viene utilizzato
+soprattutto in ambito militare.
+
+\subsubsection{direct sequence spread spectrum}
+Sono utilizzate più frequenze d'onda che si possono sovrapporre a quelle di
+altri. La connessione funziona anche se il dato è corrotto, perchè solo una
+frazione viene corrotta. Il ricevitore del segnale avrà un "codice" per
+decifrarlo. Genera interferenze con altre onde sulla medesima frequenza, ma non
+risulta un problema per chi riceve le informazioni in questo modo grazie alla
+cifratura.
+
+\subsubsection{Ultra-WideBand}
+Viene adottata moltissima banda, almeno $500MHz$, e sono trasmessi una serie di
+impulti ad bassa intensità molto velocemente. Dal momento che il messaggio è
+molto diluito tra le frequenze le interferenze hanno poca importanza. Non
+trasmette tutto il tempo per cui non crea interferenze per altre tecnologie. 
+
+\subsection{Analizziamo le frequenze}
+
+\subsubsection{Radio Transmission}
+Le frequenze radio (RF) sono semplici da generare, viaggiano per grandi distanze
+e penetrano gli edifici; sono unidirezionali. A basse frequenze, il segnale
+passa attraverso gli ostacoli, ma l'intensità diminuisce rapidamente. Ad altre
+frequenze, il segnale viaggia dritto, ma rimbalza sugli ostacoli. Le
+interferenze con gli altri utenti sono un problema. 
+
+\subsubsection{Microwave Transmission}
+Le onde viaggiano dritte, per cui il trasmettitore e l'antenna devono essere
+meticolosamente allineati. Si possono allineare più ricevitori in fila. La
+distanza a cui devono essere piazzati i ripetitori è il quadrato dell'altezza.
+Il segnale trasmesso da una torre alta 100m viaggia 80 km. Le microonde non
+passano attraverso gli ostacoli.\\
+Aumentando la frequenze aumenta il data rate: oggi connessioni a 10GHz sono
+comuni. Oltre i 4GHz le onde sono assorbite dall'acqua, umidità compresa.\\
+Le microonde sono economiche: non serve chiedere il permesso per piazzare i
+cavi, è sufficiente un ripetitore ogni 50 km.
+
+\subsubsection{Infrared Transmission}
+Le comunicazioni ad infrarossi sono molto utilizzate: sono economiche,
+direzionali e semplici da produrre; ma non passano attraverso gli oggetti. Sono
+utilizzate per le comunicazioni all'interno di una sola stanza (per esempio il
+telecomando della TV). Non sono intercettabili: non si propagano al di fuori
+della stanza.
+
+\subsubsection{Light Transmission}
+Sono molto semplici da utilizzare, ma hanno molte interferenze: il vento, la
+temperatura, la pioggia o la nebbia.
+
+\subsection{Codificare bit con le onde}
+Grazie alle serie di Fourier siamo in grado di descrivere matematicamente le
+onde. Grazie ad esse riusciamo a codificare i bit utilizzando le onde
+elettromagnetiche. Purtroppo, a seconda della frequenza utilizzata un'onda
+(elettroagnetica) si attenua in modo diverso.
+
+\paragraph{Bandwidth} la larghezza del range di frequenze che sono trasmesse
+senza che siano eccessivamente attenuate.
+
+\paragraph{Baseband} i segnali che utilizzano le onde che partono dalla frequenza
+0 e arrivano ad una frequenza massima. 
+
+\paragraph{Passband} i segnali che utilizzano un range di onde che non partono
+da 0 (sono traslate le baseband).
+
+\paragraph{Data rate massimo} $2B\log_2(1+S/N)$ bits/s, dove $B$ sono le onde che non
+sono filtrate e $S/N$ è il rapporto segnale/interferenza.
+
+\subsection{Digital Modulation}
+Le informazioni sono trasmesse modificando costantemente il voltaggio,
+l'intensità della luce o l'intensità del suono. In genere un canale è utilizzato
+nello stesso momento da più trasmettitori, questa tecnologia è chiamata
+multiplexing (l'abbiamo già vista!). Il multiplexing è ottenuto in diversi modi:
+trasmettendo segnali diversi in istanti diversi, utilizzando varie frequenze
+oppure codificando l'informazione.
+
+\subsubsection{Baseband transmission}
+\paragraph{NRZ} Non-Return-to-Zero: il metodo più semplice per codificare i bit 
+fa corrispondere 1 al voltaggio positivo e 0 a quello negativo; oppure 1 alla 
+presenza di luce e 0 all'assenza.\\
+In realtà non si utilizza una sola onda per trasmettere i bit: se si utilizzano
+due onde si possono mandare due bit in una volta sola, in particolare ogni onda
+rappresenta un bit. Per questo motivo, invece di usare il data rate è comodo
+introdurre il symbol rate (anche chiamato baud rate).
+
+\subsubsection{Clock Recovery} Con il metodo NRZ, il ricevitore ha bisogno di
+scandire il tempo in modo efficacie: se una serie di 0 o di 1 si susseguono si
+rischia di perdere informazioni. Sono bandati centinaia, talvolta migliaia, di
+bit al secondo, i sistemi per misurare il tempo in modo così preciso sono
+costosi, per questo in genere si ricorre a metodi di codifica differenti.
+
+\paragraph{Manchester ecoding} Sono trasferiti la metà dei bit, ma il tempo è
+scandito bene: un uno è codificato come segnale positivo e segnale nullo, mentre
+lo 0 è codificato come segnale nullo e segnale positivo. In questo modo non si
+sussegue più volte il medesimo segnale, ma i bit sono ben scanditi.
+
+\paragraph{NRZI} Non-Return-to-Zero Inverted: 1 è codificato come transizine
+dallo stato precedente ad uno diverso, se lo stato rimane invariato allora viene
+codificato lo 0. Questa tecnologia viene utilizzata per connettere le porte USB.
+In questo modo lunghe serie di 1 non causano alcun problema (lunghe serie di 0
+sì).
+
+\paragraph{4B/5B} Ad ogni sequenza di 4 bit da trasmettere è aggiunto un bit. Il
+bit aggiuntivo è utilizzato per intervallare troppi 0 di seguito. In questo caso
+c'è un 25\% di overhead (meglio del 100\% del Manchester encoding).
+
+\subsubsection{Balanced signals}
+Alcuni componenti che trasmettono i messaggi elettrici sfruttano la tecnologia
+DC. Questo crea un problema: si spreca energia a mandare segnali non bilanciati.
+Un segnale è bilanciato se ci sono lo stesso numero di segnali positivi e
+negativi in brevi istanti di tempo.
+
+\paragraph{Bipolar encoding} lo 0 è rappresentato dal segnale nullo, mentre l'1
+è rappresentato prima da un segnale positivo e poi da un segnale negativo, e
+così da capo. In questo modo il segnale sarà sempre bilanciato.
+
+\paragraph{8B/10B} si dividono 8 bit in due gruppi una da 3 bit e uno da 5 bit.
+I primi 3 bit sono codificati in 4 bit bilanciati rispetto ai 5 bit che sono
+mappati su 6 bit. Dal momento che si aggiungono bit lo stesso codice può essere
+mappato in modi diversi, la mappatura è scelta per bilanciare le cariche del
+segnale mandato.
+
+\subsubsection{Passband transmission}
+Questa tecnologia è utilizzata principalmente nelle comunicazioni wireless: in
+questo tipo di comunicazione è scomodo far partire la prima frequenza da 0 (le
+antenne dovrebbero essere gigantesche). Per trasmettere le informazioni si
+modula l'ampiezza (capacità), la frequenza o la fase del segnale.
+
+\paragraph{ASK} Amplitude Shift Keying, l'ampiezza di un'onda indica il segnale:
+ampiezza nulla codifica lo 0, ampiezza non nulla codifica 1. Più lughezze d'onda
+sono sovrapposte per rappresentare più bit nello stesso momento.
+
+\paragraph{FSK} Frequency Shift Keying, è cambiata la frequenza della portata
+dell'onda. Le frequenze sono predeterminate per cui il client e il server hanno
+prestabilito la codifica delle frequenze della portata.
+
+\paragraph{Phase Shift Keying} l'onda è traslata di 0 o di 180 gradi sul suo
+periodo. Per esempio traslare di 0 gradi corrisponde allo 0, mentre traslare di
+180 gradi corrisponde all'1. In questo caso si tratta di Binary PSK. In realtà,
+si trasla di 45, 135, 225 o 315 gradi per trasmettere un simbolo. In questo modo
+ad ogni cambio di fase sono mandati due simboli contemporaneamente. Inoltre c'è
+sempre una traslazione, per cui siamo più tranquilli riguardo ad eventuali
+interferenze.\\
+
+Si può cambiare solo la fase o la frequenza nello stesso momento, perchè le due
+variabili sono legate tra loro. Di solito, l'amplitude e la fase sono modificate
+nello stesso momento, in questo modo una sola onda è in grado di codificare otto
+simboli in una volta sola. Per comodità del programmatore la fase e
+l'amplitude sono codificate come cordinate sul piano complesso: la fase
+rappresenta l'angolo e l'amplitude il modulo. Ora siamo in grado di
+rappresentare le onde con due coordinate. Punti vicini tra loro codificano
+sequenze di bit simili, per diminuire la quantità di errori di chi riceve.
+
+\subsection{Multiplexing}
+Multiplexing vuol dire mandare più messaggi nello stesso momento.
+Ci sono diversi metodi per implementare il multiplexing:
+\begin{itemize}
+	\item tempo;
+	\item frequenze;
+	\item codifica.
+\end{itemize}
+
+\paragraph{FDM} Frequency division multiplexing: le frequenze sono divise in
+slot, ciascun canale utilizza tutte le frequenze dello slot a lui assegnato.\\
+Ciscun canale è diviso da una guard band per evitare interferenze. Veniva usato
+per le linee telefoniche, oggi si preferisce dividere il tempo a disposizione
+per mandare il segnale, piuttosto che la fascia di onde utilizzabili.
+
+\paragraph{OFDM} Orthogonal Frequency Division Multiplexing: come nel caso
+precedente le frequenze sono divise in canali. Ciascun canale è a sua volta
+diviso in sottocanali che mandano dati in modo indipendente, in questo modo
+anche se un sottocanale ha qualche interferenze il segnale arriva mediante un
+sottocanale diverso.
+
+\paragraph{TDM} Time division Multiplexing: ad ogni utente è assegnato un arco
+di tempo nel quale può mandare informazioni, in quell'arco di tempo ha a
+disposizione l'intera banda. Perchè questo sistema funzioni tutti gli utenti
+devono essere sincronizzati.
+
+\paragraph{STDM} Static time division multiplexing: aggiungendo l'aggettivo
+statico, vuol dire che il tempo assegnato ha ciascun utente è deciso
+staticamente: a run-time.
+
+\paragraph{CDM} Code division multiplex (access): il segnale è diviso in una banda 
+più larga e tutti gli utenti comunicano contemporaneamente. La stazione assegna 
+ad ogni utente il vettore di una base (algebra). La base ha come dimensione il 
+numero di utenti. Ciascun utente trasmette il proprio vettore per codificare un 
+1 e la negazione del proprio vettore per codificare uno 0. Poichè tutti i vettori 
+appartengono ad una base, i vettori sono linearmente indipendenti e conoscendo il vettore 
+assegnato all'utente che vuoi ascoltare sei in grado di decodificare le onde. Per riuscire 
+ad instaurare questo tipo di comunicazione c'è bisogno che i due utenti che
+vogliono comunicare si mettano d'accordo prima.
+
+\end{document}
