@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 #define ld long double
 #define maxn 110
@@ -22,8 +22,8 @@ ld calc(ld v){
 }
 
 int main(){
-    cin >> x >> y;
-    cin >> n;
+	cin >> x >> y;
+	cin >> n;
     
     for(int i=0;i<n;i++)
         cin >> scudi[i].l >> scudi[i].u >> scudi[i].f;
@@ -37,6 +37,5 @@ int main(){
             f = mid;
     }
     
-    cout << fixed << setprecision(10);
     cout << f << "\n";
 }

@@ -4,9 +4,6 @@ template<class T>
 class Btree;
 
 template<class T>
-class Btree<T>::nodo;
-
-template<class T>
 class Btree {
 	private:
 		class nodo {
@@ -46,15 +43,13 @@ Btree<T>::nodo::~nodo() {
 }
 
 template<class T>
-nodo& Btree<T>::nodo::operator=(const nodo* n) {
+class Btree<T>::nodo& Btree<T>::nodo::operator=(const nodo* n) {
 	if (this != &n) {
 		destroy(this);
 		*this = copy(n);
 	}
 	return *this;
 }
-
-
 
 template<class T>
 bool Btree<T>::isABR(int min, int max) const {
@@ -63,4 +58,10 @@ bool Btree<T>::isABR(int min, int max) const {
 		return isABR(this->left(), min, this->key()) && isABR(this->right(), this->key(), max);
 	}
 	else return false;
+}
+
+int main() {
+	Btree<int> t(9);
+	std::cout << "hello world\n";
+	return 0;
 }

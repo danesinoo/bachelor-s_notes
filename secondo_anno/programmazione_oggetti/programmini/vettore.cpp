@@ -7,6 +7,7 @@ class Vettore {
 
     public:
         // blocchiamo la conversione implicita di un unsigned int a vettore
+		// hello aksdhjf;lasdjkfalfkja;sdlfkasjdf;
         explicit Vettore(unsigned int dim=0, int dafault =0): 
             size(dim), a(dim>0 ? new int[dim]: nullptr) {
             if (dim == 0) a = 0;
@@ -56,4 +57,3 @@ class Vettore {
             delete[] a;
         }
 };
-        

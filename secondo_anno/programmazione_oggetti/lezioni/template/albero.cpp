@@ -88,3 +88,10 @@ std::ostream& operator<< (std::ostream& os, const Albero<T>& a) {
     Albero<T>::rec_print(os, a.root);
     return os;
 }
+
+int main() {
+	Albero<int> hello;
+	hello.insert(9);
+	hello.insert(10);
+	std::cout << hello;
+}

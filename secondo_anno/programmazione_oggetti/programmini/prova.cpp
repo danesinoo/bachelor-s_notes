@@ -1,20 +1,12 @@
 #include <iostream>
-#include <bits/c++.h>
+#include "err_v2.h"
 
-class C {
-    public:
-        int x;
-
-        C(int a =0) { x=0; };
-
-        void f(int& a) const { a = 4; };
-
-        void m() { f(x); };
-};
+Result<int, unsigned int> f(int x) {
+	if (x%2) return Result<int, unsigned int>::Ok(x+1);
+	else return Result<int, unsigned int>::Err(x-1);
+}
 
 int main(void) {
-    C tmp(8);
-    tmp.m();
-    std::cout << tmp.x << std::endl;
-    return 0;
+	std::cout << f(4).unwrap_err() << '\n';
+	std::cout << f(5).unwrap() << '\n';
 }

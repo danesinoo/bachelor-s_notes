@@ -28,9 +28,5 @@ fn main() -> Result<(), Error> {
         ans += get_max(&mut r, &mut g, &mut b);
     }
     println!("{}", ans);
-    
-
-
-
     Ok(())
 }

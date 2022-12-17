@@ -63,7 +63,7 @@ int confronta_array(int *X, int *Y, int dim) {
 // se while non si è interrotto precocemente allora i è uguale 
 // a dim e i due termini si annullano; altrimenti dim - i è
 // diverso da 0 e allora viene tornato un valore diverso da 1
-	return dim - i + 1;
+	dim - i + 1
 }
 
 void leggi_array(int *X, int dim) {

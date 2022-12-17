@@ -2,11 +2,11 @@
 #include <string>
 #include <vector>
 
-void metodo(const std::vector<int>& V, std::vector<int>& Q, std::vector<int>& P) {
+void increasingsubsequence(const std::vector<int>& V, std::vector<int>& Q, std::vector<int>& P) {
     for (unsigned int i = 1; i<V.size(); i++) {
-        for (int j = i-1; j>=0; j--) {
-            if (V[j] < V[i] && Q[i] <= Q[j]) {
-                Q[i] = Q[j] +1; // qui dobbiamo scrivere il max
+        for (int j = i-1; j>Q[i]-2; j--) {
+            if (V[j] < V[i] && (Q[i] <= Q[j])) {
+                Q[i] = Q[j] +1;
                 P[i] = j;
             }
         }
@@ -26,7 +26,7 @@ int main() {
             P[i] = -1;
         }
 
-        metodo(V, Q, P);
+        increasingsubsequence(V, Q, P);
         int id_max=0;
         for (unsigned int i= 0; i<V.size(); i++)
             id_max = Q[id_max] < Q[i] || (Q[id_max] == Q[i] && V[id_max] > V[i]) ? i : id_max;
@@ -41,5 +41,3 @@ int main() {
         std::cin >> size;
     }
 }
-
-

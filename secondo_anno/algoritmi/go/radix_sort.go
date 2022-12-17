@@ -37,7 +37,7 @@ func counting_sort(a []uint, d uint) (b []uint) {
 	return
 }
 
-func radix_sort(a []uint) []uint {
+func radix_sort(a []uint) []uint { // in base 16
 	d:=count_digit(a)
 	for i:=uint(1); i<d+1; i*=16 {
 		a = counting_sort(a, i)
