@@ -2,7 +2,7 @@ use std::collections::VecDeque;
 include!("stl.rs");
 type Num = isize;
    
-fn lungh(d: &Vec<Vec<Vec<Num>>>, p: &Vec<usize>, dir: i8) -> bool {
+fn lung(d: &Vec<Vec<Vec<Num>>>, p: &Vec<usize>, dir: i8) -> bool {
     if dir == 0 && p[0] < d.len() -1 { true }
     else if dir == 1 && p[1] < d[0].len() -1 { true }
     else if dir == 2 && p[2] < d[0][0].len() -1 { true }
