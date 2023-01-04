@@ -1,0 +1,1157 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+
+\newtheorem{definition}{Def.}[section]
+
+\title{\vspace{2cm}\textbf{Appunti di Algoritmi e\ Strutture Dati}}
+\author{\vspace{3mm}4 ottobre 2022}
+\date{\vspace{3mm} \textbf{Rosso Carlo}}
+
+\begin{document}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+\tableofcontents
+\newpage
+
+\section{Introduzione}
+In questo corso studiamo:
+\begin{itemize}
+	\item statistica descrittiva;
+	\item spazi di probabilità;
+	\item probabilità condizionali;
+	\item variabili aleatorie;
+	\item teroremi limite;
+	\item statistica inferenziale;
+\end{itemize}
+
+\begin{definition}[Statistica descrittiva] 
+	descrivere e sintetizzare i dati raccolti in un campione.
+\end{definition}
+
+\begin{definition}[Statistica inferenziale] trovare conclusioni su una popolazione a
+partire da un campione.
+\end{definition}
+
+\section{Statica descrittiva}
+
+\subsection{Dati univariati} 
+Successioni finite di numeri reali. Sia $(x_i)_{i
+\in \{1, \dots, n\}}$ l'insieme ordinato dei dati, si chiama campione di
+numerosità n.
+
+\subsubsection{Statistiche elementari}
+
+\begin{definition}[Media campionaria] $\bar{x} := \frac{1}{n} \sum_{i=1}^n x_i$. Ci
+siano $k$ valori distinti, sia $f_j$ il numero di occorenze di $v_j$, tale che
+$i \neq j \iff v_i \neq v_j$, allora la media campionaria è:
+\begin{equation}
+\bar{x} = \frac{1}{n} \sum_{i=1}^k f_i v_i
+\end{equation}
+\end{definition}
+NB I valori che hanno frequenza massima si dicono valori modali. Se esiste un
+solo valore con frequenza massima, esso è chiamato moda campionaria.
+
+\begin{definition}[Mediana campionaria] Sia $\sigma$ una permutazione degli indici
+$\{1, \dots, n\}$ tale che $x_{\sigma(1)} \leq \dots \leq x_{\sigma(n)}$. 
+La mediana campionaria è:
+\begin{equation}
+	m :=
+\begin{cases}
+	x_{\sigma(\frac{n+1}{2})} & \text{se n dispari} \\
+	\frac{1}{2}(x_{\sigma(\frac{n}{2})} + x_{\sigma(\frac{n}{2}+1)}) & \text{se n pari}
+\end{cases}
+\end{equation}
+\end{definition}
+
+\subsubsection{Statistiche d'ordine}
+Il minimo è:
+\begin{equation}
+	\min\{x_i: i \in \{1, \dots, n\}\} = x_{\sigma(1)}
+\end{equation}
+Il massimo è:
+\begin{equation}
+	\max\{x_i: i \in \{1, \dots, n\}\} = x_{\sigma(n)}
+\end{equation}
+
+\subsubsection{Statistiche della dispersione dei dati}
+\begin{definition}[Varianza campionaria]
+\begin{equation}
+	s^2 = \frac{1}{n-1} \sum_{i=1}^k (x_i^2 - \bar{x}^2)
+\end{equation}
+\end{definition}
+
+\begin{definition}[Deviazione standard campionaria]
+\begin{equation}
+	s = \sqrt{s^2}
+\end{equation}
+\end{definition}
+
+NB Siano $a, b \in \mathbb{R}$, $(s_y)^2$ la varianza campionaria di $(y_i)_{i
+\in \{1, \dots, n\}}$ e $(s_x)^2$ la varianza campionaria di $(x_i)_{i \in
+\{1, \dots, n\}}$. Allora:
+\begin{equation}
+	s_y^2 = a ^ 2 \cdot s_x^2 \iff s_y = |a| \cdot s_x
+\end{equation}
+NB la devianza standard ha la medesima unità di misura dei dati.
+\begin{equation}
+	s^2 = \frac{1}{n-1} \sum_{i=1}^n x_i^2 - \frac{n}{n-1} \bar{x}^2
+\end{equation}
+Varianza e deviazione permettono di stimare la proporzione dei dati che sono
+"vicini" (o "lontani") dalla media campionaria.
+
+\subsubsection{Disuguaglianza di Chebyshev}
+se $s>0$, allora $\forall \alpha > 0$:
+\begin{enumerate}
+	\item \begin{equation}
+			\frac{\# \{i \in \{1, \dots, n\}: |x_i - \bar{x}| < \alpha s\}}{n}
+			\geq 1 - \frac{1}{\alpha^2}
+		\end{equation}
+		Utile per $\alpha > 1$.
+		Percentuale di dati che sono "vicini" alla media campionaria, ovvero che
+		sono compresi nell'intervallo $]\bar{x} - \alpha s, \bar{x} + \alpha s[$.
+
+	\item \begin{equation}
+			\frac{\#\{i \in \{1, \dots, n\}: |x_i - \bar{x}| \leq \alpha s\}}{n}
+			> 1 - \frac{1}{\alpha^2}
+		\end{equation}
+		Utile per $\alpha > 1$.
+	
+	\item \begin{equation}
+			\frac{\#\{i \in \{1, \dots, n\}: |x_i - \bar{x}| > \alpha s\}}{n}
+			\leq \frac{1}{\alpha^2}
+		\end{equation}
+		Utile per $\alpha > 1$.
+		Percentuale di dati che sono "lontani" alla media campionaria, ovvero che
+		sono compresi nell'intervallo $\mathbb{R} / ]\bar{x} - \alpha s, \bar{x} + \alpha s[$.
+	
+	\item \begin{equation}
+			\frac{\#\{i \in \{1, \dots, n\}: x_i - \bar{x} > \alpha s\}}{n}
+			< \frac{1}{1 + \alpha^2}
+		\end{equation}
+		Utile per $\alpha < 1$.
+		Percentuale di dati che sono "lontani" e maggiori della media
+		campionaria, ovvero che sono compresi nell'intervallo $] \bar{x} + \alpha s, +\infty[$.
+\end{enumerate}
+
+\subsubsection{Statistiche per la distribuzione dei dati}
+Sia $k \in \{1, \dots, 100\}$:
+
+\begin{definition}[Percentile campionario k-esimo]
+\begin{equation}
+	\bar{p_k} := 
+\begin{cases}
+	x_{\sigma(\frac{n * k}{100})} & \text{per eccesso, se } \frac{n * k}{100}
+	\not\in \mathbb{N} \\
+	\frac{1}{2}(x_{\sigma(\frac{n * k}{100})} + x_{\sigma(\frac{n * k}{100} +
+	1)}) & \text{altrimenti}
+\end{cases}
+\end{equation}
+\end{definition}
+
+NB $\bar{p_{50}} = \bar{m}$.
+Proporsioni dei dati che hanno valore inferiore o uguale a $\bar{p_k}$ oppure
+che hanno valore superiore a $\bar{p_k}$:
+\begin{itemize}
+	\item
+		\begin{equation}
+			\frac{\#\{i \in \{1, \dots, n\}: x_i \leq \bar{p_k}\}}{n} \geq \frac{k}{100}
+		\end{equation}
+
+	\item
+		\begin{equation}
+			\frac{\#\{i \in \{1, \dots, n\}: x_i > \bar{p_k}\}}{n} \leq 1 - \frac{k}{100}
+		\end{equation}
+\end{itemize}
+
+\subsection{Dati multivariati}
+Il campione di dati multivariati è una successione finita di vettori. Per
+semplicità tratteremo un campione bivariato, le generalizzazioni sono ovvie.
+Sia $((x_i, y_i))_{i \in \{1, \dots, n\}} \subset \mathbb{R}^2$ un campione bivariato.
+allora $(x_i)_{i \in \{1, \dots, n\}}$ e $(y_i)_{i \in \{1, \dots, n\}}$ sono
+campioni univariati.
+
+\begin{definition}[covarianza campionaria] La covarianza campionaria tra $(x_i)_{i \in 
+\{1, \dots, n\}}$ e $(y_i)_{i \in \{1, \dots, n\}}$ è data da:
+\begin{equation}
+	\text{Cov}_{x,y} := \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
+\end{equation}
+NB Se $x_i = y_i \forall i \in \{1, \dots, n\}$, allora Cov$_{x,y} = s_x^2 = s_y^2$.
+La covarianza varia in $\mathbb{R}$.
+\end{definition}
+
+\begin{definition}[correlazione campionaria] La correlazione campionaria tra $(x_i)_{i
+\in \{1, \dots, n\}}$ e $(y_i)_{i \in \{1, \dots, n\}}$ è data da:
+\begin{equation}
+	\text{Corr}_{x,y} := \frac{\text{Cov}_{x,y}}{s_x s_y}
+\end{equation}
+\end{definition}
+
+Osservazioni:
+\begin{enumerate}
+	\item dalla definizione otteniamo:
+		\begin{equation}
+			\text{Corr}_{x,y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}
+			{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2 \sum_{i=1}^n (y_i - \bar{y})^2}}
+		\end{equation}
+		Ovvero si cancella il prefattore $1/(n-1)$.
+
+	\item $\text{Corr}_{x,y} \in [-1, 1]$. In Particolare:
+		\begin{itemize}
+			\item $\text{Corr}_{x,y} = 1 \iff \exists a, b \in \mathbb{R}: a>0,
+				x_i = a \cdot y_i + b \forall i \in \{1, \dots, n\}$.
+			\item $\text{Corr}_{x,y} = -1 \iff \exists a, b \in \mathbb{R}: a<0,
+				x_i = a \cdot y_i + b \forall i \in \{1, \dots, n\}$.
+		\end{itemize}
+\end{enumerate}
+La correlazione quantifica la linearità della relazione tra i campioni.\\
+Si ha la dipendenza massina per $\text{Corr}_{x,y} = \pm 1$.
+Si ha la dipendenza minima per $\text{Corr}_{x,y} = 0$.
+
+\section{Teoria delle probabilità}
+\begin{definition}[Esperimento aleatorio] Un esperimento aleatorio è un'osservazione
+riguardo a un qualunque fenomeno il cui esito non è determinato con certezza
+priori.
+\end{definition}
+
+Il metodo che meglio rappresenta il campione di dati completo è la scelta
+casuale di un sottoinsieme con data numerosità.
+
+\begin{definition}[Spazio campionario] Lo spazio campionario è l'insieme di tutti gli
+esiti possibili di un esperimento aleatorio, è un inseme non vuoto e si
+rappresenta con $\Omega$.
+\end{definition}
+
+\begin{definition}[Sistema degli eventi] Il sistema degli eventi è l'insieme che
+contiene gli esiti possibili di un esperimento aleatorio, è un
+insieme non vuoto e si rappresenta con $\mathcal{F}$. Il sistema degli eventi è
+un sottoinsieme di $\Omega^{\mathbb{P}}$ dove $\mathbb{P}$ è il prodotto
+cartesiano.
+\end{definition}
+
+\begin{definition}[Misura di probabilità] La misura di probabilità è una funzione
+$\mathcal{P}: \mathcal{F} \to [0, 1]$ tale che:
+\begin{itemize}
+	\item $\mathcal{P}(\emptyset) = 0$
+	\item $\mathcal{P}(\Omega) = 1$
+	\item $\mathcal{P}(\cup_{i=1}^n A_i) = \sum_{i=1}^n \mathcal{P}(A_i)$
+\end{itemize}
+La misura di probabilità è una funzione che associa ad ogni evento la probabilità
+che esso accada.
+\end{definition}
+
+\begin{definition}[Spazio di probabilità] Lo spazio di probabilità è una terna $(\Omega,
+\mathcal{F}, \mathcal{P})$ dove $\Omega$ è lo spazio campionario non vuoto, 
+$\mathcal{F}$ è una $\sigma$-algebra di $\Omega$ e $\mathcal{P}$ è una misura di
+probabilità su $\mathcal{F}$.
+\end{definition}
+
+\begin{definition}[$\sigma$-algebra] $\mathcal{F}$ si dice $\sigma$-algebra in $\Omega$,
+$\Omega \neq \emptyset$, se:
+\begin{itemize}
+	\item $\mathcal{F}$ è chiuso sotto l'insieme vuoto
+	\item $\mathcal{F}$ è chiuso sotto l'insieme complementare
+	\item $\mathcal{F}$ è chiuso sotto l'insieme unione
+\end{itemize}
+\end{definition}
+
+Estremi della $\sigma$-algebra:
+\begin{itemize}
+	\item $\sigma$-algebra triviale $:=\{\emptyset, \Omega\}$;
+	\item $\sigma$-algebra totale $:=P(\Omega)$;
+\end{itemize}
+
+Ogni misura di probabilità su $P(\Omega)$ con $\Omega$ al più numerabile è
+determinata dalle probabilità dei singoli elementi di $\Omega$ (singoletti):
+\begin{equation}
+	\mathcal{P}(A) = \sum_{\omega \in A} \mathcal{P}(\{\omega\}), \quad A
+	\subset \Omega.
+\end{equation}
+Una funzione $p: \Omega \to [0, 1]$ si dice densità discreta se:
+\begin{equation}
+	\sum_{\omega \in \Omega} p(\omega) = 1
+\end{equation}
+
+Sia $p$ una densità discreta su $\Omega$. Allora
+\begin{equation}
+	\mathcal{P}(A) = \sum_{\omega \in A} p(\omega), \quad A \subset \Omega.
+\end{equation}
+definisce una misura di probabilità su $P(\Omega)$.\\
+NB se $\Omega$ è numerabile, allora tutte le misura di probabilità sono di
+questa forma.
+
+\begin{definition}[Densità campionaria] Sia $(x_i)_{i \in {1, \dots, n}}$ un
+campione di numerosità $n$ a valori in $X$ (as esempio, $X = \mathbb{R}$).
+La densità campionaria è una funzione $p: X \to [0, 1]$ tale che:
+\begin{equation}
+	p(x) := \frac{\#i \in \{1, \dots, n\} : x_i = x}{n}, \quad x \in X.
+\end{equation}
+\end{definition}
+
+Allora $p$ è una densità discreta su $X$ e la densità campionaria di $(x_i)_
+{i \in \{1, \dots, n\}}$.\\
+$p(x)$ è la frequenza relativa del valore $x \in X$.\\
+$p$ induce una misura di probabilità su $P(X)$:
+\begin{equation}
+	\mathcal{P}(A) := \sum_{x \in A} p(x), \quad A \subset X.
+\end{equation}
+
+$\mathcal{P}$ è detta misura di probabilità campionaria (o empirica).
+
+\subsection{Proprietà fondamentali delle misure di probabilità}
+Sia $(\Omega, \mathcal{F}, \mathcal{P})$ uno spazio di probabilità e siano $A,
+B \in \mathcal{F}$.
+\begin{enumerate}
+	\item Se $A \subset B$, allora $\mathcal{P}(B \setminus A) = \mathcal{P}(B) -
+			\mathcal{P}(A)$.\\
+			In particolare, $\mathcal{P}(A^c) = 1 - \mathcal{P}(A)$.
+
+	\item $\mathcal{P}(A \cup B) = \mathcal{P}(A) + \mathcal{P}(B) - 
+		\mathcal{P}(A \cap B)$.\\
+		In particolare, se $A \cap B = \emptyset$, allora $\mathcal{P}(A \cup B) =
+		\mathcal{P}(A) + \mathcal{P}(B)$.
+
+	\item Se $(A_n)_{n \in \mathbb{N}} \subset \mathcal{F}$, allora
+		\begin{equation}
+			\mathcal{P}(\cup_{n \in \mathbb{N}} A_n) \leq \sum_{n \in \mathbb{N}}
+			\mathcal{P}(A_n).
+		\end{equation}
+		In particolare, se $A_i \cap A_j = \emptyset \forall i \neq j$, allora
+		$\mathcal{P}(\cup_{n \in \mathbb{N}} A_n) = \sum_{n \in \mathbb{N}}
+		\mathcal{P}(A_n)$.
+
+	\item Sia $(A_n)_{n \in \mathbb{N}} \subset \mathcal{F}$ tale che $A_i \cap
+		A_j = \emptyset \forall i \neq j$ e $\cup_{n \in \mathbb{N}} A_n =
+		\Omega$, allora:
+		\begin{equation}
+			\mathcal{P}(B) = \mathcal{P}(\sum_{n \in \mathbb{N}} B \cap A_n).
+		\end{equation}
+		In particolare, $\mathcal{P}(B) = \mathcal{P}(B \cap A) + \mathcal{P}(B
+		\cap A^c)$.
+
+	\item Sia $(A_n)_{n \in \mathbb{N}}$.
+		\begin{enumerate}
+			\item se $(A_n)$ è crescente, cioè $A_n \subset A_{n+1}, \forall n
+				\in \mathbb{N}$, allora:
+				\begin{equation}
+				\mathcal{P}(\cup_{n \in \mathbb{N}}
+				A_n) = \lim_{n \to \infty} \mathcal{P}(A_n).
+				\end{equation}
+
+			\item se $(A_n)$ è decrescente, cioè $A_n \supset A_{n+1}, \forall n
+				\in \mathbb{N}$, allora:
+				\begin{equation}
+				\mathcal{P}(\cap_{n \in \mathbb{N}} A_n) = \lim_{n \to \infty}
+				\mathcal{P}(A_n).
+				\end{equation}
+		\end{enumerate}
+\end{enumerate}
+
+\subsection{Probabilità condizionali}
+\begin{definition}[Probabilità condizionale] Sia $(\Omega, \mathcal{F},
+\mathcal{P})$ uno spazio di probabilità e sia $B \in \mathcal{F}$ un evento tale
+che $\mathcal{P}(B) > 0$. Per ogni $A \in \mathcal{F}$, la probabilità
+\begin{equation}
+	\mathcal{P}(A | B) := \frac{\mathcal{P}(A \cap B)}{\mathcal{P}(B)}
+\end{equation}
+si dice probabilità condizionale di $A$ dato $B$.
+\end{definition}
+NB $\mathcal{P}(B | B) = 1$ e $\mathcal{P}(B^c | B) = 0$.
+
+\begin{definition}[Proprietà delle probabilità condizionali]
+Sia $(\Omega, \mathcal{F}, \mathcal{P})$ uno spazio di probabilità.
+\begin{enumerate}
+	\item Sia $B \in \mathcal{F}$ tale che $\mathcal{P}(B) > 0$. Allora la mappa
+		$\mathcal{F} \ni A \mapsto \mathcal{P}(A | B) \in [0, 1]$ definisce una
+		misura di probabilità su $\mathcal{F}$.\\
+		NB $(\Omega, \mathcal{F}, \mathcal{P}(.|B)$ è uno spazio di
+		probabilità.\\
+		Anche $(\Omega, \mathcal{F}_B, \mathcal{P}(.|B)$ è uno spazio di
+		probabilità, dove $\mathcal{F}_B := \{A \cap B \mid A \in
+		\mathcal{F}\}$ è la $\sigma$-algebra indotta su $B$.
+
+	\item Siano $A_1, \dots, A_n \in \mathcal{F}$ eventi, tali che
+		$\mathcal{P}(\cap_{i=1}^n A_i) > 0$. Allora:
+		\begin{equation}
+			\mathcal{P}(\cap_{i=1}^n A_i) = P(A_1) \cdot \prod_{i=2}^n
+			\mathcal{P}(A_i | A_1 \cap \dots \cap A_{i-1}).
+		\end{equation}
+		In particolare, se $\mathcal{P}(A_1 \cap A_2) > 0$, allora: $\mathcal{P}(A_1
+		\cap A_2) = \mathcal{P}(A_1) \cdot \mathcal{P}(A_2 | A_1)$.
+		Rivediamo la divisione insomma, moltiplichi sopra e sotto per lo stesso
+		numero.
+		Utile per prendere a fattor comune qualcosa.
+
+	\item Sia $(B_{i_c}$, una partizione al più numerabile di $\Omega: \forall i
+		\neq j, B_i \cap B_j = \emptyset, \cup_{i \in I} B_i = \Omega$, tale che
+		$B_i \in \mathcal{F}, \mathcal{P}(B_i) > 0, \forall i \in I$. Allora,
+		per ogni $A \in \mathcal{F}$:
+		\begin{equation}
+			\mathcal{P}(A) = \sum_{i \in I} \mathcal{P}(A | B_i) \cdot
+			\mathcal{P}(B_i).
+		\end{equation}
+		NB stiamo riscrivendo le proprietà fondamentali delle misure di probabilità
+		utilizzando la nuova operazione: $\mathcal{P}(a|b)$, e si legge
+		"probablilità di a intersecato b diviso probabilità di b".
+\end{enumerate}
+\end{definition}
+
+\subsubsection{Formula di Bayes}
+Siano $A, B \in \mathcal{F}$ eventi in uno spazio di probabilità $(\Omega,
+\mathcal{F}, \mathcal{P})$ tale che $\mathcal{P}(A) > 0, \mathcal{P}(B) > 0$.
+Allora:
+\begin{equation}
+	\mathcal{P}(A | B) = \frac{\mathcal{P}(A)}{\mathcal{P}(B)} \cdot \mathcal{P}(B | A).
+\end{equation}
+
+Ne deriva che 
+\begin{equation}
+	\mathcal{P}(A | B) = \frac{\mathcal{P}(B | A) \cdot \mathcal{P}(A)}
+	{\mathcal{P}(B | A) \cdot \mathcal{P}(A) + \mathcal{P}(A | B^c) \cdot
+	( 1 - \mathcal{P}(B))}.
+\end{equation}
+Ci piacciono molto le quattro operazioni.
+
+\begin{definition}[Indipendenza di eventi] Siano $A, B$ eventi in uno spazio di 
+probabilità $(\Omega, \mathcal{F, P})$, allora $A, B$ si dicono indipendenti se:
+\begin{equation}
+	\mathcal{P}(A \cap B) = \mathcal{P}(A) \cdot \mathcal{P}(B).
+\end{equation}
+\end{definition}
+
+Osservazioni:
+\begin{itemize}
+	\item L'indipendenza di eventi dipende dalla misura di probabilità;
+	
+	\item se $\mathcal{P}(A) \in \{0, 1\}$ o $\mathcal{P}(B) \in \{0, 1\}$
+		allora $A, B$ sono indipendenti. Ovvero se $A \in \{\emptyset,
+		\Omega\}$, allora $A, B$ sono indipendenti per ogni selta di $B$;
+
+	\item Se $\mathcal{P}(A) > 0$ e $\mathcal{P}(B) > 0$ e $A \cap B =
+		\emptyset$, allora $A, B$ non sono indipendenti;
+
+	\item Se $A, B$ sono indipendenti, allora lo sono anche $A , B^c$ e $A^c ,
+		B^c$;
+
+	\item Se $\mathcal{P}(B) > 0$, allora:
+		$A, B$ sono indipendenti $\iff \mathcal{P}(A | B) = \mathcal{P}(A)$;
+		L'interpretazione sarebbe: se $\mathcal{P}(B) > 0$ e $A, B$ sono
+		indipendenti, allora sapere se si è verificato o meno $B$ non cambia la
+		valutazione di $A$.
+\end{itemize}
+
+\begin{definition}[Indipendenza di famiglie di eventi]
+Sia $(\Omega, \mathcal{F, P})$ uno spazio di probabilità e siano $A_1, \dots,
+	A_n \in \mathcal{F}$, allora $A_1, \dots, A_n$ si dicono indipendenti come
+	famiglie se per ogni scelta di $\emptyset \neq J \subset \{1, \dots, n\}$ si
+	ha:
+	\begin{equation}
+		\mathcal{P}(\cap_{j \in J} A_j) = \prod_{j \in J} \mathcal{P}(A_j).
+	\end{equation}
+\end{definition}
+
+Ne deriva la proprietà: siano $A_1, \dots, A_n$ eventi in $(\Omega, \mathcal{F,
+P})$ allora $A_1, \dots, A_n$ sono idipendenti come famiglia se e solo se per
+ogni scelta di eventi $B_1, \dots, B_n: B_i \in \{A_i, A_i^c\}$ si ha
+\begin{equation}
+	\mathcal{P}(\cap_{i=1}^n B_i) = \prod_{i = 1}^n \mathcal{P}(B_i).
+\end{equation}
+
+\begin{definition}[Modello probabilistico per n prove ripetute e indipendenti]
+	Sia $q \in [0, 1]$ e sia $n \in \mathbb{N}$.
+	Uno spazio di probabilità $(\Omega, \mathcal{F, P})$ con eventi $C_1, \dots,
+	C_n$ si dice modello per n prove ripetute e indipendenti con probabilità
+	di successo $q$ se\\
+
+	$C_1, \dots, C_n$ sono indipendenti come famiglia e $P(C_i)=q$ per ogni
+	$i\in\{i, \dots, n\}$.
+\end{definition}
+
+\section{Variabili aleatorie}
+\begin{definition}[Variabili aleatorie]
+	Sia $(\Omega, \mathcal{F, P})$ uno spazio di probabilità, e sia $E \neq
+	\emptyset$. Una variabile aleatoria $X$ a valori in $E$ è una funzione
+	misurabile $X: \Omega \mapsto E$.\\
+	Una variabile aleatoria $X$ è un modo per indurre una misura di probabilità
+	sullo spazio misurabile di arrivo $E$ a partire dalla misura di probabilità
+	$\mathcal{P}$ definita sull'insieme degli eventi $\Omega$.
+\end{definition}
+
+Sia $B\subset E$, l'anti-immagine di $B$ sotto $X$ è il sottoinsieme di $\Omega$
+dato da $X^{-1} := \{\omega \in \Omega: X(\omega) \in B\}$.
+
+Notiamo che, sia $\mathcal{E}$ una $\sigma$-algebra in $E$, allora
+\begin{equation}
+	\sigma(X) := \sigma_\mathcal{E}(X) := \{X^{-1}(B):B\in \mathcal{E}\}
+\end{equation}
+è una $\sigma$-algebra in $\Omega$: la $\sigma$-algebra generate da $X$
+(rispetto a $\mathcal{E}$).\\
+NB per semplicità pensare a $\mathcal{E}$ come se fosse $P(X)$, per quanto non
+esse parti di $X$ per intero, ma un suo sottoinsieme.
+
+\subsection{Variabili aleatorie discrete}
+Sia una variabile aleatoria su $(\Omega, \mathcal{F, P})$ a valori in $E$,
+l'immagine (insieme di arrivo di $X$) è il sottoinsieme di $E$ dato da:
+\begin{equation}
+	\text{Im}(X) := \{ X(\omega) : \omega \in \Omega\} \subset E.
+\end{equation}
+
+\begin{definition}[Variabile aleatoria discreta]
+	Una variabile aleatoria $X$ a valori in $E$ si dice discreta se Im$(X)$ è
+	al più numerabile.
+\end{definition}
+
+\begin{definition}[Densità discreta di una variabile aleatori]
+	La funzione:
+	\begin{equation}
+		p_X(x) := \mathcal(P)(X=x), \quad x \in E,
+	\end{equation}
+	si dice densità discreta di X.
+\end{definition}
+
+NB $p_X$ è una densità discreta:
+\begin{equation}
+	\sum_{x \in E}p_X(x) = \sum_{x \in Im(X)} p_X(x) = 1.
+\end{equation}
+Inoltre $\Omega = \cup_{x \in \text{Im}(X)}\{X = x \}$.
+
+\begin{definition}[Legge di X (o distribuzione di X)]
+\begin{equation}
+	\mathcal{P}(B) := \mathcal{P}(X^{-1}(B)), \quad B \in \mathcal{E}.
+\end{equation}
+Definisco $\mathcal{E}$ come l'insieme delle $\sigma$-algebre di $E$.
+\end{definition}
+
+Per cui $\mathcal{P}_X(B) = \sum_{x \in B} p_X(x), \quad \forall B \subset 
+\mathbb{R}$.
+
+\subsection{Distribuzioni notevoli}
+\begin{definition}[Bernoulli]
+	Una variabile aleatoria $Y$ con densità (discreta) data daç
+	\begin{equation}
+		p_Y(x) = 
+		\begin{cases}
+			q  & \text{se } x = 1\\
+			1 - q & \text{se } x = 0\\
+			0 &\text{altrimenti}
+		\end{cases}
+	\end{equation}
+	si dice variabile aleatoria di Bernoulli di parametro q.
+\end{definition}
+
+In questo caso, si dice che $Y$ ha una distribuzione di Bernoulli di parametro
+$q$, in simboli: $Y \sim Ber(q)$.
+
+\begin{definition}[Rademacher]
+	Una variabile aleatoria $Y$ con densità (discreta) data daç
+	\begin{equation}
+		p_Y(x) = 
+		\begin{cases}
+			q  & \text{se } x = 1\\
+			1 - q & \text{se } x = -1\\
+			0 &\text{altrimenti}
+		\end{cases}
+	\end{equation}
+	si dice variabile aleatoria di Rademacher di parametro q.
+\end{definition}
+
+In questo caso, si dice che $Y$ ha una distribuzione di Rademacher di parametro
+$q$, in simboli: $Y \sim Rad(q)$.
+
+\begin{definition}[Binomiale]
+	Una variabile aleatoria $Y$ con densità data da:
+	\begin{equation}
+		p_Y(x) = 
+		\begin{cases}
+			\binom{n}{x} \cdot q^x \cdot (1 - q)^{n - x} & \text{se } x \in \{0,
+			\cdots, n\}\\
+			0 & \text{altrimenti}
+		\end{cases}
+	\end{equation}
+	si dice variabile aleatoria di parametri $n \in \mathbb{N}, q \in [0, 1]$.
+\end{definition}
+
+In questo caso, di dice che $Y$ ha distribuzione binomiale di parametri $n, q$,
+in simboli: $Y \sim Bin(n, q)$.
+
+\begin{definition}[Geometrica]
+	Una variabile aleatoria con densità data da
+	\begin{equation}
+		p_y(x) =
+		\begin{cases}
+			q \cdot (1-q)^{x-1} & \text{se } x \in \mathbb{N},\\
+			0 & \text{altrimenti}
+		\end{cases}
+	\end{equation}
+	si dice variabile aleatoria geometrica di parametro $q \in [0, 1]$.
+\end{definition}
+
+Si dice che $Y$ ha distribuzione geometrica di parametro $q$, in simboli:
+$Y \sim Geo(q)$.
+
+\begin{definition}[Ipergeometrica]
+	Una variabile aleatoria ha una distribuzione ipergeometrica di parametri $N
+	\in \mathbb{N}, M \in \{0, \dots, N\}, n \in \{1, \dots, N\}$ se la sua
+	desità è:
+	\begin{equation}
+		p_y(x) =
+		\begin{cases}
+			\frac{\binom{M}{a} \cdot \binom{N-M}{n-x}}{\binom{N}{n}} & \text{se
+			} x \in \{0, \cdots, \min(n, M)\}\\
+			0 & \text{altrimenti}
+		\end{cases}
+	\end{equation}
+\end{definition}
+
+In simboli: $Y \sim Iper(N, M, n)$.\\
+Esempio di utilizzo: \textit{numero di palline rosse in n estrazioni senza
+reinserimento da un'urna che contiene N palline di cui M rosse}.
+
+\begin{definition}[Poisson]
+	Una variabile aleatoria ha una distribuzione di Posson di parametro $\lambda
+	> 0$ se la sua desità è:
+	\begin{equation}
+		p_y(x) =
+		\begin{cases}
+			e^{-\lambda} \cdot \frac{\lambda ^ x}{x!} & \text{se } x \in
+			\mathbb{N}_0\\
+			0 & \text{altrimenti}
+		\end{cases}
+	\end{equation}
+\end{definition}
+
+In simboli: $Y \sim Poiss(\lambda)$.\\
+Esempio di utilizzo: \textit{numero di "arrivi" (richieste, clienti, \dots) in
+un determinato intervallo temporale; $\lambda$ rappresenta l'intensità}.
+
+\begin{definition}[Uniforme discreta]
+	Una variabile aleatoria ha una distribuzione uniforme discreta su $A \subset 
+	\mathbb{R}$ finito, se la sua desità è:
+	\begin{equation}
+		p_y(x) =
+		\begin{cases}
+			\frac{1}{|A|} & \text{se } x \in A,\\
+			0 & \text{altrimenti}
+		\end{cases}
+	\end{equation}
+\end{definition}
+
+In simboli: $Y \sim Unif(A)$.\\
+
+\subsection{Valore medio}
+Quantità riasuntiva fondamentale, analoga alla media campionaria.
+
+\begin{definition}[Valore medio]
+	Sia $X$ una variabile aleatoria reale discreta su $(\Omega, \mathbb{F, P})$
+	con densità discreta $p_X$. si dice che $X$ ammette valore medio finito (o
+	valore atteso finito) se
+	\begin{equation}
+		\sum_{z \in \mathbb{R}} |z| \cdot p_X(z) < \infty.
+	\end{equation}
+\end{definition}
+
+Il valore medio medio è dato da 
+\begin{equation}
+	\mathbb{E}[X] := \sum_{z \in \mathbb{R}} z \cdot p_X(x).
+\end{equation}
+
+Se $X$ ammette valore medio finito, allora
+\begin{equation}
+	\mathbb{E}[X] := \sum_{z \in \mathbb{R}} z \cdot p_X(x) = \sum_{z \in Im(X)} z \cdot p_X(x)
+\end{equation}
+
+Se $|Im(X)| = \infty$ (ma $Im(X)$ è numerabile) allora possiamo scrivere:
+\begin{equation*}
+	Im(X) = \{x_1, \cdots \} \text{ con } x_i \neq x_j \text{ per } i \neq j,
+\end{equation*}
+\begin{equation}
+	\mathbb{E}[X] = \sum_{i = 1}^{\infty}x_i \cdot p_X(x_i).
+\end{equation}
+
+NB il valore medio dipende solo dalla distribuzione della variabile aleatoria
+(quindi attenzione alla variabile aleatoria che si intende usare).
+
+\subsubsection{Proprietà del valore medio (o atteso)}
+Siano $X, Y$ variabili aleatorie reali discrete su $(\Omega, \mathcal{F, P})$
+tali che $X, Y$ ammettano valore medio finito, allora:
+\begin{itemize}
+	\item Monotonia: se $X \leq Y \Rightarrow \mathbb{E}[X] \leq \mathbb{E}[Y]$;
+
+	\item Stima fondamentale: $|\mathbb{E}[X]| \leq \mathbb{E}[\{|x|: x \in X]\}$;
+
+	\item Linearità: per ogni $\alpha, \beta \in \mathbb{R}$:
+		\begin{equation}
+			\mathbb{E}[\alpha \cdot X + \beta \cdot Y] = \alpha * \mathbb{E}[X]
+			+ \beta \mathbb{E}[Y].
+		\end{equation}
+
+\end{itemize}
+
+NB si può fare una mappa $f$ dell'immagine di una variabile aleatoria $X$ con un altro
+insieme ottenendo così un'altra variabile aleatoria $Y$ la cui distribuzione dipende
+da $X$:
+\begin{equation}
+	p_Y(y) := \sum_{x \in E: f(x) = z} p_X(x), \quad z \in \mathbb{R} 
+\end{equation}
+Magia: $p_X$ è la densità discreta di $X$.
+
+Da ciò ne deriva che $Z$ ammette valore medio finito se e solo se
+\begin{equation*}
+	\sum_{x \in \mathbb{R}} |g(x)| \cdot p_(x) < \infty.
+\end{equation*}
+Analogalmente al caso del valore atteso di $X$.
+Ripetiamo tutto allora:
+\begin{equation}
+	\mathbb{E}[Z] = \sum_{x \in \mathbb{R}} g(x) \cdot p_X(x).
+\end{equation}
+
+Abbiamo definito il valore medio, tanto vale definire anche la varianza.
+\begin{definition}[Varianza]
+	Sia $X$ una variabile aleatoria reale discreta su $(\Omega, \mathbb{F, P})$
+	con densità discreta $p_X$, la varianza di $X$ (se esiste) è data da
+	\begin{equation}
+		var(X) := \mathbb{E}[(X - \mathbb{E}[X])^2]
+	\end{equation}
+\end{definition}
+
+Osservazioni:
+\begin{itemize}
+	\item la varianza di $X$ esiste finita se e solo se $X^2$ ammette valore
+		atteso finito;
+
+	\item $var(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2$;
+	
+	\item $var(X) = \sum_{x \in \mathbb{R}} x^2 p_X(x) - (\sum_{x \in
+		\mathbb{R}} x \cdot p_X(x))^2$.
+\end{itemize}
+
+\begin{definition}[Indipendenze]
+	Sia $I$ un insieme qualsiasi di indici, e $\{X_i : i \in I\}$ una famiglia 
+	di variabili aleatorie a valori negli spazi $(E_i,\mathcal{E}_i), i \in I$. 
+	Si dice che le variabili aleatorie di tale famiglia sono indipendenti se,
+	per ogni $J \subset I$ finito e per ogni scelta di $A_j \in \mathcal{E}_j,
+	j\in J$, si ha:
+	\begin{equation}
+		P(\bigcap_{j \in J}\{X_j \in A_j\}) = \prod_{j \in J}P(\{X_j \in A_j\}).
+	\end{equation}
+\end{definition}
+
+\begin{definition}[Valore atteso del prodotto]
+	Siano $X, Y$ due variabili aleatorie reali discrete su $(\Omega, \mathcal{F, P})$
+	con valore medio finito, se $X$ e $Y$ sono indipendenti, allora:
+	\begin{equation}
+		\mathbb{E}[XY] = \mathbb{E}[X] \cdot \mathbb{E}[Y].
+	\end{equation}
+\end{definition}
+
+\subsection{Disuguaglianza di Markov-Chebyshev}
+Sia $X$ una variabile aleatoria reale discreta su $(\Omega, \mathcal{F, P})$
+\begin{itemize}
+	\item Markiv: se $X \geq 0$ allora per ogni $\epsilon > 0$:
+		\begin{equation}
+			P(X \geq \epsilon) \leq \frac{\mathbb{E}[X]}{\epsilon}.
+		\end{equation}
+
+	\item Markov generalizzato: se $X \geq 0$ e $f:[0,\infty[ \to [0,\infty[$
+		è crescente allora:
+		\begin{equation}
+			P(X \geq \epsilon) \leq \frac{\mathbb{E}[f(X)]}{f(\epsilon)}.
+		\end{equation}
+
+	\item Chebyshev: se $X$ ammette varianza, allora $\forall \epsilon > 0$:
+		\begin{equation}
+			P(|X - \mathbb{E}[X]| \geq \epsilon) \leq \frac{var(X)}{\epsilon^2}.
+		\end{equation}
+\end{itemize}
+Proprio come per la statistica descrittiva, la disuguaglianza di Chebyshev
+permette di stimare la probabilità di deviazioni dal valore atteso in termini
+della deviazione standard.
+
+\begin{definition}[Deviazione standard]
+	\begin{equation}
+		\omega(X)^2 := var(X).
+	\end{equation}
+	$\omega(X)$ si definisce deviazione standard di $X$.
+\end{definition}
+
+Grazie a Chebishev, si ha, per $\alpha > 0$:
+\begin{equation}
+	P(|X - \mathbb{E}[X]| \geq \alpha \omega(X)) \leq \frac{var(X)}{\alpha^2
+		\omega(X)^2} = \frac{1}{\alpha^2}.
+\end{equation}
+
+\subsection{Teorema: legge dei piccoli numeri}
+Sia $(q_n)_{n \in \mathbb{N}} \subset [0, 1]$ tale che $\lim_{n \to \infty} n
+\cdot q_n = \lambda$ per una costante $\lambda > 0$. Sia $p_n$ la densità
+discreta della $Bin(n, q_n)$ e sia $p_{\lambda}$ la densità discreta della
+$Poiss(\lambda)$. Allora:
+\begin{equation}
+	\sum_{k = 0}^{\infty} | p_n(k) - p_{\lambda}(k) | \to 0.
+\end{equation}
+
+Stima dell'errore:
+\begin{equation}
+	\sum_{k = 0}^{\infty} | p_n(k) - p_{\lambda}(k) | \geq 2(n \cdot q_n^2 +
+	|\lambda - n \cdot q_n|).
+\end{equation}
+NB $\lambda \approx n \cdot q_n$, per un $n>>0$.\\
+Inoltre $\mathbb{E}[Poiss(\lambda)] = \lambda$.
+
+\subsection{Vettori aleatori discreti}
+\begin{definition}[Vettore aleatorio]
+	Siano $X_1, \dots, X_n$ variabili aleatorie reali su $(\Omega,
+	\mathcal{F, P})$. Si definisce vettore aleatorio di dimensione n (o
+	n-dimensionale) $X$ tale che:
+	\begin{equation}
+		X = (X_1, \dots, X_n).
+	\end{equation}
+\end{definition}
+
+\begin{definition}[Discreto]
+	Sia $X$ un vettore aleatorio di dimensione $n$.\\
+	Si dice discreto se $Im(X):=\{X(\omega) : \omega \in \Omega\}$ è al più numerabile.
+\end{definition}
+NB sia $X= {X_1, \dots, X_n}$ un vettore aleatorio, allora $X$ è discreto se e
+solo se $X_1, \dots, X_n$ sono variabili aleatorie discrete.
+
+\begin{definition}[Densità discreta]
+	Sia $X$ un vettore aleatorio discreto di dimensione $n$ su $(\Omega,
+	\mathcal{F, P})$. Si definisce densità discreta di $X$ la funzione $p_X:
+	\mathbb{R}^n \to [0, 1]$ tale che:
+	\begin{equation}
+		p_X(z) := \mathcal{P}(X_1 = z_1, \dots, X_n = z_n), \quad z \in \mathbb{R}^n.
+	\end{equation}
+\end{definition}
+Come al solito, $p_X(z) = 0$ se $z \notin Im(X)$.
+
+\begin{definition}[Densità congiunta e marginale]
+	La densità discreta del vettore aleatorio $X$ è detta densità congiunta
+	di $X_1, \dots, X_n$ (l'ordine ha importanza).\\
+
+	Le densità delle compononenti $X_1, \dots, X_n$ si dicono densità marginali
+	del vettore aleatorio $X$.\\
+
+	La densità discreta congiunta determina le densità marginali:
+	\begin{equation}
+	p_{X_i}(x) = \sum_{z \in \mathbb{R}^n: z_i = x} p_X(z) = \sum_{z_j \in
+	\mathbb{R}: z_j \not= i} p_X(z_1, \dots, z_{i-1}, x, z_{i+1}, \dots, z_n).
+	\end{equation}
+	tale che $x \in \mathbb{R}$.
+\end{definition}
+NB se le variabili aleatorie sono indipendenti, allora la loro distribuzione
+congiunta è determinata dalle distribuzioni marginali.
+
+\begin{definition}[Indipendenti]
+	Siano $X_1, \dots, X_n$ variabili aleatorie reali su $(\Omega, \mathcal{F,
+	P})$. Si dice che $X_1, \dots, X_n$ sono indipendenti (come famiglia) se per
+	ogni scelta di $x_1, \dots, x_n \in \mathbb{R}$ si ha:
+	\begin{equation}
+		\mathcal{P}(X_1 \geq x_1, \dots, X_n \geq x_n) = \prod_{i = 1}^n
+		\mathcal{P}(X_i \geq x_i).
+	\end{equation}
+\end{definition}
+NB per definizione, $X_1, \dots, X_n$ sono indipendenti se e solo se gli eventi
+$\{X_1 \geq x_1\}, \dots, \{X_n \geq x_n\}$ sono indipendenti per ogni scelta di
+$x_1, \dots, x_n \in \mathbb{R}$.\\
+
+\begin{definition}[Distribuzione]
+Come al solito, se $X_1, \dots, X_n$ sono variabili aleatorie discrete e $p_X$ è
+la loro densità congiunta, allora:
+\begin{equation}
+	\mathcal{P}(X_i \geq x_1, \dots, X_n \geq x_n) = \prod_{z \in \mathbb{R}:
+	z_1 \geq x_1, \dots, z_n \geq z_n} p_{X}(z).
+\end{equation}
+\end{definition}
+
+Modi diversi per screvere che le componenti di un vettore aleatorio sono
+indipendenti: siano $X_1, \dots, X_n$ variabili aleatorie reali discrete su 
+$(\Omega, \mathcal{F, P})$, allora sono equivalenti:
+\begin{enumerate}
+	\item $X_1, \dots, X_n$ sono indipendenti;
+
+	\item $p_{(X_1, \dots, X_n)}(z) = \prod_{i = 1}^n p_{X_i}(z_i), \quad z \in
+			\mathbb{R}^n$;
+	
+	\item $
+			\mathcal{P}(X_1 \in B_1, \dots, X_n \in B_n) = \prod_{i = 1}^n
+			\mathcal{P}(X_i \in B_i) $
+		per ogni scelta di $B_1, \dots, B_n \subset \mathbb{R}$.
+\end{enumerate}
+
+Siano $X, Y, Z$ variabili aleatorie reali indipendenti (come famiglia), se $g:
+\mathbb{R}^2 \to \mathbb{R}, h: \mathbb{R} \to \mathbb{R}$ allora $g(X, Y)$ e
+$h(Z)$ sono indipendenti.
+
+\begin{definition}[Covarianza]
+	Siano $X, Y$, variabili aleatorie reali con valore atteso finito (cioè
+	$\mathbb{E}[X^2] < \infty, \mathbb{E}[Y^2] < \infty$). Si definisce covarianza
+	di $X, Y$, la funzione data da:
+	\begin{equation}
+		\mathbb{cov}(X, Y) := \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])].
+	\end{equation}
+\end{definition}
+NB la covarianza dipende dalla distribuzione congiunta di $X, Y$.\\
+In particolare, se $X, Y$ sono variabili aleatorie discrete allora:
+\begin{equation*}
+	cov(X, Y) = \sum_{(x, y) \in \mathbb{R}^2} (x - \mathbb{E}[X])(y - \mathbb{E}[Y])
+	\cdot p_{(X, Y)}(x, y)
+\end{equation*}
+dove $p_{(X, Y)}$ è la densità congiunta di $X, Y$.\\
+
+\subsubsection{Proprietà della covarianza}
+Siano $X, Y$ variabili reali con valore atteso finito, allora:
+\begin{itemize}
+	\item Simmetria: 
+		\begin{equation*}
+			cov(X, Y) = cov(Y, X). 
+		\end{equation*}
+		Perchè la somma e il prodotto sono commutativi;
+
+	\item Bi-linearità: $\forall \alpha, \beta \in \mathbb{R}$:
+		\begin{equation*}
+			cov(\alpha X + \beta Y, Z) = \alpha cov(X, Z) + \beta cov(Y, Z)
+		\end{equation*}
+
+	\item 
+		\begin{equation*}
+			var(c \cdot X) = cov(c \cdot X, c \cdot X) = c^2 var(X) \quad \forall
+			c \in \mathbb{R}.
+		\end{equation*}
+
+	\item Indipendenza: se $X, Y$ sono indipendenti, allora $cov(X, Y) = 0$.\\
+		NB due variabili aleatorie $X, Y$ con $cov(X, Y) = 0$ si dicono
+		\textit{incorrelate} (incorrelate $\not=$ indipendenti).
+\end{itemize}
+NB siano $X, Y$ variabili aleatorie reali con valore atteso finito, allora:
+\begin{equation*}
+	\mathbb{cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y].
+\end{equation*}
+per la bi-linearietà della covarianza.
+
+\begin{definition}[Correlazione]
+	Siano $X, Y$ variabili aleatorie reali con valore atteso finito, allora la
+	correlazione di $X, Y$ è definita come:
+	\begin{equation}
+		\rho(X, Y) := \frac{cov(X, Y)}{\sqrt{var(X)var(Y)}}.
+	\end{equation}
+\end{definition}
+NB il coefficiente di correlazione ($\rho(X, Y)$) non dipende dall'unità di
+misura per $X, Y$.\\
+Caratteristiche:
+\begin{itemize}
+	\item
+		\begin{equation*}
+			\rho(\alpha X + \beta, Y) = \rho{X, Y} \quad \forall \alpha, \beta \in
+			\mathbb{R}.
+		\end{equation*}
+
+	\item
+		\begin{equation*}
+			\rho(X, Y) \in [-1, 1].
+		\end{equation*}
+		\begin{enumerate}
+			\item $\rho(X, Y) = 1$ se $X, Y$ sono direttamente proporzionali;
+
+			\item $\rho(X, Y) = -1$ se $X, Y$ sono inversamente proporzionali;
+
+			\item $\rho(X, Y) = 0$ se $X, Y$ sono incorrelate.
+		\end{enumerate}
+\end{itemize}
+
+\subsection{Funzioni di ripartizione}
+\begin{definition}[Funzione di ripartizione]
+	Sia $X$ una variabile aleatoria su $\mathbb{R}$, definiamo la funzione
+	$F_X: \mathbb{R} \to [0, 1]$ tramite:
+	\begin{equation*}
+		F_X(x) := \mathbb{P}(X \leq x), \quad x \in \mathbb{R}.
+	\end{equation*}
+	ovvero, $F_X(x)$ è la probabilità che $X$ sia in $(-\infty, x]$.
+	La funzione $F_X$ è detta funzione di ripartizione di $X$.
+\end{definition}
+NB $F_X$ dipende solo dalla distribuzione di $X$.\\
+In particolare, se $X$ è discreta con densità discreta $p_X$, allora:
+
+\begin{equation*}
+	F_X(x) = \sum_{y \in \mathbb{R}: y \leq x} p_X(y).
+\end{equation*}
+
+La funzione di ripartizione determina la distribuzione di una variabile
+aleatoria reale:
+\begin{equation*}
+	\mathcal{P}(X \in (-\infty, x]) = \mathcal{P}(X \leq x) = F_X(x) \quad \forall
+	x \in \mathbb{R}.
+\end{equation*}
+
+Notiamo che:
+\begin{equation*}
+	\mathcal{P}(X \in (a, b]) = F_X(b) - F_X(a) \quad \forall a, b \in
+	\mathbb{R}, a < b.
+\end{equation*}
+
+Inoltre, se $X$ è continua in $x$, allora:
+\begin{equation*}
+	\mathcal{P}(X = x) = F_X(x) - \lim_{\epsilon \to 0+} F_X(x - \epsilon) = 0, \quad
+	\forall x \in \mathbb{R}.
+\end{equation*}
+
+\subsubsection{Proprietà della funzione di ripartizione}
+\begin{enumerate}
+	\item $F_X$ è crescente: se $x_1 \geq x_2$, allora $F_X(x_1) \geq F_X(x_2)$;
+
+	\item $F_X$ è continua: $\lim_{\epsilon \to 0} F_X(x + \epsilon) =
+	F_X(x)$, per ogni $x \in \mathbb{R}$;
+
+	\item $\lim{x \to \infty} F_X(x) = 1$;
+
+	\item $\lim{x \to -\infty} F_X(x) = 0$;
+\end{enumerate}
+
+\begin{definition}
+	Sia $F: \mathbb{R} \to [0, 1]$, allora si dice che $F$ è una funzione di
+	ripartizione se:
+	\begin{itemize}
+		\item $F$ è crescente;
+
+		\item $F$ è continua;
+
+		\item $\lim{x \to \infty} F(x) = 1$, $\lim{x \to -\infty} F(x) = 0$.
+	\end{itemize}
+\end{definition}
+NB sia $F$ una funzione di ripartizione, allora esistono uno spazio di probabilità
+$(\Omega, \mathcal{F, P})$ e una variabile aleatoria $X$ su $(\Omega,
+\mathcal{F, P})$ tali che $F$ è la funzione di ripartizione di $X$, cioè:
+\begin{equation*}
+	F(x) = \mathcal{P}(X \leq x), \quad \text{per ogni } x \in \mathbb{R}.
+\end{equation*}
+
+\subsubsection{Funzioni di ripartizione notevoli}
+\begin{definition}[Uniforme]
+	Siano $a, b \in \mathbb{R}, a<b$, definiamo $F_{Unif(a, b)}: \mathbb{R} \to
+	[0, 1]$ tramite:
+	\begin{equation*}
+		F_{Unif(a, b)}(x) := 
+		\begin{cases}
+			0 & \text{se } x < a,\\
+			\frac{x - a}{b - a} & \text{se } x \in [a, b),\\
+			1 & \text{se } x \leq b.
+		\end{cases}
+	\end{equation*}
+	La funzione $F_{Unif(a, b)}$ è detta funzione di ripartizione della
+	distribuzione uniforme continua su $(a, b)$.
+\end{definition}
+
+\begin{definition}[Esponenziale]
+	Sia $\lambda > 0$, definiamo $F_{Exp(\lambda}: \mathbb{R} \to
+	[0, 1]$ tramite:
+	\begin{equation*}
+		F_{Exp(\lambda)}(x) := 
+		\begin{cases}
+			0 & \text{se } x < 0,\\
+			1 - e^{-\lambda x} & \text{se } x \geq 0.
+		\end{cases}
+	\end{equation*}
+	Allora $F_{Exp(\lambda)}$ è detta funzione di ripartizione della distribuzione
+	esponenziale di parametro $\lambda$.
+\end{definition}
+
+NB la distribuzione uniforme continua e la distribuzione esponenziale sono delle
+distribuzioni continue (anche assolutamente continue), nel senso che le lro
+funzioni di ripartizione sono continue.\\
+Se $X$ è una variabile aleatoria reale con distribuzione uniforme continua
+oppure esponenziale, allora per ogni $x \in \mathbb{R}$:
+\begin{equation*}
+	\mathcal{P}(X = x) = F_X(x) - \lim_{\epsilon \to 0+} F_X(x - \epsilon) = 0.
+\end{equation*}
+poiché, in questo caso, $F_X$ è continua.
+In particolare, $X$ non possiede una densità discreta (non sarebbe una variabile
+aleatoria).
+
+\begin{definition}[Assolutamente continua]
+	Sia $F: \mathbb{R} \to [0, 1]$ una funzione di ripartizione, allora si diche
+	assolutamente continua se esiste una funzione $f: \mathbb{R} \to [0, \infty)$
+	integrabile tale che:
+	\begin{equation}
+		\label{eq:abs_continuity}
+		F(x) = \int_{-\infty}^x f(t) \, dt, \quad \forall x \in \mathbb{R}.
+	\end{equation}
+	In questo caso, $f$ è detta densità continua di $F$.
+\end{definition}
+
+Come sempre:
+\begin{equation*}
+	\lim_{x \to \infty}F(x) = \int_{-\infty}^{\infty} f(x) \, dx = 1.
+\end{equation*}
+Abbiamo già mostrato il caso in cui $F(x) = 0$
+
+\begin{definition}[Assolutamente continua]
+	Sia $X$ una variabile aleatoria reale su $(\Omega, \mathcal{F, P})$, allora
+	si dice che $X$ è assolutamente continua se la sua funzione di ripartizione
+	$F_X$ è assolutamente continua, la densità continua di $F_X$ si indica con
+	$f_X$.
+\end{definition}
+
+\begin{definition}[Densità]
+	Sia $f: \mathbb{R} \to [0, \infty)$ una funzione integrabile, tale che:
+	\begin{equation*}
+		\int_{-\infty}^{\infty} f(x) \, dx = 1.
+	\end{equation*}
+	Allora $f$ è detta densità di una variabile aleatoria assolutamente continua
+	$X$.
+\end{definition}
+NB Data una densità $f$, si può definire la funzione di ripartizione $F$:
+\begin{equation*}
+	F(x) = \int_{-\infty}^x f(t) \, dt, \quad \forall x \in \mathbb{R}.
+\end{equation*}
+
+\begin{definition}[Normale standard]
+	Sia $f_{N(0, 1)}$ definita tramite:
+	\begin{equation}
+		f_{N(0, 1)}(x) := \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}, \quad \forall x
+		\in \mathbb{R}.
+	\end{equation}
+	allora, $f_{N(0, 1)}$ è una densità. La funzione:
+	\begin{equation*}
+		\Phi(x) := \int_{-\infty}^x f_{N(0, 1)}(t) \, dt, \quad \forall x \in
+		\mathbb{R}
+	\end{equation*}
+	è definita funzione di ripartizione della distribuzione normale standard.
+\end{definition}
+
+Più in generale:
+\begin{definition}[Normale o gaussiana]
+	Sia $\mu \in \mathbb{R}$ e $\sigma > 0$, allora la funzione $f_{N(\mu, \sigma)}$
+	definita tramite:
+	\begin{equation*}
+		f_{N(\mu, \sigma)}(x) := \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x -
+		\mu)^2}{2 \sigma^2}}, \quad \forall x \in \mathbb{R}
+	\end{equation*}
+	è la densità della distribuzione normale o gaussiana di media $\mu$ e
+	varianza $\sigma^2$.
+\end{definition}
+
+Come sempre arrivati a questo punto, definiamo il valore atteso, in questo caso
+di una distribuzione continua.
+\begin{definition}[Valore atteso]
+	Sia $X$ una variabile aleatoria reale su $(\Omega, \mathcal{F, P})$ con
+	densità continua $f_X$ e sia $g: \mathbb{R} \to \mathbb{R}$ allora:
+	\begin{equation*}
+		\mathbb{E}[g(x)] := \int_{-\infty}^{\infty} g(x) \cdot f_X(x) \, dx.
+	\end{equation*}
+	se e solo se l'integrale è ben definito.
+\end{definition}
+\end{document}
