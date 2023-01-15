@@ -1,36 +1,28 @@
 #pragma once
 #define u32 unsigned int
+#include <iostream>
 
 // class music
 // has one static variable a u32 value
 // has some derived classes
 
-class music {
-private:
-  static u32 value;
+class A {
+  int a;
 
 public:
-  music() {};
-  virtual u32 get_value(u32 v = value) { return v; }
+  virtual void attack() const { std::cout << "A::attack()" << std::endl; }
 };
 
-// class song
-// is a derived class of music
-// all instances of song have a value of 1
-
-class song : public music {
-private:
-  static u32 value;
-
+class B : public A {
 public:
-  song() {};
-  u32 get_value(u32 v = value) override { return music::get_value(v); }
+  void attack() const override { std::cout << "B::attack()" << std::endl; }
 };
 
-class album : public music {
-private:
-  static u32 value;
-  public:
-  album() {};
-  u32 get_value(u32 v = 0) override { return music::get_value(30); }
+class C : public A {
+public:
+  void attack() const override { std::cout << "C::attack()" << std::endl; }
 };
+
+template <typename T> T *Hello(T *t) { return new T(*t); }
+
+A *Ptr(A *a) { return a; }
