@@ -6,10 +6,10 @@ using namespace std;
 
 struct scudo{
     ld l,u,f;
-}scudi[maxn];
+}scudi[ maxn       ];
 
-int n;
-ld x,y;
+	int n;
+			ld x,y;
 
 ld calc(ld v){
     ld som = 0.0, dist = 0.0;

@@ -7,22 +7,23 @@
 // has some derived classes
 
 class A {
-  int a;
-
 public:
-  virtual void attack() const { std::cout << "A::attack()" << std::endl; }
+  virtual A *n() {
+    std::cout << " A::n()";
+    return this;
+  }
+
+  virtual void g() const { std::cout << " A::g()"; }
 };
 
 class B : public A {
 public:
-  void attack() const override { std::cout << "B::attack()" << std::endl; }
+  A *n() override {
+    std::cout << " B::n()";
+    return this;
+  }
+
+  virtual void g() const override { std::cout << " B::g()"; }
 };
 
-class C : public A {
-public:
-  void attack() const override { std::cout << "C::attack()" << std::endl; }
-};
-
-template <typename T> T *Hello(T *t) { return new T(*t); }
-
-A *Ptr(A *a) { return a; }
+class C : public A {};

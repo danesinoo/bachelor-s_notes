@@ -18,15 +18,15 @@ impl CoefficienteMatrice for Num {
 pub struct MatriceReale {
     pub matrice: Vec<Num>,
     pub colonne: usize,
-    pub righe: usize
+    pub righe: usize,
 }
 
 impl crate::matrici::Matrice<Num> for MatriceReale {
     fn new(righe: usize, colonne: usize) -> Self {
-        Self { 
+        Self {
             matrice: vec![0.; righe * colonne],
             colonne,
-            righe
+            righe,
         }
     }
 
@@ -52,7 +52,6 @@ impl crate::matrici::Matrice<Num> for MatriceReale {
 
     fn estrai_riga(&mut self, riga: usize) -> &mut [Num] {
         let from = riga * self.colonne;
-        &mut self.matrice[from..from+self.colonne]
-
+        &mut self.matrice[from..from + self.colonne]
     }
 }

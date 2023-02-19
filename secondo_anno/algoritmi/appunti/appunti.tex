@@ -63,11 +63,11 @@ A seconda dell'algoritmo non è detto che questo sia l'unico modo per mostrare l
 correttezza di un algoritmo; la tecnica che utilizziamo sfrutta le invarianti di
 un ciclo. Le \textit{invarianti di un ciclo} hanno tre proprietà:
 \begin{itemize}
-    \item Initialization: una condizione vera prima che cominci il ciclo;
-    \item Maintenance: una condizione che se è vera prima di un'iterazione, è
-        vera anche dopo;
-    \item Termination: il ciclo termina e con l'invariante dimostriamo una
-        proprietà che ci aiuta a dimostrare la correttezza dell'algoritmo.
+	\item Initialization: una condizione vera prima che cominci il ciclo;
+	\item Maintenance: una condizione che se è vera prima di un'iterazione, è
+	      vera anche dopo;
+	\item Termination: il ciclo termina e con l'invariante dimostriamo una
+	      proprietà che ci aiuta a dimostrare la correttezza dell'algoritmo.
 \end{itemize}
 
 Le prime due proprietà sono simili all'induzione matematica: la prima proprietà
@@ -78,9 +78,9 @@ ciclo termina, dimostriamo che la proprietà è vera anche alla fine del ciclo.
 
 \section{Analisi di un algoritimo}
 \textit{Analizzare un algoritmo} vuol dire prevedere le risorse che richiederà
-per terminare. Le risorse sono la memoria, la larghezza della banda e il 
-consumo di energia. Molto spesso vogliamo misurare il tempo di computazione. 
-Di solito non ci preoccupiamo della precisione dei numeri a virgola mobile, 
+per terminare. Le risorse sono la memoria, la larghezza della banda e il
+consumo di energia. Molto spesso vogliamo misurare il tempo di computazione.
+Di solito non ci preoccupiamo della precisione dei numeri a virgola mobile,
 ma in alcune applicazioni si tratta di un aspetto fondamentale.\\
 
 Dal momento che il tempo di esecuzione di un processo dipende da molte variabili,
@@ -102,14 +102,14 @@ In genere si analizza il caso peggiore del running time (se si tratta di
 ordinare un array mediante l'insertion sort, il caso peggiore è l'array ordinato
 in modo decrescente), di seguito sono riportati i motivi:
 \begin{itemize}
-    \item Il caso peggiore peggiore è il limite superiore della complessità
-        computazionale di un algoritmo, indipendentemente dall'input (per
-        definizione);
-    \item In alcuni algoritmi il caso peggiore accade di frequente, per esempio
-        una ricerca in un database spesso da come esito la mancata
-        presenza dell'oggetto nel database;
-    \item Il "caso medio" di solito indica una complessità computazionale simile
-        al caso peggiore, per esempio il MergeSort;
+	\item Il caso peggiore peggiore è il limite superiore della complessità
+	      computazionale di un algoritmo, indipendentemente dall'input (per
+	      definizione);
+	\item In alcuni algoritmi il caso peggiore accade di frequente, per esempio
+	      una ricerca in un database spesso da come esito la mancata
+	      presenza dell'oggetto nel database;
+	\item Il "caso medio" di solito indica una complessità computazionale simile
+	      al caso peggiore, per esempio il MergeSort;
 \end{itemize}
 
 \paragraph{Order of Growth}
@@ -123,24 +123,24 @@ dell'input, oppure una caratteristica significativa dell'input.
 Consideriamo un algoritmo più efficiente di un altro se nel suo caso peggiore ha
 un minor fattore di crescita ($\Theta(f(n))$).
 
-\section{Designing algorithms}
 Ci sono molte tecniche di progettazione di algoritmi; l'insertion
 sort utilizza la tecnica incrementale: scorre l'array ordinandolo da sinistra
 verso destra, mettendo in ordine l'elemento i-esimo, la parte dell'array a
 destra dell'i-esimo valore sarà ordinata, mentre a sinistra ci saranno i valori
 ancora da ordinare.
 
-\subsection{Divide and Conquer}
+\section{Divide and Conquer}
+\label{sec:divide-and-conquer}
 Molti algoritmi utilizzano una struttura ricorsiva (una funzione che richiama se
 stessa; la natura della ricorsione è affine con l'iterazione). Un metodo per
 utilizzare la ricorsione consiste nell'adottare la tecnica \textit{divide and
-conquer}: 
+	conquer}:
 \begin{enumerate}
-    \item Divide: il problema viene diviso in uno o più sottoproblemi che sono 
-        analoghi al problem ainiziale, ma di dimensioni ridotte;
-    \item Conquer: risolve i sottoproblemi, divisi ricorsivamente;
-    \item Combine: combina le soluzioni dei sottoproblemi per ottenere la
-        soluzione del problema finale.
+	\item Divide: il problema viene diviso in uno o più sottoproblemi che sono
+	      analoghi al problem ainiziale, ma di dimensioni ridotte;
+	\item Conquer: risolve i sottoproblemi, divisi ricorsivamente;
+	\item Combine: combina le soluzioni dei sottoproblemi per ottenere la
+	      soluzione del problema finale.
 \end{enumerate}
 
 \section{Studio della complessità di un algoritmo}
@@ -157,47 +157,47 @@ $f(n)$ si dice $f(n)= \Omega(g(n))$ se $\exists c>0:f(n) \geq cg(n), \forall n>n
 
 \paragraph{$\Theta$-notation} descrive il limite asintotico: una funzione
 $f(n)$ si dice $f(n)= \Theta(g(n))$ se $\exists c_1, c_2 > 0:c_2g(n) \geq f(n)
-\geq c_1g(n), \forall n>n_0$.\\
+	\geq c_1g(n), \forall n>n_0$.\\
 
 Per cui $f(n)=O(g(n))$ e $f(n)=\Omega(g(n))$ implica $f(n)=\Theta(g(n))$.\\
 o-notation: una funzione $f(n)$ si dice $f(n)= o(g(n))$ se $\exists c>0: f(n) <
-cg(n), \forall n>n_0$. Viceversa, w-notation: una funzione $f(n)$ si dice $f(n)
-=\omega(g(n))$ se $\exists c>0: f(n) > cg(n), \forall n>n_0$.
+	cg(n), \forall n>n_0$. Viceversa, w-notation: una funzione $f(n)$ si dice $f(n)
+	=\omega(g(n))$ se $\exists c>0: f(n) > cg(n), \forall n>n_0$.
 
 \section{Complessità di un algoritmo Divide-and-Conquer}
 Il metodo divide-and-conquer è uno strumento utile per progettare algoritmi
 asintoticamente efficienti. Una ricorrenza T(n) si dice algoritmica se, per ogni
 $n_0>0$ sufficientemente grande, valgono le seguenti proprietà:
 \begin{enumerate}
-    \item per ogni $n<n_0$, $T(n)=\Theta(1)$;
-    \item per ogni $n\geq n_0$, ogni passo ricorsivo arriva al caso base in un
-        numero finito di chiamate ricorsive.
+	\item per ogni $n<n_0$, $T(n)=\Theta(1)$;
+	\item per ogni $n\geq n_0$, ogni passo ricorsivo arriva al caso base in un
+	      numero finito di chiamate ricorsive.
 \end{enumerate}
 
 \subsection{Tecniche}
 Ci sono più tecniche per calcolare la complessità computazionale del caso
 peggiore di un algoritmo:
 \begin{itemize}
-    \item substitution method: si prende una funzione per ipotesi e si dimostra
-        per induzione che la funzione è il limite asintotico ($\Theta(g(n))$);
-    \item recursion-tree method: si disegna un albero per rappresentare la
-        ricorsione, vicino ad ogni nodo si scrive il costo; permette di intuire
-        la funzione da usare per ipotesi per il substitution method;
-    \item master method: quando applicabile, è il metodo più semplice. Fornisce
-        il limite asintotico per funzioni del tipo $T(n) = aT(n/b) + f(n)$, dove
-        $a>0, b>1$ sono costanti. Calcola il limite asintotico di un algoritmo
-        divide-and-conquer che crea $a$ sottoproblemi, i quali sono $1/b$ volte
-        le dimensioni del problema precedente;
-    \item Akra-Bazzi method: è un modello di calcolo per risolvere ricorrenze
-        del tipo divide-and-conquer. Quando i metodi precedenti non sono
-        applicabili si utilizza questo.
+	\item substitution method: si prende una funzione per ipotesi e si dimostra
+	      per induzione che la funzione è il limite asintotico ($\Theta(g(n))$);
+	\item recursion-tree method: si disegna un albero per rappresentare la
+	      ricorsione, vicino ad ogni nodo si scrive il costo; permette di intuire
+	      la funzione da usare per ipotesi per il substitution method;
+	\item master method: quando applicabile, è il metodo più semplice. Fornisce
+	      il limite asintotico per funzioni del tipo $T(n) = aT(n/b) + f(n)$, dove
+	      $a>0, b>1$ sono costanti. Calcola il limite asintotico di un algoritmo
+	      divide-and-conquer che crea $a$ sottoproblemi, i quali sono $1/b$ volte
+	      le dimensioni del problema precedente;
+	\item Akra-Bazzi method: è un modello di calcolo per risolvere ricorrenze
+	      del tipo divide-and-conquer. Quando i metodi precedenti non sono
+	      applicabili si utilizza questo.
 \end{itemize}
 
 \subsubsection{Substitution Method}
 Il metodo della sotituzione è il metodo più generale; è diviso in due passaggi:
 \begin{enumerate}
-    \item formulare un'ipotesi dell'asintoto;
-    \item dimostrare l'ipotesi mediante l'induzione matematica.
+	\item formulare un'ipotesi dell'asintoto;
+	\item dimostrare l'ipotesi mediante l'induzione matematica.
 \end{enumerate}
 
 Si utilizza questo metodo per dimostrare gli asintoti superiori ed inferiori (è
@@ -205,17 +205,17 @@ poco pratico dimostrare l'asintoto più stretto, $\Theta(g(n))$, in un colpo
 solo).\\
 Questa tecnica funziona in questo modo:
 \begin{enumerate}
-    \item si formula un'ipotesi dell'asintoto, $T(n) \leq g(n)$;
-    \item si sostituisce la funzione asintotica con la chiamata ricorsiva;
-    \item attraverso semplificazioni matematiche si mostra che l'\textit{ipotesi
-        induttiva} regge;
-    \item si mostra che esiste un $n_0$, tale che $T(n_0) \leq g(n_0)$.
+	\item si formula un'ipotesi dell'asintoto, $T(n) \leq g(n)$;
+	\item si sostituisce la funzione asintotica con la chiamata ricorsiva;
+	\item attraverso semplificazioni matematiche si mostra che l'\textit{ipotesi
+		      induttiva} regge;
+	\item si mostra che esiste un $n_0$, tale che $T(n_0) \leq g(n_0)$.
 \end{enumerate}
 
 Si tratta a tutti gli effetti dell'induzione matematica.\\
 NB piuttosto che utilizzare la notazione degli $O$-grande oppure
 $\Theta$-grande, conviene utilizzare una funzione con coefficienti generici,
-diminuisce gli errori nel calcolo. 
+diminuisce gli errori nel calcolo.
 
 \subsubsection{Recursion-tree mathod}
 Nell'albero ricorsivo, ogni nodo rappresenta il costo di un singolo
@@ -229,34 +229,101 @@ di un asintoto, che utilizziamo nel metodo precedente.
 
 \subsubsection{Master method}
 Il \textit{master method} permette di risolvere la maggior parte delle funzioni
-del tipo: 
+del tipo:
 \begin{equation}
-    T(n) = \alpha T(\frac{n}{\beta}) + f(n)
+	T(n) = \alpha T(\frac{n}{\beta}) + f(n)
 \end{equation}
 
 dove $\alpha > 0 $ e $\beta > 1 $.
 
 \paragraph{Master theorem} Siano $ \alpha > 0 $ e $ \beta > 1 $ e $f(n):
-\mathbb{R}_+ \rightarrow \mathbb{R}_+$. Definendo la ricorrenza $T(n), n \in
-\mathbb{N}$:
+	\mathbb{R}_+ \rightarrow \mathbb{R}_+$. Definendo la ricorrenza $T(n), n \in
+	\mathbb{N}$:
 \begin{equation*}
-    T(n) = \alpha T(\frac{n}{\beta}) + f(n)
+	T(n) = \alpha T(\frac{n}{\beta}) + f(n)
 \end{equation*}
 
 allora il comportamento asintotico di $T(n)$ può essere caratterizzato come
 segue:
 \begin{enumerate}
-    \item Se $\exists \epsilon $, costante, tale che $f(n) = O(n^{\log_b(\alpha -
-        \epsilon)})$, allora $T(n) = \Theta(n^{\log_b \alpha})$;
+	\item Se $\exists \epsilon $, costante, tale che $f(n) = O(n^{\log_b(\alpha -
+				      \epsilon)})$, allora $T(n) = \Theta(n^{\log_b \alpha})$;
 
-    \item Se $\exists k \leq 0 $, costante, tale che $f(n) = \Theta(n^{\log_b \alpha} 
-        \log^kn)$, allora $T(n) = \Theta(n^{\log_b \alpha} \log^kn)$;
+	\item Se $\exists k \leq 0 $, costante, tale che $f(n) = \Theta(n^{\log_b \alpha}
+		      \log^kn)$, allora $T(n) = \Theta(n^{\log_b \alpha} \log^kn)$;
 
-    \item Se $\exists \epsilon $, costante, tale che $f(n) = \Omega(n^{\log_b(\alpha +
-        \epsilon)})$, e $\alpha f(n/ \beta) \leq cf(n) $, per qualche costante
-        $c< 1$, per ogni $n>n_0$, allora $T(n) = \Theta(f(n))$;
+	\item Se $\exists \epsilon $, costante, tale che $f(n) = \Omega(n^{\log_b(\alpha +
+			      \epsilon)})$, e $\alpha f(n/ \beta) \leq cf(n) $, per qualche costante
+	      $c< 1$, per ogni $n>n_0$, allora $T(n) = \Theta(f(n))$;
 
 \end{enumerate}
+
+\section{Dynamic Programming}
+Proprio come il metodo divide and conquer (\ref{sec:divide-and-conquer}), la
+programmazione dinamica sfrutta l'induzione, ovverosia si applica quando un
+problema per essere risolto ha bisogno di risolvere dei sotto-problemi, fino ad
+arrivare ad una serie di casi base.\\
+La programmazione dinamica memorizza i risultati dei sotto-problemi, in modo da
+non doverli ricalcolare ogni volta.\\
+Può essere implementata in due modi:
+\begin{enumerate}
+	\item \textbf{Bottom-up}: si risolvono i sotto-problemi, partendo dai casi
+	      base, fino ad arrivare al problema iniziale;
+	\item \textbf{Top-down}: si risolvono i sotto-problemi, partendo dal
+	      problema iniziale, fino ad arrivare ai casi base.
+\end{enumerate}
+
+Per sviluppare un algoritmo che sfrutti la programmazione dinamica, risulta
+comodo seguire i seguenti step:
+\begin{enumerate}
+	\item caratterizzare la sottostruttura ottima, ovvero la struttura che
+	      risolve il problema in modo ottimale;
+	\item formulare un'ipotesi ricorsiva per calcolare la soluzione ottima;
+	\item dimostrare che l'ipotesi ricorsiva è corretta;
+	\item calcolare la soluzione ottima in modo efficiente.
+\end{enumerate}
+
+Fondamentalmente per risolvere un problema con la programmazione dinamica, si
+deve trovare una relazione ricorsiva che permetta di calcolare la soluzione
+ottima, dipendente da soluzioni ottimali di sotto-problemi, proprio come il
+meccanismo del divide and conquer, in più salva ciascun risultato in una
+tabella, in modo tale da non doverlo ricalcolare.\\
+Bisogna poi dimostrare che la relazione ricorsiva è corretta, e che i sotto-
+problemi siano indipendenti e che i sotto-problemi siano di dimensione
+decrescente.\\
+La proprietà di sottostruttura ottima è proprio la relazione ricorsiva.\\
+La programmazione dinamica offre un trade-off tra spazio e tempo, in quanto
+richiede più spazio per memorizzare i risultati, ma risolve i problemi in un tempo
+più breve, perché non ricalcola i risultati di sotto-problemi già risolti.
+
+\section{Greedy Algorithms}
+Un algoritmo \textbf{greedy} è un algoritmo che, per risolvere un problema, si
+basano su una scelta locale ottima, senza considerare il contesto globale.\\
+Un algoritmo \textbf{greedy} è corretto se:
+\begin{enumerate}
+	\item la soluzione ottima è costituita da una sequenza di scelte locali
+	      ottimali;
+	\item le scelte locali ottimali sono indipendenti dai risultati delle scelte
+	      future.
+\end{enumerate}
+
+Per sviluppare un algoritmo \textbf{greedy} si deve seguire il seguente schema:
+\begin{enumerate}
+	\item definire la sottostruttura ottima del problema;
+	\item sviluppare una soluzione ricorsiva;
+	\item dimostrare che utilizzando la scelta greedy rimane solo un sotto-problema da risolvere;
+	\item dimostrare che la scelta greedy è corretta;
+	\item sviluppare un algoritmo che sfrutta la scelta greedy;
+	\item convertire l'algoritmo da ricorsivo a iterativo.
+\end{enumerate}
+
+
+
+
+
+
+
+
 
 
 
