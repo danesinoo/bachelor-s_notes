@@ -60,7 +60,7 @@ abitato: per esempio i cavi della TV.
 \paragraph{WAN} Wide Area Network una rete che si estende per un continente (tipo
 le reti satellitari).
 
-\paragraph{Protocol Layering} I protocolli sono dei regole sulle comunicazioni:
+\paragraph{Protocol Layering} I protocolli sono delle regole delle comunicazioni:
 mediante i protocolli i computer sanno come interagire tra loro.
 I layer servono per astrarre la tecnologia ed essere in grado di controllare le
 comunicazione. In realtà esiste solo il livello hardware.
@@ -291,7 +291,7 @@ trasmette tutto il tempo per cui non crea interferenze per altre tecnologie.
 \subsubsection{Radio Transmission}
 Le frequenze radio (RF) sono semplici da generare, viaggiano per grandi distanze
 e penetrano gli edifici; sono unidirezionali. A basse frequenze, il segnale
-passa attraverso gli ostacoli, ma l'intensità diminuisce rapidamente. Ad altre
+passa attraverso gli ostacoli, ma l'intensità diminuisce rapidamente. Ad alte
 frequenze, il segnale viaggia dritto, ma rimbalza sugli ostacoli. Le
 interferenze con gli altri utenti sono un problema.
 
@@ -496,7 +496,7 @@ utilizzare; il canale dei data per trasmettere chiamate, fax e altri data.
 
 \subsection{1G}
 
-\paragraph{IMTS} Improved Mobile Telephone System: utilizza un traspettitore ad
+\paragraph{IMTS} Improved Mobile Telephone System: utilizza un trasmettitori ad
 alta potenza (200 watt) in cima ad una collina. Utilizza due frequenze: una per
 mandare e una per ricevere. In questo modo gli utenti che mandano più
 informazioni contemporaneamente non si sentono a vicenda. L'IMTS supporta 23
@@ -670,7 +670,7 @@ Approfondiamo quattro modi:
 	      dispositivo ricevente possa elaborare il frame correttamente;
 
 	\item physical layer coding violation: sono utilizzati dei bit che non
-	      possono essere generati dal layer fisico, si pensi allla codifica 4B/5B;
+	      possono essere generati dal layer fisico, si pensi alla codifica 4B/5B;
 \end{enumerate}
 
 \paragraph{Error Control}
@@ -746,8 +746,8 @@ L'algoritmo si basa sul fatto che ogni polinomio di grado $n$ è univocamente
 determinato con $n+1$ punti; i punti in più che sono dati risultano rindondanti
 e sono utili per la correzione degli errori. Sia un simbolo composto da $m$-bit,
 allora la codeword è lunga $2^m-1$ simboli. Reed-Solomon è utile perchè è in
-grado di rivelare erroi in blocco, che sia un singolo bit ad essere sbagliato o
-un intero simbolo, il meccanismo per correggerlo è prevede la correzione dell'
+grado di rivelare errori in blocco, che sia un singolo bit ad essere sbagliato o
+un intero simbolo, il meccanismo per correggerlo prevede la correzione dell'
 intero simbolo. Se sono trasmessi $2t$ simboli rindondanti, allora questo
 algoritmo è in grado di corregge fino a $t$ simboli. Se gli errori constano nel
 fatto che si sa che c'è un bit, ma non si conosce il valore del bit in questione,
@@ -771,7 +771,7 @@ commesso e quindi proseguire richiedendo il frame nuovamente.
 \paragraph{Parity} Viene aggiunto un singolo bit di parità alla fine del frame.
 Un codice con un solo bit di parità ha distanza di Hamming pari a 2. La
 probabilità di rilevare errori per errori in blocco è del $50$\%. Un sistema più
-affidabile consiste nel il codice per $n$ e così formare una matrice di
+affidabile consiste nel dividere il codice per $n$ e così formare una matrice di
 dimensione $n \cdot k$, dove $n \cdot k$ è il numero di bit che forma il frame.
 A questo punto per ogni colonna si trova il bit di parità. Risulta più opportuno
 trovare un bit di parità per rilevare con più accuratezza errori in blocco,
@@ -786,10 +786,10 @@ $2^8$ di interi rappresentati in 16 bit, avrà $n = 16$ e il risultato sarà un
 intero di 16 bit; se il risultato della somma è uguale alla checksum, finale
 allora non si è verificato alcun tipo di errore. Notiamo che questo algoritmo è
 vulnerabile nel qual caso il risultato della somma non cambi.\\
-Un algoritmo più miglire risulta essere quello di Fletcher, che somma i prodotti
+Un algoritmo migliore risulta essere quello di Fletcher, che somma i prodotti
 tra il valore dei 16 bit e la posizione nel frame della stringa di 16 bit.
 
-\paragraph{Cyclic Redundancy Check} CRC è anche conosciuto come codive
+\paragraph{Cyclic Redundancy Check} CRC è anche conosciuto come codice
 polinomiale. In questo caso una stringa di bit viene identificata come se fosse
 un polinomio. Praticamente viene concordato un polinomio, $G(x)$ tra i dispositivi che
 comunicano. Vengono aggiunti tanti 0 alla fine del frame quanto vale il grado
@@ -806,7 +806,7 @@ hardware.
 
 \subsection{Protocolli del data link notevoli}
 Innanzitutto ripetiamo che un frame è formato da tre field: un header, il
-pacchetto e il trailer; come abbiamo già visto l'header potrebbe contenere
+payload e il trailer; come abbiamo già visto l'header potrebbe contenere
 informazioni del tipo, dimensione del frame, ack (acknowledged), tipi di dato
 che sono mandati, il numero del frame; il trailer tendenzialmente contiene il
 risultato della checksum. Al livello superiore non arrivano queste informazioni:
@@ -909,7 +909,7 @@ abbiamo bisogno per comprendere i protocolli di questo tipo:
 \end{enumerate}
 
 Dato che c'è solo un canale, i dispositivi non possono segnalare di poter
-madnare un frame. In genere trasmissioni su canali wireless non permettono di
+mandare un frame. In genere trasmissioni su canali wireless non permettono di
 capire se il canale viene utilizzato, le altre connessioni in genere hanno modo
 di capirlo (fibra e cavo in rame).
 Slotted time migliora le performace, ma i dispositivi devono sincronizzarsi in
@@ -992,8 +992,8 @@ foglia di un albero binario bilanciato. Partendo dalla radice, si permette a
 tutte le foglie sotto il nodo in questione di trasmettere un bit, per segnalare
 che può mandare un pacchetto. Viene controllato se ci sono state collisioni,
 se non ci sono state, allora la foglia che ha mandato il bit ha il permesso di
-mandare il proprio frame. Se ci sono state collisioni si passa alla foglia
-sinistra e si ripete il processo. Dopo che un pacchetto è stato mandato con
+mandare il proprio frame. Se ci sono state collisioni si passa al figlio
+sinistro e si ripete il processo. Dopo che un pacchetto è stato mandato con
 successo si passa al nodo successivo. Notiamo che sono possibili vari
 miglioramenti: per esempio se nella root ci sono collisioni e nell'albero
 sinistro nessun dispositivo può mandare un segnale allora si controlla il nodo
@@ -1157,11 +1157,10 @@ aggiornate sufficientemente velocemente e quindi il pacchetto potrebbe
 arrivare a destinazione in ritardo.\\
 
 \paragraph{Link State Routing}
-Il link state routing memorizza la topologia della rete, ovvero la distanza
-minima per raggiungere ogni dispositivo in ogni router; questo algoritmo è più
-completo dell'algoritmo precedente, nel senso che ogni router ha una visione
-maggiore. D'altro canto, ciscun router deve avere maggior memoria.
-Funziona come di seguito:
+Il link state routing memorizza la topologia della rete, ovvero il grafo che
+rappresenta la rete; questo algoritmo è più completo dell'algoritmo precedente, 
+nel senso che ogni router ha una visione maggiore. D'altro canto, ciscun router 
+deve avere maggior memoria. Funziona come di seguito:
 \begin{enumerate}
 	\item trova i vicini e ne memorizza gli indirizzi;
 	\item comprende la distanza dai vicini;
@@ -1200,19 +1199,18 @@ connessione. Se ci si accorge che i router non sono in grado di sostenere la
 connessione, allora questa è rifiutata.\\
 
 \paragraph{throttling}
-Nel momento in cui una connessione peer-to-peer è congestionata, può essere
-utilizzato il throttling, ovvero si richiede al mittente di mandare i pacchetti
-più lentamente. 
+Nel momento in cui una connessione peer-to-peer è congestionata si richiede al 
+mittente di mandare i pacchetti più lentamente. 
 
 \paragraph{Shedding}
 Nel momento in cui una connessione peer-to-peer è congestionata, può succedere
-che alcuni pacchetti siano scartati, questo processo si chiama shedding.\\
+che alcuni pacchetti siano scartati.\\
 
 \paragraph{Load Shedding}
 Le aziende che vendono il servizio della connessione, ogni tanto propongono ai
 propri clienti (che sono le aziende) di segnalare una priorità su ciascun
 pacchetto. In questo modo, se la banda è congestionata, sono scartati prima i
-pacchetti di bassa priorità. Per esempio, per condividere un video, potremmo
+pacchetti a bassa priorità. Per esempio, per condividere un video, potremmo
 avere un frame e poi salviamo le modifiche tra quello e il successivo. Il frame
 sarà marcato ad alta priorità, mentre, le differenze tra il frame attuale e
 quello successivo sono marcate ad una priorità più bassa. Nel momento in cui si
@@ -1248,7 +1246,7 @@ token non può più mandare pacchetti, fino a che non saranno generati nuovi
 token. I token possono essere accumulati fino ad un certo limite.\\
 
 \paragraph{Choke algorithm}
-Quanto si nota che si sta formando una congestion, l'host è notificato e
+Quando si nota che si sta formando una congestione, l'host è notificato e
 rallenta la trasmissione. L'host è notificato attraverso un choke packet.
 Questa notifica è mandata dal router che ha notato la congestione a ritroso
 fino all'host. Dato che le congestioni tendono a durare poco tempo. Questa
@@ -1277,15 +1275,6 @@ servizi necessari per tale connessione. I servizi disponibili sono i seguenti:
 	\item loss: una live può permettersi di perdere qualche frame nel passaggio, 
 		mentre una mail non può permettersi di perdere alcun pacchetto;
 \end{itemize}
-
-
-
-
-
-
-
-
-
 
 \subsection{Internet Control Protocols}
 Ci sono diversi protocolli che permettono di gestire la rete. Tutti i seguenti
@@ -1330,11 +1319,11 @@ lo stesso indirizzo IP.\\
 
 \paragraph{DHCP}
 Quando un dispositivo si connette ad una rete la prima volta non ha un indirizzo
-IP. Il protocollo di dynamic host configuration permette di configurare il
-dispositivo neo connesso. Viene mandato in broadcast un pacchetto DHCP, il
-router risponde con un pacchetto DHCP, che contiene l'indirizzo IP. L'indirizzo
-IP così fornito è dato in prestito e ha una scadenza; l'indirizzo IP deve essere
-rinnovato prima che scada.\\ 
+IP. Fornische un indirizzo IP ad un dispositivo che ne è sprovvisto. Viene 
+mandato in broadcast un pacchetto DHCP, il router risponde con un pacchetto 
+DHCP, che contiene l'indirizzo IP. L'indirizzo IP così fornito è dato in 
+prestito e ha una scadenza; l'indirizzo IP deve essere rinnovato prima che 
+scada.\\ 
 
 
 \end{document}
