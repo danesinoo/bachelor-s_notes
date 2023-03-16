@@ -4,7 +4,7 @@ typedef unsigned int uint;
 
 class File {
 private:
-  uint s;
+		  uint s;
   bool p;
 
 public:
