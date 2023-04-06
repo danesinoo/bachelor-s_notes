@@ -1,0 +1,197 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+
+\newtheorem{definition}{Def.}[section]
+
+\title{\vspace{2cm}\textbf{Appunti di Machine Learning}}
+\author{\vspace{3mm}4 ottobre 2022}
+\date{\vspace{3mm} \textbf{Rosso Carlo}}
+
+\begin{document}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+\tableofcontents
+\newpage
+
+\section{Decision Trees}
+L'apprendimento mediante alberi di decisione è uno dei metodi più utilizzati e
+pratici per l'apprendimento induttivo. L'apprendimento mediante alberi di
+decisione cerca in uno spazio di ipotesi completamente espressivo. Il loro bias
+è la preferenza per alberi piccoli rispetto ad alberi grandi.
+
+Gli alberi di decisione approssima una funzione discreta, dove la funzione
+appresa è un albero di decisione; possono anche essere rappresentati come una
+serie di \textit{if-then rules}, per migliorare la comprensione.
+Ciascun nodo dell'albero coincide con il testi di un attributo, e ciascun arco,
+che connette i figli, indica il valore dell'attributo. I nodi foglia indicano
+la classe dell'istanza. In effetti si tratta di una tecnica di classificazione.
+Fondamentalmente, ciascun nodo dell'albero rappresenta una condizione ("if"),
+e quindi una congiunzione ("and") di condizioni; mentre ciascun arco rappresenta
+un il valore delle condizioni possibili ("is a"), e quindi una disgiunzione
+("or"). Per questo motivo, si capisce bene che questo approccio è possibile
+solamente se le variabili sono discrete.
+
+\subsection{Algoritmo ID3}
+L'algoritmo ID3 è l'algoritmo di base, da cui partiamo. In questo caso l'albero
+è costruito a partire dalla root e quindi ha una costruizione bottom-up.
+Funziona testando l'attributo che contiene la maggior informazione. C'è quindi
+bisogno di chiarire come selezionare l'attributo più utile per classificare gli
+esempi. L'\textit{information gain} è una proprietà statistica che misora quanto
+un attributo separa gli esempi di allenamento in base alla loro classe di
+appartenenza.
+
+\begin{definition}
+	Sia $S$ una collezione, contenente esempi positivi e negativi, l'entropia di 
+	$S$ relativa alla rappresentazione booleana è così definita:
+
+	\begin{equation}
+		Entropy(S) \equiv \sum_{i=1}^c-p_i \log_2 p_i
+	\end{equation}
+
+	dove $p_i$ è la proporzione di esempi in $S$ che appartengono alla classe 
+	$i$. L'entropia vale 0 se tutti gli esempi sono dello stesso tipo, e 1 se 
+	gli esempi sono divisi equamente tra le classi.
+	L'entropia è il numero di bit necessari per rappresentare un esempio di $S$, 
+	per questo motivo è utilizzato il logaritmo in base 2.
+\end{definition}
+
+\begin{definition}
+	Sia l'entropia una misura di impurità in una collezione di esempi. Possiamo 
+	ora misurare quanta informazione contiene ciascun attributo per classificare 
+	gli esempi. L'\textit{information gain}, banalmente, è la partizione di 
+	esempi secondo l'attributo. Più precisamente, l'information gain, $G(S,A)$ 
+	di un attributo $A$, relativo ad una collezione di esempi $S$, è così 
+	definita:
+
+	\begin{equation}
+		Gain(S, A) \equiv Entropy(S) - \sum_{v \in Values(A)} \frac{|S_v|}{|S|}
+		Entropy(S_v)
+	\end{equation}
+
+	dove $Values(A)$ sono tutti i possibili valori che può assumere un attributo
+	$A$, e $S_v$ è il suttoinsieme di $S$ per cui l'attributo $A$ assume valore
+	$v$.
+\end{definition}
+
+\begin{itemize}
+	\item L'information gain è proprio la misura usata dall'algoritmo ID3 per 
+		effettuare la scelta greedy e decidere quale attributo controllare per 
+		primo;
+	\item L'albero è costruito in modo tale che lo stesso attributo compare solo 
+		una volta in ciascun percorso dell'albero decisionale; 
+		Ciascun processo continua per ciascun nuovo nodo foglia fino a che o 
+		tutti gli attributi sono stati inclusi nel percorso, oppure tutti gli 
+		esempi associati alla foglia hanno medesima classificazione;
+	\item L'algoritmo ID3 è uno spazio completo di funzioni finite a valori 
+		discreti;
+	\item L'ID3 non permette il backtracking, le decisioni di costruzione 
+		dell'albero iniziale permangono valide anche se gli esempi di 
+		training cambiano. 
+		L'albero cresce per ottenere una soluzione ottima locale, ma non 
+		globale. La soluzione in merito a questo è utilizzare l'algoritmo di 
+		\textit{post-pruning}, per cui l'albero viene come ribilanciato.
+\end{itemize}
+
+Una buona approssimazione dell'ID3 è la seguente: alberi più piccoli sono
+preferiti ad alberi più grandi. Sono preferiti gli alberi che pongono gli
+attributi con maggior information gain vicino alla radice.
+
+Per cui il bias è dato dalla sua strategia di ricerca. In genere questo tipo di
+bias è chiamato preference bias.
+
+\section{lezioni}
+\begin{itemize}
+\item \textbf{hold-out}: sono trattenuti v esempi dal training set. Questi sono
+	utilizzati come validation set, ovvero per misurare l'accuratezza del
+	modello allenato;
+	
+\item \textbf{k-fold cross validation}: si suddivide il training set in k
+	partizioni, di cui una viene utilizzata come validation set, mentre le
+	altre k-1 vengono utilizzate per l'allenamento. Questo processo viene
+	ripetuto k volte, in modo da utilizzare ogni volta una partizione
+	diversa come validation set. L'accuratezza del modello viene calcolata
+	mediando le k misurazioni ottenute;
+\end{itemize}
+
+\section{metriche}
+\begin{itemize}
+	\item \textbf{accuracy}: è la percentuale di esempi correttamente
+		classificati:
+		\begin{equation}
+			accuracy = \frac{TP + TN}{TP + TN + FP + FN} = \frac{TP + TN}{P + N}
+		\end{equation}
+		dove $T$ sta per true, $F$ per false, $P$ per positive, $N$ per 
+		negative;
+
+	\item \textbf{precision}: è la percentuale di esempi positivi classificati
+		rispetto ai TP e ai FP:
+		\begin{equation}
+			precision = \frac{TP}{TP + FP}
+		\end{equation}
+
+	\item \textbf{recall}: è la percentuale di esempi positivi classificati
+		rispetto ai TP e ai FN:
+		\begin{equation}
+			recall = \frac{TP}{TP + FN}
+		\end{equation}
+
+	\item \textbf{F1-score}: è la media armonica tra precision e recall:
+		\begin{equation}
+			F1 = 2 \cdot \frac{precision \cdot recall}{precision + recall}
+		\end{equation}
+
+	\item \textbf{precision-recall curve}: è una curva che rappresenta la
+		precision in funzione del recall. Questa curva è utile per
+		visualizzare il comportamento di un classificatore rispetto a
+		diversi valori di soglia. In particolare, è possibile scegliere il
+		valore di soglia che massimizza la precision, oppure quello che
+		massimizza il recall. Inoltre, è possibile calcolare l'area sotto la
+		curva, che è un'indicazione della qualità del classificatore;
+
+	\item \textbf{ROC curve}: è una curva che rappresenta la percentuale di
+		TP in funzione della percentuale di FP. Questa curva è utile per
+		visualizzare il comportamento di un classificatore rispetto a
+		diversi valori di soglia. In particolare, è possibile scegliere il
+		valore di soglia che massimizza la precision, oppure quello che
+		massimizza il recall. Inoltre, è possibile calcolare l'area sotto la
+		curva, che è un'indicazione della qualità del classificatore. ROC curve
+		si tratta dell'integrale della \textit{precision-recall curve};
+
+	\item \textbf{average precision}: è una misura che combina la recall e la
+		precisione per risultati già ordinati in base all'accuratezza del
+		modello. In particolare, è definita come:
+		\begin{equation}
+			AP = \frac{1}{n} \sum_{i=1}^{n} precision_i \cdot rel_i
+		\end{equation}
+		dove $n$ è il numero di esempi positivi, $precision_i$ è la precisione
+		fino all'i-esimo esempio positivo, e $rel_i$ è una funzione che vale 1
+		se l'i-esimo esempio è rilevante (positivo), 0 altrimenti.
+\end{itemize}
+
+Diagnosticare bias o varianza: si possono utilizzare le curve di apprendimento.
+Le curve di apprendimento habno sulle y la misura dell'errore, e sull'asse x un
+paremetro che indica la complessità del modello che stiamo allenando.
+Mettendo assieme le curve di apprendimento di training e validation, si può
+ottenere una stima dell'errore di generalizzazione (graficamente). La differenza
+tra le due curve è il valore che ci interessa.
+
+
+
+
+\end{document}

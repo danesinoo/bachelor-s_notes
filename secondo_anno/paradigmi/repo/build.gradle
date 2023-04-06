@@ -1,0 +1,67 @@
+plugins {
+  id "com.diffplug.spotless" version "6.7.2"
+  id 'java'
+  id 'maven-publish'
+}
+
+group 'it.unipd.pdp2022'
+version '1.0.0'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+description = "PDP 2022 - Slides and source code"
+
+// Enable java 17 preview features
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '--enable-preview'
+}
+tasks.withType(Test) {
+    jvmArgs += "--enable-preview"
+}
+tasks.withType(JavaExec) {
+    jvmArgs += "--enable-preview"
+}
+
+test {
+  useJUnitPlatform {
+    excludeTags 'ex1'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  def junitVersion = "5.9.2"
+  def junitPlatform = "1.9.2"
+
+  // Junit 5 testing framework components
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+  testImplementation "org.junit.platform:junit-platform-console:$junitPlatform"
+  testImplementation "org.junit.platform:junit-platform-launcher:$junitPlatform"
+
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+}
+
+spotless {
+
+  format 'misc', {
+    target '*.gradle', '.hgignore'
+
+    trimTrailingWhitespace()
+    indentWithSpaces()
+    endWithNewline()
+  }
+  java {
+    toggleOffOn()
+
+    importOrder()
+    removeUnusedImports()
+
+    googleJavaFormat()
+  }
+}
