@@ -235,10 +235,12 @@ composti. Operatori insiemistici, le relazioni sono insiemi, il risultato sono
 altre relazioni è possibile applicare unione, intersezione e differenza solo a
 relazioni definite sugli stessi attributi.
 
-\paragraph{ridenominazione [$\rho$]} modifica lo schema lasciamo inalterata l'istanza
+\paragraph{ridenominazione [$\rho$]} modifica lo schema lasciamo inalterata 
+l'istanza
 dell'operando. La ridenominazione è un operatore unario.
 
-\paragraph{selezione [$\sigma$]} il codominio è un sottoinsieme del dominio. La selezione è
+\paragraph{selezione [$\sigma$]} il codominio è un sottoinsieme del dominio. 
+La selezione è
 un operatore unario. Sono tolte delle tuple.
 
 \paragraph{proiezione [$\pi$]} il codominmio è un sottoinsieme del dominio. La
@@ -246,7 +248,8 @@ proiezione è un operatore unario. Sono tolti degli attributi.
 Notiamo che se $X$ è una superchiave di $R$, allora $\pi_X(R)$ ha cardinalità
 uguale a quella di $R$.
 
-\paragraph{join [$\bowtie$]} operatore binario su due relazioni A e B. Il risultato è
+\paragraph{join [$\bowtie$]} operatore binario su due relazioni A e B. Il 
+risultato è
 l'unione degli attributi degli operandi; in particolare, il risultato sono le
 tuple costruite com e$A \times B$ mantenendo quelle con valori uguali su
 attributi uguali.
@@ -299,22 +302,301 @@ già esistenti su schemi ristrutturati. L'utilizzo di viste non influisce
 sull'efficienza delle interrogazioni, perché il DBMS ottimizza le
 interrogazioni.
 
-\begin{definition}[terza forma normale]
-	Una relazione $R$ con chiavi $K_1, \dots, K_n$ è in terza forma normale se 
-	per ogni dipendenza funzionale non banale $X \rightarrow Y$, almeno una
-	delle seguenti condizioni sono valide:
-	\begin{enumerate}
-		\item $X$ è superchiave (BCNF);
+\section{Forme Normali}
+\begin{definition}[forma normale]
+	Una forma normale è una proprietà di una base di dati relazionale che ne
+	garantische la "qualità", cioè l'assenza di determinati difetti.
+\end{definition}
 
-		\item ogni attributo $Y$ è contenuto in almeno una tra le chiavi $K_1,
-			\dots, K_n$.
+NB quando una relazione non è normalizzata, presenta ridondanze; oppure si presta
+a comportamenti poco desiderabili durante gli aggiornamenti.
+
+La normalizzazione è il processo che permette di trasformare uno schema non
+normalizzato in uno schema che soddisfa una forma normale. La normalizzazione è
+usata come tecnica di controllo dei risultati della progettazione di una base di
+dati.
+
+\begin{definition}[dipendenza funzionale]
+	Condizioni:
+	\begin{itemize}
+		\item sia $R$ una relazione su $X$;
+
+		\item dati due insiemi di attributi $A, B \subset X$;
+
+		\item $\forall t_1, t_2 \in R$, se $\pi_A(t_1) = \pi_A(t_2)$, allora
+			$\pi_B(t_1) = \pi_B(t_2)$.
+	\end{itemize}
+
+	Allora si dice che esiste in $R$ una dipendenza funzionale $A 
+	\rightarrow B$.
+\end{definition}
+
+\begin{definition}[forma normale di Boyce-Codd (BCNF)]
+	Condizioni:
+	\begin{itemize}
+		\item $R$ è una relazione su $X$;
+
+		\item $K_1, \dots, K_n$ sono chiavi di $R$;
+
+		\item $F$ è l'insieme delle dipendenze funzionali su $R$;
+
+		\item $\forall f \in F$ tale che $f = X \rightarrow Y$, $X$ è 
+			superchiave.
+	\end{itemize}
+
+	Allora si dice che $R$ è in forma normale di Boyce-Codd.
+\end{definition}
+
+\begin{definition}[decomposizione senza perdita]
+	Condizioni:
+	\begin{itemize}
+		\item $R$ è una relazione su $X$;
+
+		\item $R_1, \dots, R_n$ sono relazioni su $X$;
+
+		\item $\cup_{R_i} = R$;
+
+		\item $\pi_{R_1}(R) \bowtie \dots \bowtie \pi_{R_n}(R) = R$.
+	\end{itemize}
+
+	Allora si diche che la relazione $R$ si decompone senza perdita su $R_1,
+	\dots, R_n$.
+\end{definition}
+
+NB una decomposizione senza perdita è garantita se gli attributi in $R_i \cap
+R_j$, con $i \neq j$, sono una chiave per $R_i$ o (non esclusivo) $R_j$.\\
+Una decomposizione dovrebbe sempre preservare le dipendenze funzionali, ovvero i
+vincoli di integrità originari della relazione.
+
+NB La forma normale di Boyce-Codd non è sempre raggiungibile, ecco perchè in
+genere si usa la terza forma normale.
+
+\begin{definition}[terza forma normale (3NF)]
+	Una relazione $R$ è in terza forma normale se per ogni dipendenza funzionale 
+	non banale $X \rightarrow Y$, almeno una delle seguenti condizioni è vera:
+	\begin{itemize}
+		\item $X$ è superchiave;
+
+		\item ogni attributo in $Y$ è contenuto in una chiave di $R$.
+	\end{itemize}
+\end{definition}
+
+La terza forma normale è una forma normale più debole della BCNF, ma ha il pro
+di essere sempre raggiungibile. Una possibile strategia è quella di decomporre
+in terza forma normale e poi si verifica se lo schema ottenuto è anche in BCNF.
+
+\begin{definition}[seconda forma normale (2NF)]
+	Una relazione è in seconda forma normale se la relazione non ha attributi 
+	che dipendono funzionalmente da una parte della chiave.
+\end{definition}
+
+\begin{definition}[chiusura]
+	Condizioni:
+	\begin{itemize}
+		\item sia $R$ una relazione su $X$;
+
+		\item sia $F$ un insieme di dipendenze funzionali definite su $X$;
+
+		\item sia $A$ un insieme di attributi di $X$.
+
+		\item sia $A^+_F = \{B \in X | \exists f \in F $ tale che $ f =A 
+			\rightarrow B\}$.
+	\end{itemize}
+
+	Allora si diche che $A^+_F$ è la chiusura di $A$ rispetto a $F$, ovvero è
+	l'insieme di tutti gli attributi che dipendono funzionalmente da X.
+\end{definition}
+
+NB se $\{X_1, X_2 \} \rightarrow Y$ allora $\{X_1, X_2, \dots \} \rightarrow
+Y$.\\
+
+Sia $F$ un insieme di dipendenze funzionali su $R$. Ecco alcune proprietà
+desiderabili:
+\begin{itemize}
+	\item $F$ sia \textbf{non ridondante}: non esiste dipendenza $f
+		\in F$ tale che $F - \{f\} \Rightarrow f$;
+
+	\item $F$ sia \textbf{ridotto}: non esiste un insieme $F'$ di dipendenze
+		funzinali su $R$ equivalente a $F$, ottenuto eliminando attributi dai
+		primi membri delle dipendenze funzionali di $F$;
+\end{itemize}
+
+\section{transazioni}
+\begin{definition}[transazione]
+	Una transazione è un'unità di elaborazione che gode delle proprietà ACID:
+	atomicità, consistenza, isolamento e durabilità.
+	Una transazione è una parte del programma caratterizzata da:
+	\begin{enumerate}
+		\item inizio di transazione (begin-transaction);
+
+		\item corpo della transazione: una serie di insert, delete e update in 
+			SQL;
+
+		\item fine transazione (end-transaction): una transazione si può 
+			concludere:
+			\begin{itemize}
+				\item commit: terminazione corretta, i cambiamenti sono 
+					definitivi;
+
+				\item rollback: la transazione è abortita, si torna allo stato
+					antecedente l'inizio della transazione.
+			\end{itemize}
 	\end{enumerate}
 \end{definition}
 
+\begin{definition}[proprietà ACID]
 
+	\item \textbf{Atomicità}: una transazione deve essere eseguita completamente
+		o non deve essere eseguita affatto;
 
+	\item \textbf{Consistenza}: una transazione deve portare il database da uno 
+		stato consistente ad un altro stato consistente;
 
+	\item \textbf{Isolamento}: una transazione non espone i suoi stati 
+		intermedi;
 
+	\item \textbf{Durabilità}: una transazione che ha fatto commit non può 
+		essere persa.
+\end{definition}
 
+Una sistema transazione (OLTP) è in grado di definire ed eseguire transazioni
+per un certo numero di applicazioni concorrenti. C'è un log che permette di
+effettuare \textit{undo/redo}. Si tratta di un archivio permanente delle
+operazioni svolte sul database. Le regole fondamentali del log sono:
+\begin{itemize}
+	\item write-ahead-log: si scrive il log prima del database;
 
+	\item commit-precedence: il log di un commit precede il commit stesso;
+\end{itemize}
+
+\subsection{livello di isolamento}
+Il livello di isolamento può essere scelto per ogni transazione:
+\begin{itemize}
+	\item read uncommitted;
+
+	\item read committed;
+
+	\item repeatable read;
+
+	\item serializable;
+\end{itemize}
+
+Per capire la differenza tra i livelli di isolamento spieghiamo gli errori che
+si possono verificare:
+\begin{itemize}
+	\item perdita di aggiornamento (loss update(?)): due transazioni scrivono lo
+		stesso dato, ma solo l'ultimo viene mantenuto;
+
+	\item lettura sporca (dirty write): una transazione legge un dato che è
+		stato scritto da un'altra transazione che poi abortisce;
+
+	\item letture inconsistenti (non-repeatable read): una transazione legge
+		lo stesso dato due volte, ma il valore è cambiato;
+
+	\item aggiornamento fantasma: un dato appare "improvvisamente" aggiornato.
+
+	\item inserimento fantasma (phantom): una transazione legge un insieme di 
+		dati, poi una seconda transazione inserisce un nuovo dato che soddisfa 
+		la condizione della prima transazione, che però non lo vede.
+\end{itemize}
+
+Di seguito la tabella che riassume i livelli di isolamento:
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		& & & & \\
+		Anomalie & read uncommitted & read committed & repeatable read & 
+		serializable \\
+		\hline
+		perdita di aggiornamento & \checkmark & \checkmark & \checkmark & 
+		\checkmark \\
+		\hline
+		lettura sporca & - & \checkmark & \checkmark & \checkmark \\
+		\hline
+		letture inconsistenti & - & - & \checkmark & \checkmark \\
+		\hline
+		aggiornamento fantasma & - & - & \checkmark  & \checkmark \\
+		\hline
+		inserimento fantasma & - & - & - & \checkmark \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section{schedule}
+
+\begin{definition}[schedule]
+	Uno schedule è un'insieme di operazioni di input e output di transazioni
+	concorrenti.
+\end{definition}
+
+\begin{definition}[scheduler]
+	un sistema che accetta o rifiuta o riordina le operazioni richieste dalle
+	transazioni.
+\end{definition}
+
+\begin{definition}[serial schedule]
+	Uno schedule è seriale se le operazioni di ogni transazione sono eseguite
+	in modo consecutivo, una per volta.
+\end{definition}
+
+\begin{definition}[legge-da]
+	$r_i(x)$ legge da $w_j(x)$ in uno schedule S, se $w_j(x)$ precede $r_i(x)$
+	e non esiste $w_k(x)$ tale che $w_j(x)$ si trova tra $w_j(x)$ e $r_i(x)$ in
+	S.
+\end{definition}
+
+\begin{definition}[scrittura-finale]
+	$w_j(x)$ è una scrittura finale di $x$ in uno schedule S se non esiste
+	$w_k(x)$ tale che $w_j(x)$ precede $w_k(x)$ in S.
+\end{definition}
+
+\begin{definition}[view-equivalente]
+	Se due schedule $S_1, S_2$ hanno la stessa relazione legge-da e le stesse 
+	scritture finali, allora si dice che sono
+	view-equivalenti ($S_1 \equiv S_2$).
+\end{definition}
+
+\begin{definition}[view-serializzabile (VSR)]
+	Uno schedule è serializzabile se è view-equivalente ad un qualche schedule 
+	seriale.
+\end{definition}
+
+NB la verifica della view-equivalenza di due dati schedule è lineare sulla
+lunghezza dello schedule. Decidere sulla view'serializzabilità di uno schedule
+$S$ è un problema in NP, perché occorre provare tutti i possibili schedule
+seriali, ottenuti per permutazioni dell'ordine delle transazioni. Vuol dire che
+nella pratica non è utilizzabile.
+
+\begin{definition}[conflitto]
+	Siano $a_i, a_j$ tali che $i \neq j$ due opearzioni che opearano sullo
+	stesso oggetto. Se almeno una delle due è una scrittura, allora si dice che
+	sono in conflitto.
+\end{definition}
+
+\begin{definition}[schedule conflict-equivalenti]
+	Siano $S_i, S_j$ due schedule, tali che includono le stesse operazioni e 
+	ogni coppia di opearzioni in conflitto compare nello stesso ordine in 
+	entrambi, allora si dice che sono schedule conflict-equivalenti.
+\end{definition}
+
+\begin{definition}[schedule conflict-serializzabili (CSR)]
+	Uno schedule è conflict-serializzabile se è conflict-equivalente ad un 
+	schedule seriale.
+\end{definition}
+
+NB $CSR \subset VSR$.
+
+\begin{definition}[two phase locking (2PL)]
+	Tutte le letture per una risorsa $x$ sono precedute da $r_{lock}(x)$ e sono
+	seguite da $unlock(x)$. Tutte le scritture per una risorsa $x$ sono 
+	precedute da $w_{lock}(x)$ e sono seguite da $unlock(x)$.
+
+	Inoltre, una transazione dopo aver rilasciato un lock, non può acquisirne
+	altri.
+\end{definition}
+
+NB $2PL \subset CSR$.
+
+Riassumento da capo abbiamo che: $schedule\_seriale \subset 2PL \subset CSR
+\subset VSR \subset schedule$.
 \end{document}
