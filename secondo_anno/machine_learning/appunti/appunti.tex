@@ -191,7 +191,145 @@ Mettendo assieme le curve di apprendimento di training e validation, si può
 ottenere una stima dell'errore di generalizzazione (graficamente). La differenza
 tra le due curve è il valore che ci interessa.
 
+\section{Support Vector Machine}
+Le SVM sono modelli di machine learning con supervisono. Sono non-probabilistici
+e sfruttano la classificazione lineare. La funzione per aggiornare i pesi è:
+\begin{equation}
+	\Theta = min_{\Theta} \frac{1}{\lambda} J(\Theta) + 
+	\frac{1}{2} \sum_{j=1}^{n} \Theta_j^2
+\end{equation}
 
+tale che:
+\begin{equation}
+	J(\Theta) = \sum_{i=1}^{m} cost(h_{\Theta}(x^{(i)}), y^{(i)})
+\end{equation}
 
+dove $cost$ è la funzione di costo così definita:
+
+\begin{equation}
+	cost(h_{\Theta}(x^{(i)}), y^{(i)}) = \max(0, 1 - y^{(i)} \cdot (\Theta^T x^{(i)}))
+\end{equation}
+
+tale che $y^{(i)} \in \{-1, 1\}$. Notiamo dalla funzione di costo che nel
+momento in cui $sgn(\Theta^T x^{(i)}) = y^{(i)}$ e $|\Theta^T x^{(i)}| \geq 1$,
+allora $cost = 0$. In questo caso il margine che separa le due class ha
+dimensione $M = \frac{2}{||\Theta||}$. \\
+Non è detto che tutti i punti siano linearmente separabili, per questo motivo
+introduciamo la tecnica del soft-margin, che permette di avere un margine
+maggiore, infatti, per tutti quei punti che si trovano sul margine o oltre di
+esso è introdotto qualche parametro di penalità, che permette di individuare un
+iperpiano per le due classi più accurato, appunto. \\
+
+\subsection{Kernel}
+Le SVM sono modelli molto comodi per operare anche classificazioni non lineari.
+Infatti, è possibile applicare una kernel function, che mappa i dati in uno
+spazio di dimensione maggiore. Aumentare le dimensioni potrebbe permettere di
+rendere i dati linearmente separabili, tuttavia è necessario indovinare la
+funzione di mappatura corretta.
+
+\section{non-parametric models}
+Si tratta di modelli che hanno poche features. I modelli non parametrci più
+comuni sono del tipo nearest neighbor. Il modello non è allenato: la prediction
+è calcolata in base all'intero dataset, per questo richiede molta memoria ed è
+lenta. I modelli non parametrci sono in grado di approssimare ogni funzione: in
+effetti viene mappato l'intero spazio degli esempi, nel senso che si costruisice
+una sorta di mappa che approssima gli ipervolumi conenenti gli esempi e a
+ciascuno di essi è assegnata una classe. L'esempio di test è classificato
+riconducendolo a esempi del training set. 
+
+\section{neirest neighbor}
+Ciascun esempio è codificato come un vettore in un iperspazio. Si cerca
+l'elemento nel training set più vicino all'esempio di test utilizzando qualche
+distanza (euclidea, di manhattan, etc). I limiti degli iper-volumi non sono
+calcolati esplicitamente, ma possono essere dedotti:
+
+\begin{definition}[diagramma di Voronoi]
+	L'iperspazio è diviso in ipervolumi, in cui ciascuna ipersuperficie è
+	equidistante, per qualche distanza, tra due esempi di classi diverse.
+\end{definition}
+
+cons:
+\begin{itemize}
+	\item computazionalmente costoso;
+
+	\item è sensibile a punti anomali;
+\end{itemize}
+
+\section{k-nearest neighbor}
+Al posto di considerare l'esempio più prossimo, sono cercati i $k$ esempi più
+prossimi ed è applicato un sistema di votazione (conteggio) per determinare la
+classe dell'esempio di test. Regola di decisione: si assegna la classe di
+maggiornanza tra le classi dei k esempi più vicini. \\
+NB $k$ troppo piccolo rende il modello molto sensibile a esempi anomali.
+Un $k$ troppo grande classifica qualunque esempio come appartenente alla classe
+più frequente.
+Si può utilizzare la tecnica della cross-validation per determinare il valore
+ottimale di $k$.
+In genere $k < \sqrt{m}$, dove $m$ è il numero di esempi nel training set.
+Bias induttivo: assume che esempi vicini appartengano alla stessa classe, può
+essere necessario un lavoro di preprocessing per normalizzare i dati.
+
+\section{decision tree}
+Ciascun nodo corrisponde ad un test su un attributo. Il branching è determinato
+dal valore dell'attributo. Le foglie rappresentano l'output, ovvero il
+risultato. Per cui, in pratica a seconda del test effettuato il dataset è diviso
+in subset che va formare il dataset del nuovo nodo figlio, fino a che non si
+individua una classe comune a tutti gli esempi del subset. Questo metodo è
+chiamato \textit{recursive partitioning}. \\
+Un albero di decisione rappresenta una funzione booleana: ciascun percorso dalla
+root alla leaf è rappresentato da congiunzioni di test sugli attributi. Percorsi
+che arrivano alla stessa classe sono combinate con disgiunzioni. Questa
+struttura da origine alla \textit{disjunctive normal form}. Per rappresentare
+l'albero per intero, si ottiene una di queste funzioni per ogni classe. \\
+
+\section{ID3}
+Ha in input $S, A$, dove $S$ è il training set e $A$ è l'insieme degli
+attributi.
+\begin{enumerate}
+	\item crea la radice r;
+		
+	\item se $\forall s \in S, \exists c \in C, class(s) = c$ allora
+		assegna $r$ a $c$ e termina;
+
+	\item se $A = \emptyset$ allora assegna $r$ alla classe più frequente in $S$
+		e termina;
+
+	\item seleziona $a \in A$ che massimizza l'information gain;
+
+	\item partiziona $S$ in $S_1, \dots, S_n$ in base al valore di $a$;
+
+	\item crea un nodo sull'attributo $a$ e lo aggiunge ad $r$;
+
+	\item ripete per ciascun sottoinsieme così generato, utilizzando 
+		$A - \{a\}$.
+\end{enumerate}
+
+Spighiamo che cos'è l'information gain, che è il cuore dell'algoritmo. \\
+L'entropia è:
+\begin{equation}
+	H(S) = - \sum_{c \in C} p(c) \log_2 p(c)
+\end{equation}
+dove $p(c)$ è la probabilità che un esempio di $S$ appartenga alla classe $c$,
+ovvero $p(c) = \frac{|S_c|}{|S|}$, dove $S_c = {a | a \in c}$ per qualche classe
+$c \in C$. \\
+L'entropia misura la distribuzione delle classi in $S$. Per cui se in $S$ le
+classi sono equidistribuite, l'entropia è massima e vale 1. Questo vuol dire che
+è più difficile assegnare una classe al dataset $S$ e occorre dividerlo in
+subset. 
+
+\begin{equation}
+	IG(S, a) = H(S) - \sum_{t \in T} p(t) H(t) = H(S) - H(S|a)
+\end{equation}
+dove $T$ è l'insieme dei subset che si ottengono dividendo $S$ sull'attributo a.
+L'informazion gain compara l'entropia di $S$ con l'entropia dei subset
+$S_1, \dots, S_n$. Vuol dire che si ha information gain massima, quando con
+l'attributo considerato si riesce a dividere il dataset in subset che hanno
+entropia minimale. \\
+Inductive Bias: sono preferiti alberi piccoli che pongono gli attributi con
+maggior information gain in alto.
+
+\section{Random Forest}
+	Si tratta di un modello composto da diversi decision tree. Il risultato
+	restituito è la classe più frequente tra i risultati dei singoli alberi.
 
 \end{document}
