@@ -1,0 +1,171 @@
+\documentclass[11pt]{article}
+ \renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+\linespread{1}
+\renewcommand{\labelitemi}{-}
+
+
+\begin{document}
+
+\begin{center}
+	\huge{\textbf{ECloth}}
+\end{center}
+
+\section{Abstract}
+"ECloth Mountain" è un'azienda speccializzata nella vendita di abbigliamento 
+tecnico da montagna, ha appena aperto il proprio sito di e-commerce e ha
+commissionato il proprio database. \\
+Dal sito di "ECloth Mountain" è possibile registrarsi e creare un account, per
+salvare i propri dati e per poter effettuare acquisti. Inoltre è possibile
+creare varie liste di prodotti, per poterli salvare e visualizzare in un secondo
+momento. \\
+L'utente per registrarsi deve inserire i propri dati personali, mentre
+l'indirizzo e il metodo di pagamento non sono obbligatori. L'indirizzo e il
+metodo di pagamento sono necessari al momento dell'acquisto, ma l'utente può 
+decidere di non salvarli. L'utente attraverso il proprio account può rivedere 
+gli acquisti effettuati e le liste di prodotti salvate.
+
+\section{Analisi dei requisiti}
+
+\subsection{Descrizione testuale}
+
+Nella base di dati sono presenti i dati degli \textbf{utenti}, che si registrano
+sul sito per effettuare gli acquisti. Di ogni utente sono noti: 
+
+\begin{itemize}
+	\item nome
+	\item cognome
+	\item email
+	\item password
+\end{itemize}
+
+Ogni utente può memorizzare i dati di una \textbf{carta di credito}. Di ogni
+carta di credito sono noti:
+
+\begin{itemize}
+	\item numero della carta
+	\item intestatario della carta
+	\item data di scadenza
+	\item codice di sicurezza (CVV)
+\end{itemize}
+
+Ogni utente può memorizzare i dati di vari indirizzi di spedizione. Di ogni
+\textbf{indirizzo} sono noti:
+
+\begin{itemize}
+	\item via
+	\item numero civico
+	\item città
+	\item CAP
+	\item stato
+\end{itemize}
+
+Ogni utente può avere diversi carrelli. Di ogni \textbf{carrello} sono noti:
+
+\begin{itemize}
+	\item nome
+	\item costo totale
+	\item data di creazione
+	\item data di ultima modifica
+	\item prodotti contenuti
+\end{itemize}
+
+Ogni utente può effettuare un \textbf{ordine}, effettuando il \textit{checkout}
+del carrello desiderato. Di ogni ordine sono noti:
+
+\begin{itemize}
+	\item numero dell'ordine
+	\item costo totale
+	\item data di creazione
+	\item data di ultima modifica
+	\item prodotti contenuti
+	\item provider del pagamento
+	\item status del pagamento
+	\item indirizzo di spedizione
+\end{itemize}
+
+I pagamenti sono gestiti mediante un provider esterno, che si occupa di
+effettuare il pagamento e di notificare il sito di "ECloth Mountain" del
+risultato dell'operazione. \\
+Gli utenti possono acquistare dei prodotti, presenti sul sito. Di ogni
+\textbf{prodotto} sono noti:
+
+\begin{itemize}
+	\item nome
+	\item descrizione
+	\item prezzo
+	\item quantità
+	\item tag
+\end{itemize}
+
+Non è possibile acquistare un prodotto se la quantità disponibile è minore di
+quella richiesta. 
+
+\subsection{Glossario dei termini}
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Termine} & \textbf{Descrizione} & \textbf{Collegamenti} \\
+		\hline
+		Utente & Persona che si registra sul sito & Carta di credito,
+		Lista, Indirizzo \\
+		\hline
+		Carta di credito & Carta di credito di un utente & Utente \\
+		\hline
+		Indirizzo & Indirizzo di spedizione di un utente & Utente,
+		Ordine \\
+		\hline
+		Lista & Lista di prodotti, con relativo costo totale & Utente,
+		Prodotto \\
+		\hline
+		Carrello & Lista con un nome & Entità figlia di Lista \\
+		\hline
+		Ordine & Lista con un identificativo e i dettagli di pagamento
+		& Indirizzo, Entità figlia di Lista \\
+		\hline
+		Prodotto & Prodotto in vendita sul sito & Lista, Categoria \\
+		\hline
+		Categoria & Categoria di prodotti & Prodotto \\
+		\hline
+	\end{tabular}
+	\caption{Glossario dei termini}
+\end{table}
+
+\subsection{Operazioni}
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Operazione} & \textbf{Tipo} & \textbf{Frequenza} \\
+		\hline
+	\end{tabular}
+	\caption{Operazioni}
+\end{table}
+
+
+\end{document}
