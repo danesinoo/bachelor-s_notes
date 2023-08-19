@@ -1,0 +1,437 @@
+\documentclass[11pt]{article}
+ \renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+
+\title{\vspace{2cm}\textbf{Appunti di Automi e Linguaggi Formali}}
+\author{\vspace{3mm}17 Agosto 2023}
+\date{\vspace{3mm} \textbf{Rosso Carlo}}
+
+\usepackage{tabularx}
+\usepackage{changepage}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+\linespread{1}
+\renewcommand{\labelitemi}{-}
+\newtheorem{definition}{Def.}[section]
+\newtheorem{theorem}{Teorema}[section]
+
+
+\begin{document}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+\tableofcontents
+\newpage
+
+\section{Introduzione}
+La teoria della computazione si pone una domanda: che cos'è un computer?
+Idealiziamo un computer come un modello computazionale. Un modello
+computazionale può essere preciso in qualche aspetto, ma non in altri. Per
+questo motivo studiamo diversi modelli computazionali, in base alle
+caratteristiche che ci interessano. Cominciamo con il modello computazionale più
+semplice: l'automa a stati finiti (DFA, Deterministic Finite Automaton).
+
+\section{Automi a stati finiti}
+
+\subsection{Definizione}
+
+\begin{definition}[Automa a stati finiti]
+	Un automa finito è una quintupla $(Q, \Sigma, \delta, q_0, F)$ 
+	dove:
+	\begin{enumerate}
+		\item $Q$ è un insieme finito chiamato insieme degli stati;
+		\item $\Sigma$ è un insieme finito chiamato alfabeto;
+		\item $\delta: Q \times \Sigma \rightarrow Q$ è la funzione di 
+			transizione;
+		\item $q_0 \in Q$ è lo stato iniziale;
+		\item $F \subseteq Q$ è l'insieme degli stati finali.
+	\end{enumerate}
+\end{definition}
+
+Se $A$ è l'insieme delle stringhe accetate da un DFA $M$, allora $A$ è il
+linguaggio di $M$, e lo indichiamo con $L(M)$. E diciamo che $M$ accetta $A$.
+
+\begin{definition}[Computazione]
+	Sia $M = (Q, \Sigma, \delta, q_0, F)$ un DFA e $w = w_1w_2 \dots w_n$ una
+	stringa su $\Sigma$. Diciamo che $M$ accetta $w$ se esiste una sequenza di
+	stati (computazione) $r_0, r_1, \dots, r_n$ in $Q$ tale che:
+	\begin{enumerate}
+		\item $r_0 = q_0$;
+		\item $r_{i+1} = \delta(r_i, w_{i+1})$ per $i = 0, 1, \dots, n-1$;
+		\item $r_n \in F$.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}[Linguaggio regolare]
+	Un linguaggio si dice regolare se qualche DFA lo accetta.
+\end{definition}
+
+\subsection{Operazioni sui linguaggi regolari}
+
+\begin{definition}[Unione]
+	Siano $A$ e $B$ due linguaggi.
+	\begin{itemize}
+		\item[] $A \cup B = \{x \mid x \in A \text{ oppure } x \in B\}$.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Concatenazione]
+	Siano $A$ e $B$ due linguaggi.
+	\begin{itemize}
+		\item[] $A \circ B = \{xy \mid x \in A \text{ e } y \in B\}$.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Star]
+	Sia $A$ un linguaggio.
+	\begin{itemize}
+		\item[] $A^* = \{x_1x_2 \dots x_k \mid k \geq 0 \text{ e } x_i \in A
+			\text{ per } i = 1, 2, \dots, k\}$.
+	\end{itemize}
+\end{definition}
+
+\subsection{Automa a stati finiti non deterministico}
+
+Definiamo $\epsilon$ come la stringa vuota e $\mathcal{P}(A)$ come l'insieme delle parti
+di $A$.
+
+\begin{definition}[Automa a stati finiti non deterministico]
+	Un automa a stati finiti non deterministico (NFA, Nondeterministic Finite
+	Automaton) è una quintupla $(Q, \Sigma, \delta, q_0, F)$ dove:
+	\begin{enumerate}
+			\item $Q$ è un insieme finito chiamato insieme degli stati;
+			\item $\Sigma$ è un insieme finito chiamato alfabeto;
+			\item $\delta: Q \times (\Sigma \cup \{\epsilon\}) \rightarrow
+				\mathcal{P}(Q)$ è la funzione di transizione;
+			\item $q_0 \in Q$ è lo stato iniziale;
+			\item $F \subseteq Q$ è l'insieme degli stati finali.
+	\end{enumerate}
+	\textbf{NB}: $\delta$ è una funzione che mappa un elemento di $Q$ e un
+	elemento di $\Sigma \cup \{\epsilon\}$ in un sottoinsieme di $Q$, quindi
+	anche $\emptyset$.
+\end{definition}
+
+\begin{definition}[Computazione]
+	Sia $M = (Q, \Sigma, \delta, q_0, F)$ un DFA e $w = w_1w_2 \dots w_n$ una
+	stringa su $\Sigma$. Diciamo che $M$ accetta $w$ se esiste una sequenza di
+	stati (computazione) $r_0, r_1, \dots, r_n$ in $Q$ tale che:
+	\begin{enumerate}
+		\item $r_0 = q_0$;
+		\item $r_{i+1} \in \delta(r_i, w_{i+1})$ per $i = 0, 1, \dots, n-1$;
+		\item $r_n \in F$.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}[Equivalenza tra automi]
+	Diciamo che due automi $M_1$ e $M_2$ sono equivalenti se $L(M_1) = L(M_2)$.
+\end{definition}
+
+\begin{theorem}[Equivalenza tra DFA e NFA]
+	Ogni automa a stati finiti non deterministico ha un equivalente
+	deterministico.
+\end{theorem}
+
+\subsection{Espressioni regolari}
+
+\begin{definition}[Espressione regolare]
+	R è un espressione regolare se vale una delle seguenti:
+	\begin{itemize}
+		\item $a$ per qualche $a \in \Sigma$;
+		\item $\epsilon$;
+		\item $\emptyset$;
+		\item $(R_1 \cup R_2)$ dove $R_1$ e $R_2$ sono espressioni regolari;
+		\item $(R_1 \circ R_2)$ dove $R_1$ e $R_2$ sono espressioni regolari;
+		\item $(R_1^*)$ dove $R_1$ è un'espressione regolare.
+	\end{itemize}
+\end{definition}
+
+\begin{theorem}
+	Un linguaggio è regolare se e solo se qualche espressione regolare lo
+	genera.
+\end{theorem}
+
+\subsection{Pumping Lemma}
+
+\begin{theorem}[Pumping Lemma]
+	Sia $A$ un linguaggio regolare. Allora esiste un numero $p$ (detto pumping
+	length) tale che per ogni stringa $s \in A$ con $|s| \geq p$ esiste una
+	suddivisione $s = xyz$ tale che:
+	\begin{enumerate}
+		\item $|y| > 0$;
+		\item $|xy| \leq p$;
+		\item per ogni $i \geq 0$, $xy^iz \in A$.
+	\end{enumerate}
+\end{theorem}
+
+
+\section{Grammatica context-free}
+
+\begin{definition}[Grammatica context-free]
+	Una grammatica context-free (CFG, Context-Free Grammar) è una quadrupla
+	$(V, \Sigma, R, S)$ dove:
+	\begin{enumerate}
+		\item $V$ è un insieme finito chiamato insieme delle variabili;
+		\item $\Sigma$ è un insieme finito, disgiunto da V, chiamato insieme dei
+			terminali;
+		\item $R$ è un insieme finito di regole, ciascuna delle quali è una
+			coppia $(v, w)$ dove $v \in V$ e $w \in (V \cup \Sigma)^*$;
+		\item $S \in V$ è la variabile iniziale.
+	\end{enumerate}
+\end{definition}
+
+È intuitivo, ma vediamo come costruire una grammatica CF a partire da un DFA:
+\begin{enumerate}
+	\item $\forall q_i \in Q \, \ \exists r_i \in R$;
+	\item $\Sigma_{CFG} = \Sigma_{DFA}$;
+	\item $r_i \rightarrow ar_j \in R$ per ogni $q_j = \delta(q_i, a)$, tale che
+		$a \in \Sigma_{DFA}$;
+	\item $r_i \rightarrow \epsilon \in R$ per ogni $q_i \in F$;
+	\item $S = q_0$.
+\end{enumerate}
+
+\begin{definition}[Ambiguità]
+	Una grammatica è ambigua se esiste una stringa $w$ tale che $w$ ha due
+	alberi di derivazione distinti. In questo caso si dice che $w$ si deriva in
+	modo ambiguo.
+\end{definition}
+
+\subsection{Forma normale}
+
+\begin{definition}[Forma normale di Chomsky]
+	Una grammatica è in forma normale di Chomsky se tutte le sue regole sono
+	della forma:
+	\begin{itemize}
+		\item $A \rightarrow BC$;
+		\item $A \rightarrow a$.
+	\end{itemize}
+	dove $A, B, C \in V$ e $a \in \Sigma$ e $B, C \neq S$.
+\end{definition}
+
+\begin{theorem}[Forma normale di Chomsky]
+	Ogni linguaggio context-free è generato da una grammatica context-free in 
+	forma normale di Chomsky.
+\end{theorem}
+
+\subsection{Automa a pila} 
+
+\begin{definition}[Automa a pila]
+	Un automa a pila (PDA, pushdown automaton) è una 6-upla $(Q, \Sigma, \Gamma,
+	\delta, q_0, F)$, dove $Q, \Sigma, \Gamma e F$ sono insiemi finiti e:
+	\begin{itemize}
+		\item $Q$ è l'insieme degli stati;
+		\item $\Sigma$ è l'alfabeto di input;
+		\item $\Gamma$ è l'alfabeto dello stack;
+		\item $\delta : Q \times (\Sigma \cup \{\epsilon\}) \times (\Gamma \cup
+			\epsilon) \rightarrow \mathcal{P}(Q \times (\Gamma \cup \{\epsilon\}))$ 
+			è la funzione di transizione;
+		\item $q_0 \in Q$ è lo stato iniziale;
+		\item $F \subseteq Q$ è l'insieme degli stati finali.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Computazione]
+	Un PDA $M = (Q, \Sigma, \Gamma, \delta, q_0, F)$ accetta l'input $w$ se
+	$w$ può essere scritta come $w = w_1w_2\dots w_n$ dove $w_i \in \Sigma$, 
+	la sequenza di stati $r_0, r_1, \dots, r_n \in Q$ e le stringhe $s_0, s_1,
+	\dots, s_n \in \Gamma^*$ esistono tali che valgono le seguenti condizioni:
+	\begin{enumerate}
+		\item $r_0 = q_0$ e $s_0 = \epsilon$;
+		\item $(r_{i+1}, b) \in \delta(r_i, w_{i+1}, a)$ e $s_{i+1} = bt$ e $s_i
+			= at$ per qualche $t \in \Gamma^*$ e $a, b \in \Gamma \cup 
+			\{\epsilon\}$;
+		\item $r_n \in F$.
+	\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Equivalenza tra PDA e CFG]
+	Un linguaggio è context-free se e solo se è accettato da un PDA.
+\end{theorem}
+
+Dal precedente teorema otteniamo il corollario: ogni linguaggio regolare è
+context-free.
+
+\subsection{Pumping Lemma}
+
+\begin{theorem}[Pumping Lemma]
+	Sia $A$ un linguaggio context-free. Allora esiste un numero $p$ (detto
+	pumping length) tale che per ogni stringa $s \in A$ con $|s| \geq p$ esiste
+	una suddivisione $s = uvxyz$ tale che:
+	\begin{enumerate}
+		\item $|vy| > 0$;
+		\item $|vxy| \leq p$;
+		\item per ogni $i \geq 0$, $uv^ixy^iz \in A$.
+	\end{enumerate}
+\end{theorem}
+
+\section{Macchina di Turing}
+
+\begin{definition}[Macchina di Turing]
+	Una macchina di Turin (TM, Turing Machine) è una 7-upla $(Q, \Sigma, \Gamma,
+	\delta, q_0, q_{acc}, q_{rej})$, dove $Q, \Sigma, \Gamma$ sono insiemi 
+	finiti e valgono le seguenti condizioni:
+	\begin{enumerate}
+		\item $Q$ è l'insieme degli stati;
+		\item $\Sigma$ è l'alfabeto di input, non contiene il carattere
+			speciale $\sqcup$;
+		\item $\Gamma$ è l'alfabeto del nastro, tale che $\Sigma \subseteq
+			\Gamma$ e $\sqcup \in \Gamma$;
+		\item $\delta : Q \times \Gamma \rightarrow Q \times \Gamma \times
+			\{L, R\}$ è la funzione di transizione;
+		\item $q_0 \in Q$ è lo stato iniziale;
+		\item $q_{acc} \in Q$ è lo stato di accettazione;
+		\item $q_{rej} \in Q$ è lo stato di rifiuto, dove $q_{rej} \neq
+			q_{acc}$.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}[Configurazione]
+	Una configurazione di una TM è una tripla $(q, x, y)$ dove $q \in Q$ è lo
+	stato corrente, $x \in \Gamma^*$ è la stringa sul nastro che precede la
+	posizione della testina e $y \in \Gamma^*$ è la stringa non vuota che segue 
+	$x$, la testina si trova nel primo carattere di y. Un altro modo per
+	rappresentare una configurazione è $xqy$.
+\end{definition}
+
+\textbf{NB}: la configurazione iniziale è $q_0w$ dove $w$ è la stringa di input.
+In ogni configurazione di accetazione, lo stato corrente è $q_{acc}$. In ogni
+configurazione di rifiuto, lo stato corrente è $q_{rej}$. Le configurazioni
+di accettazione e di rifiuto sono dette configurazioni finali e bloccano la
+TM.
+
+\begin{definition}[Computazione]
+	Si diche che una TM $M$ accetta l'input $w$ se esiste una sequenza di
+	configurazioni $C_1, C_2, \dots, C_k$ tale che:
+	\begin{enumerate}
+		\item $C_1 = q_0w$;
+		\item $C_i \text{ genera } C_{i+1} \text{ per } i = 1, \dots, k-1$;
+		\item $C_k = q_{acc}$;
+	\end{enumerate}
+\end{definition}
+
+L'insieme di strighe che $M$ accetta è detto linguaggio di $M$ e si indica con
+$L(M)$.
+
+\begin{definition}[Turing riconoscibile]
+	Un linguaggio è Turing riconoscibile se è accettato da una TM.
+\end{definition}
+
+Quando facciamo partire una TM su un input, ci sono tre possibili risultati:
+\begin{enumerate}
+	\item la TM si blocca in uno stato di accettazione;
+	\item la TM si blocca in uno stato di rifiuto;
+	\item la TM entra in un loop infinito.
+\end{enumerate}
+
+\begin{definition}[Decisore]
+	Una TM è un decisore se si blocca in uno stato di accettazione o di rifiuto
+	per ogni input.
+\end{definition}
+
+\begin{definition}[Turing decidibile]
+	Un linguaggio è Turing decidibile se è accettato da un decisore.
+\end{definition}
+
+\section{Decidibilità}
+
+\begin{theorem}[$A_{DFA}$]
+	Sia $A_{DFA} = \{\langle B, w \rangle | B \text{ è un DFA che accetta } 
+	w\}$. Allora $A_{DFA}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Si simula la computazione del DFA su $w$ e si controlla se si
+controlla in quale stato si arriva alla fine della computazione.
+
+\begin{theorem}[$A_{NFA}$]
+	Sia $A_{NFA} = \{\langle B, w \rangle | B \text{ è un NFA che accetta } 
+	w\}$. Allora $A_{NFA}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Si converte un NFA in DFA e si applica il teorema precedente.
+
+\begin{theorem}[$A_{REX}$]
+	Sia $A_{REX} = \{\langle R, w \rangle | R \text{ è una regex che genera } 
+	w\}$. Allora $A_{REX}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Si converte la regex in un DFA e si applica il teorema precedente.
+
+\begin{theorem}[$E_{DFA}$]
+	Sia $E_{DFA} = \{\langle A \rangle | A \text{ è un DFA tale che } L(A) = 
+	\emptyset\}$. Allora $E_{DFA}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Costruiamo la TM T che decide $E_{DFA}$:\\
+
+$T = $ ``Sulla stringa di input $\langle A \rangle$, dove $A$ è un DFA:
+\begin{enumerate}
+	\item Segna lo stato iniziale di A;
+	\item Ripeti finché nessuno stato nuovo viene segnato:
+	\begin{enumerate}
+		\item Segna ogni stato raggiungibile da uno stato segnato;
+	\end{enumerate}
+	\item Se uno stato finale non è segnato, allora accetta, altrimenti rifiuta.
+\end{enumerate}
+
+\begin{theorem}[$EQ_{DFA}$]
+	Sia $EQ_{DFA} = \{\langle A, B \rangle | A \text{ e } B \text{ sono DFA e }
+	L(A) = L(B)\}$. Allora $EQ_{DFA}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Se $L(C) = (L(A) \cap \overline{L(B)}) \cup (\overline{L(A)} \cap
+L(B)) = \emptyset$ allora $L(A) = L(B)$.
+
+\begin{theorem}[$A_{CFG}$]
+	Sia $A_{CFG} = \{\langle G, w \rangle | G \text{ è una CFG che genera } 
+	w\}$. Allora $A_{CFG}$ è decidibile.
+\end{theorem}
+
+\begin{theorem}[$E_{CFG}$]
+	Sia $E_{CFG} = \{\langle G \rangle | G \text{ è una CFG tale che } L(G) = 
+	\emptyset\}$. Allora $E_{CFG}$ è decidibile.
+\end{theorem}
+
+\textbf{NB}: Costruiamo la TM T che decide $E_{CFG}$:\\
+
+$T = $ ``Sulla stringa di input $\langle G \rangle$, dove $G$ è una CFG:
+\begin{enumerate}
+	\item Segna tytti i simboli terminali di G;
+	\item Ripeti finché nessuna nuova variabile viene segnata:
+	\begin{enumerate}
+		\item Segna ogni variabile V tale che G abbia una regola del tipo $V 
+			\rightarrow U_1 U_2 \dots U_k$ tali che ogni $U_i$ è già stato
+			seganto;
+	\end{enumerate}
+	\item Se la variabile di partenza di G non è segnata, allora accetta, 
+		altrimenti rifiuta.
+\end{enumerate}
+
+
+
+
+
+
+
+
+\end{document}
