@@ -1,11 +1,11 @@
-# useful github commands
+# Useful github commands
 
-## Three categories of file:
+### Three categories of file:
 1. Untracked files
 1. Unstaged files
 1. Staged
 
-## Reset one of the above:
+### Reset one of the above:
 1. ``git clean -f`` - Removes Unstaged UnTracked files ONLY [Type 1]
 1. ``git checkout .`` - Removes Unstaged Tracked files ONLY [Type 2]
 1. ``git reset --hard`` - Removes Staged Tracked and UnStaged Tracked files 

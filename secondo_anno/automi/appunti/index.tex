@@ -13,6 +13,7 @@
 \author{\vspace{3mm}17 Agosto 2023}
 \date{\vspace{3mm} \textbf{Rosso Carlo}}
 
+\usepackage{comment}
 \usepackage{tabularx}
 \usepackage{changepage}
 \usepackage{amsfonts}
@@ -34,6 +35,7 @@
 \renewcommand{\labelitemi}{-}
 \newtheorem{definition}{Def.}[section]
 \newtheorem{theorem}{Teorema}[section]
+\newtheorem{proof}{Dimostrazione}[section]
 
 
 \begin{document}
@@ -356,7 +358,7 @@ Quando facciamo partire una TM su un input, ci sono tre possibili risultati:
 \section{Decidibilità}
 
 \begin{theorem}[$A_{DFA}$]
-	Sia $A_{DFA} = \{\langle B, w \rangle | B \text{ è un DFA che accetta } 
+	Sia $A_{DFA} = \{\langle B, w \rangle \mid B \text{ è un DFA che accetta } 
 	w\}$. Allora $A_{DFA}$ è decidibile.
 \end{theorem}
 
@@ -364,25 +366,26 @@ Quando facciamo partire una TM su un input, ci sono tre possibili risultati:
 controlla in quale stato si arriva alla fine della computazione.
 
 \begin{theorem}[$A_{NFA}$]
-	Sia $A_{NFA} = \{\langle B, w \rangle | B \text{ è un NFA che accetta } 
+	Sia $A_{NFA} = \{\langle B, w \rangle \mid B \text{ è un NFA che accetta } 
 	w\}$. Allora $A_{NFA}$ è decidibile.
 \end{theorem}
 
 \textbf{NB}: Si converte un NFA in DFA e si applica il teorema precedente.
 
 \begin{theorem}[$A_{REX}$]
-	Sia $A_{REX} = \{\langle R, w \rangle | R \text{ è una regex che genera } 
+	Sia $A_{REX} = \{\langle R, w \rangle \mid R \text{ è una regex che genera } 
 	w\}$. Allora $A_{REX}$ è decidibile.
 \end{theorem}
 
 \textbf{NB}: Si converte la regex in un DFA e si applica il teorema precedente.
 
 \begin{theorem}[$E_{DFA}$]
-	Sia $E_{DFA} = \{\langle A \rangle | A \text{ è un DFA tale che } L(A) = 
+	Sia $E_{DFA} = \{\langle A \rangle \mid A \text{ è un DFA tale che } L(A) = 
 	\emptyset\}$. Allora $E_{DFA}$ è decidibile.
 \end{theorem}
 
-\textbf{NB}: Costruiamo la TM T che decide $E_{DFA}$:\\
+\begin{proof}
+Costruiamo la TM T che decide $E_{DFA}$:\\
 
 $T = $ ``Sulla stringa di input $\langle A \rangle$, dove $A$ è un DFA:
 \begin{enumerate}
@@ -391,11 +394,13 @@ $T = $ ``Sulla stringa di input $\langle A \rangle$, dove $A$ è un DFA:
 	\begin{enumerate}
 		\item Segna ogni stato raggiungibile da uno stato segnato;
 	\end{enumerate}
-	\item Se uno stato finale non è segnato, allora accetta, altrimenti rifiuta.
+	\item Se uno stato finale non è segnato, allora accetta, altrimenti
+		rifiuta.''
 \end{enumerate}
+\end{proof}
 
 \begin{theorem}[$EQ_{DFA}$]
-	Sia $EQ_{DFA} = \{\langle A, B \rangle | A \text{ e } B \text{ sono DFA e }
+	Sia $EQ_{DFA} = \{\langle A, B \rangle \mid A \text{ e } B \text{ sono DFA e }
 	L(A) = L(B)\}$. Allora $EQ_{DFA}$ è decidibile.
 \end{theorem}
 
@@ -403,16 +408,17 @@ $T = $ ``Sulla stringa di input $\langle A \rangle$, dove $A$ è un DFA:
 L(B)) = \emptyset$ allora $L(A) = L(B)$.
 
 \begin{theorem}[$A_{CFG}$]
-	Sia $A_{CFG} = \{\langle G, w \rangle | G \text{ è una CFG che genera } 
+	Sia $A_{CFG} = \{\langle G, w \rangle \mid G \text{ è una CFG che genera } 
 	w\}$. Allora $A_{CFG}$ è decidibile.
 \end{theorem}
 
 \begin{theorem}[$E_{CFG}$]
-	Sia $E_{CFG} = \{\langle G \rangle | G \text{ è una CFG tale che } L(G) = 
+	Sia $E_{CFG} = \{\langle G \rangle \mid G \text{ è una CFG tale che } L(G) = 
 	\emptyset\}$. Allora $E_{CFG}$ è decidibile.
 \end{theorem}
 
-\textbf{NB}: Costruiamo la TM T che decide $E_{CFG}$:\\
+\begin{proof}
+Costruiamo la TM T che decide $E_{CFG}$:\\
 
 $T = $ ``Sulla stringa di input $\langle G \rangle$, dove $G$ è una CFG:
 \begin{enumerate}
@@ -424,8 +430,262 @@ $T = $ ``Sulla stringa di input $\langle G \rangle$, dove $G$ è una CFG:
 			seganto;
 	\end{enumerate}
 	\item Se la variabile di partenza di G non è segnata, allora accetta, 
-		altrimenti rifiuta.
+		altrimenti rifiuta.''
 \end{enumerate}
+\end{proof}
+
+\subsection{Problemi indecidibili}
+
+\begin{theorem}[Halting problem]
+	Sia $A_{TM} = \{\langle M, w \rangle \mid M \text{ è una TM che accetta } 
+	w\}$. Allora $A_{TM}$ è indecidibile.
+\end{theorem}
+
+\begin{theorem}
+	Un liguaggio è decidibile se e solo se è Turing riconoscibile e co-Turing
+	riconoscibile.
+\end{theorem}
+
+\section{Riducibilità}
+
+\begin{theorem}[$HALT_{TM}$]
+	Sia $HALT_{TM} = \{\langle M, w \rangle \mid M \text{ è una TM che si ferma
+	su } w\}$. Allora $HALT_{TM}$ è indecidibile.
+\end{theorem}
+
+\begin{proof}
+Si suppone che $HALT_{TM}$ sia decidibile e si costruisce una TM
+$T$ che decide $A_{TM}$, tale che $R$ è un desisore di $HALT_TM$:\\
+$T = $ ``Sulla stringa di input $\langle M, w \rangle$, dove $M$ è una TM e
+$w$ è una stringa:
+\begin{enumerate}
+	\item simula $R$ sull'input $\langle M, w \rangle$;
+	\item se $R$ rifiuta, rifiuta;
+	\item simula $M$ sull'input $w$ fino a che non si blocca;
+	\item se M accetta, accetta, altrimenti rifiuta;''
+\end{enumerate}
+
+Dato che $R$ è un decisore di $HALT_{TM}$, se $R$ rifiuta, allora $M$ non si
+blocca su $w$, quindi $M$ non accetta $w$. Se $R$ accetta, allora $M$ si blocca
+su $w$, quindi la simulazione di $M$ su $w$ termina, rendendo $A_{TM}$ un
+decisore. Questo è un assurdo, quindi $R$ non può esistere.
+\end{proof}
+
+\begin{theorem}[$E_{TM}$]
+	Sia $E_{TM} = \{\langle M \rangle \mid M \text{ è una TM tale che } L(M) = 
+	\emptyset\}$. Allora $E_{TM}$ è indecidibile.
+\end{theorem}
+
+\begin{proof}
+Si suppone che $E_{TM}$ sia decidibile e si costruisce una TM
+$T$ che decide $A_{TM}$. Sia $R$ è un desisore di $E_TM$:\\
+$T = $ ``Sulla stringa di input $\langle M, w \rangle$, dove $M$ è una TM e
+$w$ è una stringa:
+\begin{enumerate}
+	\item usa la descrizione di $M$ e $w$ per costuire $M_2$ tale che:\\
+		$M_2 = $ ``Sulla stringa di input $x$:
+		\begin{enumerate}
+			\item se $x \neq w$ rifiuta;
+			\item altrimenti simula $M$ su $w$, se $M$ accetta, accetta, se $M$
+				rifiuta, rifiuta;''
+		\end{enumerate}
+
+	\item simula $R$ sull'input $M_2$;
+	\item se $R$ rifiuta, accetta, se R accetta, rifiuta; ''
+\end{enumerate}
+
+Dato che $M_2$ arriva in uno stato di accettazione solo se $M$ accetta $w$.
+Questo vuole dire che $L(M_2) = \emptyset$ se $M$ non accetta $w$ ed $L(M_2) =
+\{ w \}$ se $M$ accetta $w$. Dunque se $R$, il decisore di $E_TM$, accetta, vuol
+dire che $M$ non accetta $w$. Ma allora $T$ è un decisore di $A_TM$, questo è
+assurdo, quindi $R$ non può essere un decisore di $E_TM$, allora $E_TM$ è
+indecidibile.
+\end{proof}
+
+\begin{theorem}[$REGULAR_{TM}$]
+	Sia $REGULAR_{TM} = \{\langle M \rangle \mid M$ è una TM tale che 
+	$L(M)$ è un linguaggio regolare$\}$. Allora $REGULAR_{TM}$ è
+	indecidibile.
+\end{theorem}
+
+\begin{proof}
+	Si supponge che $REGULAR_{TM}$ sia decidibile e si costruisce una TM $T$
+	tale che decide $A_{TM}$. Sia $R$ un decisore di $REGULAR_{TM}$:\\
+
+	$T = $ ``Sulla stringa di input $\langle M, w \rangle$, dove $M$ è una TM e
+	$w$ è una stringa:
+	\begin{enumerate}
+		\item usa $M$ e $w$ per costruire la TM $M_2$:\\
+
+			$M_2 = $ ``Sulla stringa di input $x$:
+			\begin{enumerate}
+				\item se $x \in 0^n1^n$ accetta;
+				\item altrimenti simula $M$ su $w$, se $M$ accetta, accetta,
+					altrimenti rifiuta;''
+			\end{enumerate}
+
+		\item simula $R$ sull'input $\langle M \rangle$;
+
+		\item se $R$ accetta, accetta; se $R$ rifiuta, rifiuta;''
+	\end{enumerate}
+
+	Se $M$ accetta $w$ allora $L(M_2) = \Sigma^*$ ed è un liguaggio regolare. Se
+	$M$ rifiuta $w$ allora $L(M_2)$ non è regolare, quindi $R$ rifiuta. $T$ è un 
+	decisore di $A_TM$, questo è assurdo, ma allora $R$ non può essere un
+	decisore di $REGULAR_{TM}$. Dunque $REGULAR_{TM}$ è indecidibile.
+\end{proof}
+
+\begin{theorem}[$EQ_TM$]
+	Sia $EQ_{TM} = \{\langle M_1, M_2 \rangle \mid M_1 \text{ e } M_2 \text{ sono
+	TM tali che } L(M_1) = L(M_2)\}$. Allora $EQ_{TM}$ è indecidibile.
+\end{theorem}
+
+\begin{proof}
+	Si supponga che $EQ_{TM}$ sia decidibile e si costruisce una TM $T$ che
+	decide $E_{TM}$. Sia $R$ un decisore di $EQ_{TM}$:\\
+
+	$T = $ ``Sulla stringa di input $\langle M \rangle$, dove $M$ è una TM:
+	\begin{enumerate}
+		\item Simula $R$ sull'input $\langle M, M_0 \rangle$, dove $M_0$ è una
+			TM che rifiuta ogni stringa;
+		\item se $R$ accetta, accetta; se $R$ rifiuta, rifiuta;''
+	\end{enumerate}
+
+	Se $L(M) = \emptyset$, allora $R$ accetta, perché $L(M) = L(M_0)$.
+	Altrimenti $L(M) \neq L(M_0) = \emptyset$, quindi $R$ rifiuta. $T$ è un 
+	decisore di $E_{TM}$, questo è assurdo, ma allora $R$ non può essere un
+	decisore di $EQ_{TM}$. Dunque $EQ_{TM}$ è indecidibile.
+\end{proof}
+
+\begin{comment}
+\begin{proof}
+	Si supponge che $EQ_{TM}$ sia decidibile e si costruisce una TM $T$ che
+	decide $A_{TM}$. Sia $R$ un decisore di $EQ_{TM}$:\\
+
+	$T = $ ``Sulla stringa di input $\langle M, w \rangle$, dove $M$ è una TM e
+	$w$ è una stringa:
+	\begin{enumerate}
+		\item usa $M$ e $w$ per costruire la TM $M_2$:\\
+
+			$M_2 = $ ``Sulla stringa di input $x$:
+			\begin{enumerate}
+				\item se $x \neq w$ rifiuta;
+				\item se $x = w$ simula $M$ sull'input $w$;
+				\item se $M$ accetta, accetta, se $M$ rifiuta, rifiuta;''
+			\end{enumerate}
+
+		\item costruisce la TM $M_3$:\\
+
+			$M_3 = $ ``Sulla stringa di input $x$:
+			\begin{enumerate}
+				\item se $x = w$ accetta, altrimenti rifiuta;''
+			\end{enumerate}
+
+		\item simula $R$ sull'input $\langle M_2, M_3 \rangle$;
+
+		\item se $R$ accetta, accetta; se $R$ rifiuta, rifiuta;''
+	\end{enumerate}
+
+	Se $M$ accetta $w$ allora $L(M_2) = \{ w \} = L(M_3)$, quindi $R$ accetta.
+	Se $M$ rifiuta $w$ allora $L(M_2) = \emptyset \neq L(M_3)$, quindi $R$
+	rifiuta. $T$ è un decisore di $A_{TM}$, questo è assurdo, ma allora $R$ non
+	può essere un decisore di $EQ_{TM}$. Dunque $EQ_{TM}$ è indecidibile.
+\end{proof}
+\end{comment}
+
+\section{Complessità temporale}
+
+\begin{definition}[Time]
+	Sia $t: \mathbb{N} \rightarrow \mathbb{N}$ una funzione. Defniniamo la
+	classe di complessità temporale $TIME(t(n))$
+	\begin{equation}
+		TIME(t(n)) = \{L \mid \text{ esiste una TM $M$ che decide $L$ in tempo
+		$O(t(n))$}\}
+	\end{equation}
+\end{definition}
+
+\begin{theorem}[Multitape TM]
+	Una multitape TM che lavora in tempo $t(n)$ può essere simulata da una
+	singletape TM che lavora in tempo $O(t^2(n))$.
+\end{theorem}
+
+\begin{theorem}[TM non deterministica]
+	Una TM non deterministica che lavora in tempo $t(n)$ può essere simulata da
+	una TM deterministica che lavora in tempo $2^{O(t(n))}$.
+\end{theorem}
+
+\begin{definition}[P (Polynomial time)]
+	P è la classe dei linguaggi che sono decidibili in tempo polinomiale da una
+	TM deterministica. Ovvero:
+	\begin{equation}
+		P = \bigcup_k TIME(n^k)
+	\end{equation}
+\end{definition}
+
+\subsection{NP}
+
+\begin{definition}[Verificatore]
+	Un verificatore per un linguaggio $L$ è una TM $V$ tale che:
+	\begin{equation}
+		L = \{w \mid \text{ esiste una stringa } c \text{ tale che } V
+			\text{ accetta } \langle w, c \rangle\};
+	\end{equation}
+	$c$ è chiamata certificato.
+\end{definition}
+
+In sostanza un verificatore è una TM che che verifica che una stringa $w$ sia
+nel linguaggio $L$, avendo a disposizione informazioni aggiuntive per effettuare
+la verifica più velocemente.
+
+\begin{definition}[NP (Nondeterministic Polynomial time)]
+	NP è la classe dei linguaggi che hanno un verificatore che lavora in tempo
+	polinomiale. Ovvero:
+\end{definition}
+
+\begin{definition}[NTIME]
+	\begin{equation}
+		NTIME(t(n)) = \{L \mid \text{ esiste una TM non deterministica che
+		decide $L$ in tempo $O(t(n))$}\}
+	\end{equation}
+\end{definition}
+
+Dunque: $NP = \bigcup_k NTIME(n^k)$.
+
+\subsection{NP-completo}
+
+\begin{definition}[Funzione computabile in tempo polinomiale]
+	Una funzione $f: \Sigma^* \rightarrow \Sigma^*$ è una funzione computabile 
+	in tempo polinomiale se esiste una TM
+	$M$ che lavora in tempo polinomiale, tale che si blocca con $f(w)$ sul
+	nastro, quando avendo ricevuto $w$ in input.
+\end{definition}
+
+\begin{definition}[Riduzione polinomiale]
+	Siano $A$ e $B$ due linguaggi. $A$ si riduce in tempo polinomiale a $B$ se 
+	esiste una funzione computabile in tempo polinomiale ($ A \leq_p B$) tale 
+	che:
+	\begin{equation}
+		\forall w, w \in A \iff f(w) \in B
+	\end{equation}
+
+	$f$ è detta riduzione polinomiale da $A$ a $B$.
+\end{definition}
+
+\begin{theorem}[Fondamentale]
+	Se $A \leq_p B$ e $B \in P$ allora $A \in P$.
+\end{theorem}
+
+\begin{definition}[NP-completo]
+	Un linguaggio $L$ è NP-completo se:
+	\begin{enumerate}
+		\item $L \in NP$;
+		\item $\forall L' \in NP, L' \leq_p L$.
+	\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+	Se $B$ è NP-completo e $B \leq_p A$ allora $A$ è NP-completo.
+\end{theorem}
 
 
 
