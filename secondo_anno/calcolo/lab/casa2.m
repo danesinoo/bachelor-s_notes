@@ -13,14 +13,17 @@ diff = abs(sl - sl2);
 figure(1)
 hold on
 plot(1:1:n, sl);
-plot(1:1:n, sl2);
 
+fprintf('N: %4.4f x_1: %4.4f\n', sl(n), sl(1));
+% plot(1:1:n, sl2);
+hold off
 
-figure(2)
-hold on
-semilogy(1:1:n, err, '.');
-semilogy(1:1:n, err2);
-semilogy(1:1:n, err2, 'x');
-
-figure(3)
-plot(1:1:n, diff, '.');
+% figure(2)
+% hold on
+% semilogy(1:1:n, err, '.');
+% semilogy(1:1:n, err2);
+% semilogy(1:1:n, err2, 'x');
+% hold off
+% 
+% figure(3)
+% plot(1:1:n, diff, '.');

@@ -1,3 +1,6 @@
+clear all;
+clc;
+
 f = @(x) (((1+x) - 1) ./ x);
 
 I = linspace(-1e-10, 1e-10, 2000);

@@ -1,6 +1,6 @@
 function [next] = sequenza_log(x, n)
 
-f = @(x, n) ((2 ^ n) * (sqrt((1 + x)/(2 ^ (n -1))) - 1));
+f = @(x, n) ((2 ^ n) * (sqrt(1 + x/(2 ^ (n -1))) - 1));
 
 if x > -1
     next = zeros(n, 1);
@@ -15,5 +15,3 @@ else
 end
 
 end
-
-
