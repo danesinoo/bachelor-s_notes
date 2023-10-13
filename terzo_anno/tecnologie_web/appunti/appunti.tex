@@ -1,0 +1,212 @@
+\documentclass[11pt]{article}
+ \renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    language=c++, % Set the language to SQL
+    basicstyle=\ttfamily\color{black}, % Regular font style
+    commentstyle=\color{green!60!black}, % Set the color for comments
+    keywordstyle=\bfseries\color{blue}, % Bold and color for keywords
+    stringstyle=\color{orange}, % Set the color for strings
+}
+
+\newtheorem{definition}{Def.}[section]
+
+\usepackage{listings}
+\usepackage{tabularx}
+\usepackage{changepage}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+	\geometry{height=24 cm}
+	\geometry{left=2.5 cm}
+	\geometry{right=2.5 cm}
+	\geometry{top=2 cm}
+	\geometry{headheight=1 cm}
+
+\setcounter{secnumdepth}{2}
+\renewcommand{\labelitemi}{-}
+
+\title{\vspace{2cm}\textbf{Appunti di Tecnologie Web}}
+\author{\vspace{3mm}4 ottobre 2022}
+\date{\vspace{3mm} \textbf{Rosso Carlo}}
+
+\begin{document}
+
+\begin{titlepage}
+	\maketitle
+	\thispagestyle{empty}
+\end{titlepage}
+\tableofcontents
+\newpage
+
+\section{css}
+Procedimento a cascata:
+\begin{enumerate}
+	\item impostazioni personali dell'utente
+	\item dichiarazioni defnite "!important"
+	\item impostazioni di stile inline definite dall'autore della pagina
+	\item fogli di stile \textit{embedded} definiti dall'autore
+	\item fogli di stile esterni definiti dall'autore
+	\item impostazioni di stile predefinite dal browser (le impostazioni di 
+	default cambiano da browser a browser)
+\end{enumerate}
+
+Selettore di attributo:
+\begin{lstlisting}{css}
+	element_name[attribute=valore] { 
+	/// base
+	/* regole */
+	}
+
+	element_name[attribute] { 
+	/// attributo presente
+	/* regole */
+	}
+
+	element_name[attribute="valore"] { 
+	/// attributo uguale alla stringa "valore"
+	/* regole */
+	}
+
+	element_name[attributo~="valore"] { 
+	/// attributo contenente la parola "valore"
+	/* regole */
+	}
+	
+\end{lstlisting}
+
+\begin{definition}[ereditarietà]
+	\begin{enumerate}
+		\item flag \lstinline{attributo=valore !important}
+		\item num id
+		\item num attributi
+		\item num tag html
+	\end{enumerate}
+\end{definition}
+
+\subsection{pseudoclassi}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		pseudoclasse & descrizione \\
+		\hline
+		:link & link non visitato \\
+		:visited & link visitato \\
+		:active & link attivo \\
+		:hover & mouse sopra \\
+		:focus & elemento attivo (tab) \\
+		:first & prima pag per media paginati \\
+		:left & pagine di sinistra \\
+		:right & pagine di destra \\
+		:first-child & prima occorrenza di un elemento \\
+		:lang & seleziona una lingua \\
+		\hline
+	\end{tabular}
+	\caption{pseudoclassi}
+\end{table}
+
+Esempio:
+\begin{lstlisting}
+a:link:hover {
+	font-size: 2em;
+}
+
+// generale
+selettore::pseudoclasse {
+	/* regole */
+}
+\end{lstlisting}
+
+\subsection{pseudo-elementi}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		pseudo-elemento & descrizione \\
+		\hline
+		:first-letter & prima lettera di un blocco \\
+		:first-line & prima riga di un blocco \\
+		:before & testo da aggiungere prima \\
+		:after & o dopo un elemento \\
+		\hline
+	\end{tabular}
+	\caption{pseudo-elementi}
+\end{table}
+
+\subsection{unità di misura}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		unità & descrizione & esempio \\
+		\hline
+		em & altezza media del font, relativo & h1 \{ margin:0.5em \} \\
+		px & utilizzato, assoluto & p \{ font-size:12px \} \\
+		in & numero pixel nello schermo, assoluto & p \{ font-size:0.5in \} \\
+		cm & inch, pollici (1 in = 2,54 cm), assoluto & p \{ font-size:1cm \} \\
+		mm & millimetri, assoluto & p \{ font-size:1mm \} \\
+		pt & punti (1 pt = 1/72 in), assoluto & p \{ font-size:12pt \} \\
+		pc & pica (1 pc = 12 pt), assoluto & p \{ font-size:1pc \} \\
+		\% & percentuale, relativo all'elemento principale & p \{ font-size:120\% \} \\
+		\hline
+	\end{tabular}
+	\caption{unità di misura}
+\end{table}
+
+\subsection{colori}
+Espressi in formato rgb esadecimale funzionano su tutti i browser.
+Esempio:
+\begin{lstlisting}
+p {
+	/// color: #RRGGBB
+	color: #ff0000;
+}
+\end{lstlisting}
+
+\subsection{url}
+Esempio:
+\begin{lstlisting}
+p {
+	/// url: url(protocollo://dominio/percorso)
+	background-image:url(percorso/immagine.jpg);
+	background-repeat:repeat;
+}
+\end{lstlisting}
+
+\subsection{stile del testo}
+\begin{itemize}
+	\item dimensione: \lstinline{font-size: value;}
+	\item interlinea: \lstinline{line-heigh}
+	\item sovvrapposizione: \lstinline{z-index}
+	\item corsivo: \lstinline{font-style}
+	\item grassetto: \lstinline{font-weight // bold, normal, bolder, lighter}
+	\item variante maiuscoletto: \lstinline{font-variant // small-caps}
+	\item maiuscolo o minuscolo: \lstinline{text-transform // uppercase, lowercase, capitalize}
+	\item decorazione: \lstinline{text-decoration // underline, overline, line-through}
+	\item colori: \lstinline{color, background-color}
+	
+	\item distanza tra le lettere: \lstinline{letter-spacing}
+	\item distanza tra le parole: \lstinline{word-spacing}
+	\item indentazione: \lstinline{text-indent}
+	\item allineamento orizzontale: \lstinline{text-align // left, right, center, justify}
+	\item allineamento verticale: \lstinline{vertical-aligh}
+\end{itemize}
+
+\subsection{stile dello sfondo}
+\begin{itemize}
+	\item \lstinline{background-attachment}: stabilisce se l'immagine segue il
+		contenuto nello scroll oppure no
+	\item \lstinline{background-repeat}
+	\item \lstinline{background-position}
+	\item \lstinline{background-image: url(/* path */)}
+\end{itemize}
+
+\end{document}
