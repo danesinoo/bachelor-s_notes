@@ -10,3 +10,20 @@ possa accedere alla funzionalità
 usufruito della funzionalità  
 **main scenario**:  
 **alternative scenario**:  
+
+## Layered Architecture
+
+- Presentation Layer | Controller
+- Business Layer: rappresenta la realtà, lavora e la modifica | Service
+- Persistance Layer: | Repòsitory
+- Database Layer: molto importante, che forma ha la persistenza
+
+### Presentation
+
+1. Validazione dei dati (dal punto di vista sintattico)
+
+### Business
+
+1. Validazione dei dati (dal punto di vista semantico/funzionale)
+
+Separation of concerns: è ben chiaro e diviso il ruolo di ciascun layer. 

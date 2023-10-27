@@ -1,0 +1,5 @@
+- documentazione con chatGPT
+- test con chatGPT
+- referente degli interni
+- referente degli esteri
+- overview della riunione con chatGPT
