@@ -11,3 +11,5 @@
 1. ``git reset --hard`` - Removes Staged Tracked and UnStaged Tracked files 
 ONLY[Type 2, Type 3]
 1. ``git stash -u`` - Removes all changes [Type 1, Type 2, Type 3]
+
+``git commit --amend [--no-edit]`` - Adds the staged file into the last commit [without changing the message]
