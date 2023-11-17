@@ -14,4 +14,4 @@ ONLY[Type 2, Type 3]
 
 ``git commit --amend [--no-edit]`` - Adds the staged file into the last commit [without changing the message]
 
-``git fetch --prune`` - updatea the list of remote branches and remove any references to branches that have been deleted on the remote.
+``git fetch --prune`` - updates the list of remote branches and remove any references to branches that have been deleted on the remote.
