@@ -11,7 +11,10 @@ usufruito della funzionalità
 **main scenario**:  
 **alternative scenario**:  
 
-## Layered Architecture
+## Layer[ed] Architecture
+
+Dall'alto verso il basso. Vuol dire che il database layer è il più importante e
+si comincia da qui a progettare l'architettura.
 
 - Presentation Layer | Controller
 - Business Layer: rappresenta la realtà, lavora e la modifica | Service
@@ -27,3 +30,11 @@ usufruito della funzionalità
 1. Validazione dei dati (dal punto di vista semantico/funzionale)
 
 Separation of concerns: è ben chiaro e diviso il ruolo di ciascun layer. 
+
+<!--
+NB le scorciatoie: vanno sempre ben spiegate!
+-->
+
+## Implementation View: Architettura Esagonale/Port Adapter
+
+
