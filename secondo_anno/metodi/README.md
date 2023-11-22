@@ -13,3 +13,5 @@ ONLY[Type 2, Type 3]
 1. ``git stash -u`` - Removes all changes [Type 1, Type 2, Type 3]
 
 ``git commit --amend [--no-edit]`` - Adds the staged file into the last commit [without changing the message]
+
+``git fetch --prune`` - updates the list of remote branches and remove any references to branches that have been deleted on the remote.
