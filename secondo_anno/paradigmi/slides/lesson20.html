@@ -1,0 +1,481 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>PDP2022 - L20</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\n\n"
+        data-background-image="imgs/sfondo.png" data-separator-notes="^Note:">
+          <textarea data-template>
+
+# Paradigmi di Programmazione
+
+A.A. 2022/2023
+
+Laurea triennale in Informatica
+
+20: Reattività
+
+---
+
+# Reactive Extensions
+
+
+Per cercare astrazioni di livello più alto con cui gestire, in modo coordinato, le problematiche di sistemi concorrenti e distribuiti facciamo un passo indietro, recuperando uno strumento di cui abbiamo già parlato, rileggendolo sotto un'altra luce.
+
+
+L'astrazione di esecuzione fornita dallo Stream si basa sull'inversione del controllo dell'iterazione.
+
+E' lo Stream che avanza l'esecuzione, e che decide la sua struttura.
+
+
+Tuttavia, alcune esigenze rimangono aperte:
+* manca un protocollo esplicito per gestire la terminazione dello stream
+* gli errori sono gestiti come eccezioni
+
+Note: e le eccezioni non si combinano bene come il resto dell'API invece fa.
+
+
+Nel 2009, il gruppo di Erik Mejer introduce in .NET 4.0 la versione 1.0 delle Reactive Extensions.<!-- .element: style="float: left; width: 50%" -->
+
+![Mejer](imgs/l20/BTCErikMeijer_512_ch9.png)<!-- .element: style="width: 40%" -->
+
+Note: https://channel9.msdn.com/Blogs/Charles/Erik-Meijer-Rx-in-15-Minutes
+
+
+"ReactiveX is a library for composing asynchronous and event-based programs by using observable sequences." <!-- .element: style="float: right; width: 50%" -->
+
+![ReactiveX](imgs/l20/rx_logo.jpg) <!-- .element: style="width: 40%" -->
+
+Note: http://reactivex.io/intro.html
+
+
+Le Reactive Extension forniscono una semantica per la definizione di elaborazioni asincrone di sequenze di oggetti.
+
+E' molto di più di una API: è un intero modello di esecuzione.
+
+
+Il lavoro teorico descrive così precisamente il modello che viene subito avviato il _porting_ verso altre piattaforme.
+
+Netflix rilascia [RxJava](https://github.com/ReactiveX/RxJava) nel 2014.
+
+
+Le basi del modello sono i seguenti concetti:
+* Observable
+* Scheduler
+* Subscriber
+* Subject
+
+
+L'idea principale del modello è una implementazione dell'**Observer pattern** _done right_.
+
+
+Un `Observable` in Rx è un oggetto concettualmente simile ad uno stream, che emette _nel tempo_ una sequenza di valori.
+
+E' possibile trasformare, filtrare ed elaborare questi valori in modo esteriormente simile alle analoghe implementazioni su di uno stream.
+
+
+E' possibile _osservare_ i valori emessi da un `Observable` fornendo il comportamento da adottare in caso di:
+
+* valore ricevuto
+* eccezione lanciata da un precedente componente
+* termine del flusso di dati
+
+
+![Observable](imgs/l20/legend.jpg)
+
+
+|evento|Iterable|Observable|
+|-|-|-|
+|successivo|`T next()`|`onNext(T)`|
+|errore|lancia `Exception`|`onError(E)`|
+|completamento|`!hasNext()`|`onCompleted()`|
+
+Note: l'`Observable` ribalta il funzionamento dell'`Iterable`, secondo il paradigma dello Stream. Aggiunge però, rispetto alla libreria standard, la gestione esplicita di errori e completamento dello stream.
+
+
+`it.unipd.pdp2022.rx.RxPerfect`
+```java
+System.out.println("Defining...");
+Observable.range(0, 10000).map(new RxDivisors())
+  .filter(new RxPerfectPredicate())
+  .subscribe((c) -> {
+    System.out.println(c);
+  }, (t) -> {
+    t.printStackTrace();
+  }, () -> {
+    System.out.println("Done");
+  });
+System.out.println("Defined");
+```
+
+
+Il risultato è:
+* una semantica più ricca
+* maggiore regolarità nella composizione
+* indipendenza dal modello di esecuzione (sincrono/asincrono)
+
+
+La maggior parte degli operatori sugli `Observable` accettano uno `Scheduler` come parametro.
+
+Ogni operatore può così essere reso concorrente; lo `Scheduler` scelto permette di indicare il tipo di concorrenza desiderato.
+
+
+`it.unipd.pdp2022.rx.Scheduler`
+```java
+System.out.println("Defining...");
+Observable.range(0, 1000000).map(new RxDivisors())
+  .filter(new RxPerfectPredicate())
+  .subscribeOn(Schedulers.computation())
+  .subscribe(
+    (c) -> { System.out.println(c); }, 
+    (t) -> { t.printStackTrace(); }, 
+    () -> { System.out.println("Done"); done[0] = true; });
+System.out.println("Defined");
+while (!done[0]) Thread.sleep(1000);
+System.out.println("End");
+```
+
+
+Un `Subscriber` rappresenta un ascoltatore di un `Observable`: fornisce il codice che reagisce agli eventi per ottenere
+il risultato finale dalla catena di elaborazione.
+
+
+Un `Subject` può consumare uno o più `Observable`, per poi comportarsi esso stesso da `Observable` e quindi introdurre
+modifiche sostanziali nel flusso degli eventi.
+
+
+Lo schema concettuale proposto da Rx è estremamente utile per:
+* costruire stream di elaborazione complessi e asincroni
+* fornire un'interfaccia semplice ma facilmente componibile per trattare successioni di eventi nel tempo
+
+
+* scrivere algoritmi facili da portare da un linguaggio all'altro
+* strutturare una elaborazione concorrente di uno stream di dati su garanzie solide
+
+
+* gestire gli eventi provenienti da una UI con la stessa semplicità di dati provenienti da un file, da una sequenza di dati, o altra sorgente.
+
+---
+
+# Reactive Manifesto
+
+
+Le Reactive Extensions avviano presto un nuovo filone di ricerca per studiare come il modello da loro proposto si adatta alle necessità emergenti delle applicazioni di elaborazione di stream di dati, che nella prima metà degli anni 2010 diventano sono ormai comuni.
+
+Note: e hanno esaurito la spinta innovativa dell'ecosistema del tempo relativamente alla distribuzione massiccia di compiti allo scopo di scalare la capacità di elaborazione. Sono gli anni dell'ascesa del _Big Data_.
+
+
+Per dare una definizione precisa a questo nuovo tipo di applicazioni, e stabilire un concetto che potesse catalizzare il discorso della ricerca in una direzione ben precisa, alcuni autori di tecnologie del campo definiscono e pubblicano il [Reactive Manifesto](https://www.reactivemanifesto.org/).
+
+Note: dopo quello dell'Agile del 2001, il "Manifesto" è diventato quasi un sottogenere letterario della scrittura tecnica, e del relativo marketing.
+
+
+Il _Reactive Manifesto_ definisce le caratteristiche dei sistemi _reattivi_:
+
+* Pronti alla risposta (_Responsive_)
+* Resilienti (_Resilient_)
+* Elastici (_Elastic_)
+* Orientati ai messaggi (_Message Driven_)
+
+
+![Manifesto](imgs/l20/reactive-traits.svg)
+
+
+Un sistema Reattivo deve essere _Pronto alla risposta_ (Responsive) in quanto la bassa latenza di interazione è un principio cardine dell'usabilità.
+
+
+Un sistema quindi deve privilegiare la possibilità fornire una risposta sempre ed in un tempo prevedibile e costante. Un errore è una risposta come le altre; ed allo stesso modo deve essere individuato e comunicato con le stesse tempistiche.
+
+
+Un sistema Reattivo deve essere _Resiliente_ (_Resilient_), ovvero gestire i fallimenti continando a rispondere con la stessa prontezza.
+
+
+La resistenza agli errori si ottiene con la replicazione di componenti isolati, la coscienza che ogni parte del sistema può fallire, e la rapida creazione di nuovi componenti in sostituzione di quelli che sono andati in errore o non sono più disponibili.
+
+
+Un sistema Reattivo deve essere _Elastico_ (_Elastic_), cioè in grado di consumare una quantità variabile di risorse in funzione del carico in ingresso.
+
+
+Il mantenimento della latenza di risposta prevista si ottiene distribuendo il carico su di un maggior numero di risorse nel modo più lineare possibile, senza colli di bottiglia o punti di conflitto, suddividendo gli input in _shard_ distribuite automaticamente. L'obiettivo è una scalabilità efficace ed economica su hardware non specializzato.
+
+
+Un sistema Reattivo deve essere _Orientato ai messaggi_ (_Message Driven_) perché questa primitiva di comunicazione abilita le altre caratteristiche.
+
+
+Attraverso lo scambio di messaggi i componenti possono rimanere disaccoppiati, si possono indirizzare anche su nodi distribuiti, ed il carico può essere suddiviso fra copie in esecuzione su nodi differenti. L'asincronia della comunicazione e l'assenza di blocchi permettono di consumare al meglio le risorse disponibili.
+
+
+Queste caratteristiche impongono una organizzazione architetturale ben precisa; il _Manifesto_ intende dirigere lo sviluppo tecnologico in una precisa direzione vista come quella più adatta a supportare sistemi con le caratteristiche desiderate.
+
+
+L' _Orientamento ai messaggi_ è il mezzo con cui il sistema si struttura in forma _Elastica_ e _Resiliente_ per ottenere il valore della _Prontezza alla risposta_.
+
+Sottoprodotti di questa architettura sono componenti manutenibili e facili da estendere, per inseguire il rapido cambiamento dei requisiti.
+
+---
+
+# Big vs Fast
+
+
+Negli stessi anni in cui aumentava l'interesse per ReactiveX come piattaforma, il problema del _Big Data_ diventava sempre più importante e mutava in qualcosa più difficile da trattare.
+
+
+La soluzione fino ad allora impiegata, cioè l'esecuzione di _batch_ massivamente paralleli, non poteva più funzionare in quanto introduceva latenze superiori alla periodo di utilità delle informazioni estratte.
+
+Note: _batch_: elaborazione non in linea, tipicamente notturna, di dati più grandi di quanto una singola macchina possa trattare.
+
+
+Qualche autore comincia a chiamare il problema  
+**Fast Data**: dati di dimensioni paragonabili al Big Data, in arrivo continuo; impensabile e/o inutile persisterli per elaborarli a partire dal supporto di salvataggio.
+
+Per il loro volume, per la velocità di arrivo, e la bassa latenza richiesta nel reagire alle informazioni estratte, è necessario trattarli in diretta via via che si presentano.
+
+Note: applicazioni tipiche: trading automatico, analisi del comportamento di popolazioni di utenti, raccolta dati da grandi popolazioni di sensori
+
+
+Nel costruire un sistema massicciamente parallelo per estrarre informazioni da un flusso di dati continuo, uno dei principali problemi è l'armonizzazione delle varie differenze di velocità di elaborazione fra i vari componenti.
+
+Note: attenzione all'enfasi su "continuo". Mettere da parte qualche secondo di dati e calcolare poi quello alla massima velocità possibile, "quantizzando" i dati in ingresso, non è la stessa cosa. E' stato provato (è detta "[Architettura Lambda](https://en.wikipedia.org/wiki/Lambda_architecture)") ma i risultati sono altalenanti.
+
+
+Il componente più lento diventerà il collo di bottiglia e stabilirà la velocità massima dell'elaborazione, per poi fallire soverchiato dai dati che arrivano troppo velocemente.
+
+Note: è inutile ottimizzare localmente la pipeline di elaborazione: si ottiene solo di accelerare il fallimento, o spostarlo al componente più lento successivo.
+
+
+Da questo problema nasce la necessità di aggiungere alla semantica delle Reactive Extension, che appaiono particolarmente adatte a questo tipo di problema, un nuovo concetto: la **back-pressure**.
+
+
+Con **back-pressure** si intende la resistenza che il componente successivo può opporre ai dati provenienti dal componente precedente della catena di elaborazione.
+
+Questo concetto permette ad ogni nodo della catena di dichiarare quanti dati è in grado di gestire.
+
+---
+
+# Reactive Streams
+
+
+"The main goal of Reactive Streams is to govern the exchange of stream data across an asynchronous boundary while
+ensuring that the receiving side is not forced to buffer arbitrary amounts of data."
+
+http://www.reactive-streams.org/
+
+
+Reactive Streams aumenta le interfacce e le garanzie fornite da ReactiveX introducendo l'esplicita gestione della _back-pressure_ per impedire che un nodo possa essere soverchiato dai dati inviati dal nodo precedente, o sovraccaricare quello successivo.
+
+
+Inoltre, viene inclusa nella considerazione dello standard anche la casistica in cui i diversi componenti di uno Stream non si trovino nello stesso nodo, ma siano distribuiti.  
+Sono comprese sia le API asincrone, sia i protocolli di comunicazione.
+
+
+Anche Reactive Streams parte da una modello semantico; oltre a questo, ha a disposizione un Technology Compatibility Kit per verificare una implementazione candidata.
+
+Mentre ReactiveX è poliglotta, Reactive Streams è multi-implementazione, ma concentrato su JVM e Javascript.
+
+
+In questo modo, la mission di Reactive Streams comprende non solo le interfacce applicative, ma anche i protocolli di rete: la _back-pressure_ infatti è necessaria non solo fra thread, ma anche fra nodi di calcolo distribuito.
+
+Note: i principali animatori del progetto sono Viktor Klang e Roland Khun dal progetto Akka.
+
+
+Esistono molteplici implementazioni che soddisfano il TCK:
+* Akka Streams
+* MongoDB java Driver
+* RxJava
+* Vertx Reactive Streams
+* Java 9 java.util.concurrent.Flow
+
+Note: diverse di queste implementazioni fanno riferimento alle stesse interfacce in modo da poter interoperare fra loro.
+
+
+Il modello concettuale di Reactive Streams è compatto tanto quanto quello di ReactiveX:
+* Publisher
+* Subscriber
+* Subscription
+* Processor
+
+
+Un `Publisher` fornisce un numero potenzialmente infinito di elementi in sequenza, rispettando le richieste dei suoi `Subscriber`.
+
+```java
+public interface Publisher< T > {
+  public void subscribe(Subscriber< ? super T > s);
+}
+```
+
+
+Un `Subscriber` consuma gli elementi forniti da un `Publisher` ed è in grado di controllare il flusso degli elementi in arrivo.
+
+```java
+public interface Subscriber< T > {
+  public void onSubscribe(Subscription s);
+  public void onNext(T t);
+  public void onError(Throwable t);
+  public void onComplete();
+}
+```
+
+
+Una `Subscription` rappresenta il legame fra un `Subscriber` ed un `Publisher` e permette di controllarlo, per esempio interrompendolo.
+
+```java
+public interface Subscription {
+  public void request(long n);
+  public void cancel();
+}
+```
+
+
+Un `Processor` è sia un `Subscriber` che un `Publisher`, e deve sottostare ad entrambi i contratti. Rappresenta uno snodo di elaborazione intermedio in grado di alterare il flusso di elementi aggregando più `Publisher` o controllando più `Subscriber`.
+
+```java
+public interface Processor< T, R > 
+  extends Subscriber< T >, Publisher< R > {
+}
+```
+
+
+L'API dei Reactive Streams è stata inclusa, a partire da Java 9, nella libreria standard, usando come base la classe `java.util.concurrent.Flow`, con lo scopo di promuoverne la standardizzazione.
+
+---
+
+# Operatori
+
+
+Vediamo alcuni esempi di operatori per avere un'idea di come si può lavorare con un Reactive Stream.
+
+
+Faremo riferimento alla documentazion delle Reactive Extensions perché gli operatori di base sono i medesimi; a seconda della classe usata (`Observable` oppure `Publisher`) si comportano in modo appropriato.
+
+
+# Map
+
+Trasforma gli elementi di uno stream, ottenendo uno stream di elementi trasformati.
+
+![Map](imgs/l20/map.png)<!-- .element: style="width: 50%" -->
+
+
+# FlatMap
+
+Trasforma gli elementi di uno stream, concatenando i risultati in un solo stream.
+
+![FlatMap](imgs/l20/flatmap.png)<!-- .element: style="width: 50%" -->
+
+
+# Filter
+
+Emette uno stream contenente solo gli elementi che soddisfano un predicato.
+
+![Filter](imgs/l20/filter.png)<!-- .element: style="width: 50%" -->
+
+
+# Skip
+
+Emette uno stream saltando i primi N elementi della sorgente.
+
+![Skip](imgs/l20/skip.png)<!-- .element: style="width: 50%" -->
+
+
+# Zip
+
+Emette uno stream combinando a coppie elementi di due stream in ingresso.
+
+![Zip](imgs/l20/zip.png)<!-- .element: style="width: 50%" -->
+
+
+# Debounce
+
+Emette un elemento solo se è passato un lasso di tempo dall'ultimo elemento della sorgente.
+
+![Debounce](imgs/l20/debounce.png)<!-- .element: style="width: 50%" -->
+
+
+# Window
+
+Emette uno stream di partizioni dello stream sorgente.
+
+![Debounce](imgs/l20/window.png)<!-- .element: style="width: 50%" -->
+
+Note: i criteri di partizionamento possono essere i più vari: tempo, intervalli fra gli elementi, segnali esterni, conteggio, ecc.
+
+---
+
+# Parallelismo
+
+
+L'asincronia nell'esecuzione dei vari operatori è definita dallo Schedulatore usato per osservare un `Observable` o definire un operatore di uno stream.
+
+
+Ciascuna implementazione fornisce degli schedulatori in relazione alla piattaforma in cui opera. Come abbiamo visto, `RxJava` permette di ottenerli a partire da metodi statici dell'oggetto `Schedulers`
+
+
+|Metodo|Schedulatore|
+|-|-|
+|`.io()`| Per stream legati alle operazioni di IO|
+|`.single()`| Usa un singolo thread|
+|`.computation()`| Per operatori legati al calcolo|
+|`.from(ex)`| Usa l'`Executor` fornito|
+
+
+In `RxJava`, l'operatore `parallel()` permette di indicare che uno stream, da un certo punto in poi, va costruito come parallelo.
+
+
+In questa modalità, solo alcuni operatori sono consentiti (per questioni di semantica) ed è necessario specificare lo schedulatore da usare con il metodo `.runOn(scheduler)`.
+
+
+Il metodo `sequential()` indica che da quel punto in poi la pipeline di elaborazione va nuovamente intesa come sequenziale.
+
+
+A differenza degli `Stream` della libreria di base, è possibile indicare una precisa sezione della pipeline che viene configurata parallelamente.
+
+
+`it.unipd.pdp2022.rx.Parallel`
+```java
+System.out.println("Defining...");
+Flowable.range(0, 1000000).parallel(4)
+  .runOn(Schedulers.computation()).map(new RxDivisors())
+  .filter(new RxPerfectPredicate())
+  .sequential().subscribe((c) -> {
+      System.out.println(c);
+    }, (t) -> {
+      t.printStackTrace();
+    }, () -> {
+      System.out.println("Done");
+      done[0] = true;
+    });
+System.out.println("Defined");
+while (!done[0]) Thread.sleep(1000);
+```
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+        slideNumber: 'c/t',
+        showSlideNumber: 'all'
+      });
+    </script>
+  </body>
+</html>

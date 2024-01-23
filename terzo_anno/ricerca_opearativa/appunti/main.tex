@@ -63,4 +63,309 @@ programmazione:
 	      disequazioni lineari.
 \end{enumerate}
 
+\subsection{min-max/max-min}
+
+Scriviamo $\min\max \{e_1, e_2, \dots, e_n\}$ nel seguente modo:
+\begin{align*}
+	\min{y}    & \\
+	y \leq e_1 & \\
+	y \leq e_2 & \\
+	\vdots     & \\
+	y \leq e_n &
+\end{align*}
+
+Si lascia al lettore come scrivere $\max\min \{e_1, e_2, \dots, e_n\}$.
+
+\subsection{Vincoli logici}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{l|c|c|c}
+		  & \textbf{Formulazione non lineare} & \textbf{Formulazione lineare} & \textbf{Dominio}                           \\
+		\hline
+		1 & if $y_1 > 0$ then $y_2 = 1$       & $x \leq My$                   & $y_1 \in \mathbb{R | N}, y_2 \in \{0, 1\}$ \\
+		2 & $y_1 = 1$ or $y_2 = 1$            & $y_1 + y_2 \geq 1$            & $y_1, y_2 \in \{0, 1\}$                    \\
+		3 & $y_1 = 1$ and $y_2 = 1$           & $y_1 + y_2 = 2$               & $y_1, y_2 \in \{0, 1\}$                    \\
+		4 & $y_1 = 1$ only if $y_2 = 1$       & $y_1 \leq y_2$                & $y_1, y_2 \in \{0, 1\}$                    \\
+		5 & if $y_1 = 1$ then $y_2 = 1$       & idem                          & idem                                       \\
+		6 & $y_1 = 1$ only if $y_2 = 0$       & $y_1 \leq 1 - y_2$            & $y_1, y_2 \in \{0, 1\}$                    \\
+		7 & $y_1 = 1$ xor $y_2 = 1$           & $y_1 + y_2 = 1$               & $y_1, y_2 \in \{0, 1\}$                    \\
+	\end{tabular}
+\end{table}
+
+Di seguito riporto la spiegazione di alcuni vincoli logici:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{l|c|c|c|c}
+		  & $y_1 \geq 1$ & $y_1 = 0$          & $y_2 = 1$              & $y_2 = 0$          \\
+		\hline
+		1 & $y_2 = 1$    & $y_2 \in \{0, 1\}$ & $x \in \mathbb{R | N}$ & $x = 0$            \\
+		4 & $y_2 = 1$    & $y_2 \in \{0, 1\}$ & $y_1 \in \{0, 1\}$     & $y_1 = 0$          \\
+		6 & $y_2 = 0$    & $y_2 \in \{0, 1\}$ & $y_1 = 0$              & $y_1 \in \{0, 1\}$ \\
+	\end{tabular}
+\end{table}
+
+\subsection{Problemi di programmazione lineare}
+
+Un problema di ottimizzazione lineare è definito dalla minimizzazione o
+massimizzazione di una funzione obiettivo soggetta a vincoli lineari. In termini
+matematici scriviamo:
+\begin{align*}
+	\min \ (\text{oppure} \max) \quad f( & x)                                   \\
+	\text{s.t. } g_i(x)                  & = b_i, \quad i = 1, \dots, k         \\
+	g_i(x)                               & \leq b_i, \quad i = k + 1, \dots, k' \\
+	g_i(x)                               & \geq b_i, \quad i = k' + 1, \dots, m \\
+	x                    \in             & \ \mathbb{R}^n
+\end{align*}
+
+dove
+\begin{itemize}
+	\item $\begin{aligned}[t]
+			      \mathbf{x} & = \begin{bmatrix}
+				                     x_1 \\
+				                     x_2 \\
+				                     x_3
+			                     \end{bmatrix}
+		      \end{aligned}$
+	      sono le variabili decisionali;
+	\item $f, g_i$ sono funzioni lineari del tipo $\mathbb{R}^n \rightarrow
+		      \mathbb{R}$;
+	\item $b_i \in \mathbb{R}$;
+\end{itemize}
+
+Si noti che si possono scomporre $f$ e $g_i$ per rappresentarle come prodotto
+tra un vettore di coefficienti e un vettore di variabili decisionali. Indichiamo
+con $c$ il vettore di coefficienti della funzione obiettivo e con $a_i$ il
+vettore di coefficienti del vincolo $i$-esimo. Allora $f = c^T x$ e $g_i = a_i^T
+	x$.
+
+\subsection{Soluzioni di un problema}
+
+Una soluzione si dice ammissibile se il vettore $x$ soddisfa tutti i vincoli.
+L'insieme di tutte le soluzioni ammissibili si dice
+\textbf{insieme ammissibile}.
+L'insieme ammissibile può essere:
+\begin{itemize}
+	\item \textbf{vuoto}: ovvero non esistono soluzioni;
+	\item \textbf{limitato}: ovvero esiste una soluzione ottima;
+	\item \textbf{illimitato}: ovvero i vincoli non limitano la soluzione.
+\end{itemize}
+
+Risolvere un problema di programmazione lineare significa riconoscere uno dei
+tre casi precedenti, nel caso limitato trovare la soluzione ottima ed il
+corrispondente valore della funzione obiettivo.
+
+\subsection{Problemi di programmazione lineare in forma standard}
+
+Un problema di programmazione lineare in forma standard è rispetta le seguenti
+condizioni:
+\begin{itemize}
+	\item la funzione obiettivo è di minimo e senza costanti additive o
+	      moltiplicative;
+	\item tutte le variabili sono positive o nulle;
+	\item i vincoli sono tutti di uguaglianza.
+	\item il vettore dei termini noti $b$ è non negativo, ovvero $b_i \geq 0
+		      \forall i \in {1, m}$.
+\end{itemize}
+
+\subsection{Trovare una soluzione ammissibile}
+
+Un problema PL può essere scritto come $\min{c^T x: Ax=b, x \geq 0}$, dove $A$
+è la matrice dei coefficienti dei vincoli, $b$ è il vettore dei termini noti e
+$x$ è il vettore delle variabili decisionali. Si noti che il PL considerato si
+trova in forma standart ($\min$, vincoli di uguaglianza e $x \geq 0$).\\
+Ad ogni base della matrice $A$ corrisponde una soluzione ammissibile. Infatti,
+sia $B$ una base di $A$ allora $x_B = B^{-1} b$ è una soluzione ammissibile. Se
+utilizziamo la geometria, allora ci immaginiamo che $A$ rappresenti una poliedro
+dell'iperspazio $\mathbb{R}^n$ e $x$ rappresenta un vertice del poliedro.\\
+Notiamo che se il PL ammette una soluzione ottima, allora esiste una base
+ottima. Ovvero la soluzione ottima è un vertice del poliedro.
+Notiamo inoltre che dato un problema PL, e la rispettiva matrice che lo
+rappresenta $[A|b]$, il numero di soluzioni ammissibili di base è limitato
+superiormente da $\binom{n}{m}$, ovvero $\frac{n!}{m!(n-m)!}$, dove $m$ sono le
+colonne di $A$ che possono formare una base, scelte tra le $n$ colonne totali.
+
+\subsection{Metodo del simplesso}
+
+Il metodo del simplesso, ad alto livello, funziona nel seguente modo:
+\begin{itemize}
+	\item si ha una base ammissibile $B$;
+	\item si calcola il costo ridotto di ogni variabile non base $x_j$;
+	\item se tutti i costi ridotti sono non negativi, allora la soluzione
+	      corrente è ottima;
+	\item altrimenti, si sceglie una variabile $x_j$ con costo ridotto
+	      negativo e si calcola il rapporto tra il termine noto e l'elemento
+	      corrispondente della colonna $j$-esima della matrice $B^{-1}$;
+	\item si sceglie la variabile $x_k$ che minimizza il rapporto precedente;
+	\item si effettua un pivotaggio per rendere $x_k$ una variabile base e
+	      $x_j$ una variabile non base;
+	\item si ripete il procedimento.
+\end{itemize}
+
+Tornando alla rappresentazione geometrica, il metodo del simplesso parte da un
+vertice del poliedro e si sposta verso vertici adiacenti che migliorano il
+valore della funzione obiettivo. Il metodo termina quando non esistono vertici
+adiacenti che migliorano il valore della funzione obiettivo. Si noti che ci sono
+dei casi in cui il metodo del simplesso non termina, oppure termina ma non
+trova la soluzione ottima. Si pensi ad un poliedro con una faccia ammissibile e
+sconnessa da un'altra faccia ammissibile con soluzione ottima. Se la prima base
+corrisponde ad un vertice della prima faccia ammissibile, allora il metodo del
+simplesso non trova la soluzione ottima e bisogna passare per qualche vertice
+che non migliora il valore della funzione obiettivo, per poi arrivare ad un
+vertice della seconda faccia ammissibile. Da questo punto, il metodo del
+simplesso trova la soluzione ottima.\\
+
+Se una variabile fuori base $x_j$ ha costo ridotto negativo, allora esiste un
+base adiacente, tale che migliora la soluzione corrente. In particolare, se
+$x_j$ non ha bisogno di rispettare alcun vincolo, allora il problema è
+illimitato e non esiste una soluzione ottima.\\
+
+\subsection{Il tableau del simplesso}
+
+Il tableau del simplesso è una rappresentazione tabellare del problema di
+programmazione lineare. Di seguito riportiamo un esempio di tableau del
+simplesso:
+
+\[
+	\begin{array}{|ccccc|c|c|}
+		\hline
+		\multicolumn{5}{|c|}{c^T}                 & -1     & 0             \\
+		\hline
+		                                          &        &   &  &  & 0 & \\
+		\multicolumn{5}{|c|}{\quad A \quad \quad} & \vdots & b             \\
+		                                          &        &   &  &  & 0 & \\
+		\hline
+	\end{array}
+\]
+
+A questo punto si applicano le operazioni di pivotaggio per trovare una
+soluzione di base ammissibile. Per indenderci si applicano le operazioni sulle
+righe (si possono anche scambiare le colonne). Fino ad arrivare alla seguente
+forma:
+
+\[
+	\begin{array}{|ccc|ccc|c|c|}
+		\hline
+		0 & \cdots & 0 & \bar{c}_{F_1}  & \cdots & \bar{c}_{F_{n-m}}  & -1     & -\bar{z}_B \\
+		\hline
+		  &        &   & \bar{a}_{1F_1} & \cdots & \bar{a}_{1F_{n-m}} & 0      &            \\
+		  & I      &   & \vdots         & \ddots & \vdots             & \vdots & \bar{b}    \\
+		  &        &   & \bar{a}_{mF_1} & \cdots & \bar{a}_{mF_{n-m}} & 0      &            \\
+		\hline
+	\end{array}
+\]
+
+Il tableau in questa forma è estremamente comodo perché contiene tutte le
+informazioni necessarie per applicare il metodo del simplesso a portata di mano.
+Leggiamo il tableau come segue:
+\begin{itemize}
+	\item $\bar{b}$ è il vettore che rappresenza la soluzione del problema
+	      rispetto alla base corrente;
+
+	\item $\bar{z}_B$ è il valore della funzione obiettivo rispetto alla
+	      soluzione corrente, ovvero ponendo ciascuna variabile fuori base
+	      uguale a $0$;
+
+	\item $\bar{c}_{F_j}$ è il costo ridotto della variabile $x_{F_j}$ e la
+	      colonna sottostante è il vettore $a_{F_j}$, che ci permette di capire
+	      quale variabile esce dalla base;
+\end{itemize}
+
+Si noti che la penultima colonna è piuttosto inutile e può essere omessa.
+
+\subsection{Cambio di base e operazioni di pivot}
+
+Rispetto alla matrice qui sopra riportata, notiamo un paio di cose:
+\begin{itemize}
+	\item se $\bar{c} \geq 0$, allora la soluzione corrente è ottima;
+	\item se $\exists \, \bar{c}_{F_j} < 0$ e la colonna sottostante ha
+	      coefficienti minori o uguali a $0$, allora il problema è illimitato;
+	\item risultao molto semplice calcolare il tableau di una base adiacente:
+	      \begin{enumerate}
+		      \item si sceglie una variabile $x_{F_j}$ con costo ridotto
+		            negativo;
+
+		      \item si calcolano i rapporti $\frac{\bar{b}_i}{\bar{a}_{iF_j}}$,
+		            per ogni riga $i$ tale che $\bar{a}_{iF_j} > 0$;
+
+		      \item si sceglie la riga $k$ che minimizza il rapporto;
+
+		      \item si effettua un pivotaggio per rendere $x_{F_j}$ una variabile
+		            base e $x_{B_k}$ una variabile non base.
+	      \end{enumerate}
+\end{itemize}
+
+\section{Duale}
+
+\subsection{Cambiamo punto di vista}
+
+Un problema di programmazione lineare consiste nella determinazione del valore
+ottimo $z^*$ di una funzione obiettivo $c^Tx$ su di un poliedro $P$. Perché
+cambia il punto di vista? In effetti, possiamo vedere come il poliedro $P$, come
+il dominio della funzione obiettivo $c^Tx$, ovvero l'insieme di punti in cui si
+può cercare il valore ottimo. In questo caso, la funzione obiettivo riordina i
+punti del poliedro $P$ secondo un certo criterio e ci assegna un valore in
+$\mathbb{R}$. Questo vuol dire che la funzione obiettivo trasforma un poliedro
+in una retta. La retta, può essere limitata o illimitata, oppure nulla. Il
+problema di programmazione lineare cerca il valore massimo o minimo della retta
+e quindi il limite superiore o inferiore dell'insieme di arrivo della funzione
+obiettivo.
+
+\subsection{Problema duale}
+
+Sia $PL$ il problema di programmazione lineare:
+\begin{align*}
+	z^* = \min \quad c^T x &        \\
+	s.t. \quad Ax          & = b    \\
+	x                      & \geq 0
+\end{align*}
+Allora il problema duale $PD$ è:
+\begin{align*}
+	w^* = \max \quad u^T b &                  \\
+	s.t. \quad u^T A       & \leq c^T         \\
+	u                      & \in \mathbb{R}^m
+\end{align*}
+
+Dove $u^T = c^T B^{-1}$, dove $B$ è una base ammissibile del problema $PL_1$.\\
+
+\subsection{Trasformazione al problema duale}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cc|c}
+		                                               & \textbf{Problema primale} ($\min{c^Tx}$) & \textbf{Problema duale} ($\max {u^Tb}$) \\
+		\hline
+		\multirow{3}{*}{Vincoli $\rightarrow$ Dominio} & $a^T_i x \geq b_i$                       & $u_i \geq 0$                            \\
+		                                               & $a^T_i x \leq b_i$                       & $u_i \leq 0$                            \\
+		                                               & $a^T_i x = b_i$                          & $u_i$ libero                            \\
+		\hline
+		\multirow{3}{*}{Dominio $\rightarrow$ Vincoli} & $x_j \geq 0$                             & $u^TA_j \leq c_j$                       \\
+		                                               & $x_j \leq 0$                             & $u^TA_j \geq c_j$                       \\
+		                                               & $x_j$ libero                             & $u^TA_j = c_j$                          \\
+	\end{tabular}
+\end{table}
+
+Ovviamente, $PL$ ha una soluzione ottima se e solo se $PD$ ha una soluzione
+ottima e inoltre $z^* = w^*$. Inoltre, se $PL$ è illimitato, allora $PD$ è
+inammissibile. Se $DL$ è illimitato, allora $PL$ è inammissibile. Nota bene,
+esistono casi in cui $PL$ e $PD$ sono entrambi inammissibili. E.g. PL:
+\begin{align*}
+	\min \quad & x_1                \\
+	s.t. \quad & x_1 + x_2 & \geq 1 \\
+	           & -x_1 -x_2 &        \\
+	x_1, x_2 \text{libere}
+\end{align*}
+
+PD:
+\begin{align*}
+	\max \quad & u_1 + u_2       \\
+	s.t. \quad & u_1 - u_2 & = 1 \\
+	           & u_1 - u_2 & = 0 \\
+	u_1, u_2 \geq 0
+\end{align*}
+
+
+
+
+
 \end{document}

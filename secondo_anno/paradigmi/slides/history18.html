@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>APP2022 - H18</title>
+
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/white.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <img src="imgs/hist/boo2.jpg" alt="Historical person" style="width:50%" />
+      </section>
+      <section>
+        <table>
+          <tr>
+            <td width="45%">
+              <img src="imgs/hist/boo.jpg" alt="Historical person" />
+            </td>
+            <td width="55%">
+              <p>
+                Grady Booch
+              </p>
+              <p>
+              <ul>
+                <li class="fragment" data-fragment-index="1">UML</li>
+                <li class="fragment" data-fragment-index="1">RUP</li>
+                <li class="fragment" data-fragment-index="1">Foreword to the GOF</li>
+              </ul>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <link rel="stylesheet" href="lib/css/monokai.css">
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      plugins: [RevealHighlight],
+      slideNumber: 'c/t',
+      showSlideNumber: 'all'
+    });
+  </script>
+</body>
+
+</html>

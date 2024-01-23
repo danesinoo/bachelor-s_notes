@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>PDP2022 - L07</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\n\n"
+        data-background-image="imgs/sfondo.png" data-separator-notes="^Note:">
+          <textarea data-template>
+
+# Paradigmi di Programmazione
+
+A.A. 2022/2023
+
+Laurea triennale in Informatica
+
+7: Esempi svolti 2
+
+---
+
+# Esempi
+
+
+Completiamo un ulteriore esempio che ci servirà negli argomenti successivi.
+
+---
+
+# TicTacToe
+
+
+Il gioco del TicTacToe è il classico gioco a due giocatori in cui bisogna mettere in fila tre simboli uguali.
+
+![TicTacToe](./imgs/l07/tictactoe.png)
+
+
+Per gli esercizi successivi, abbiamo bisogno di una oggetto che gestisca una partita. Necessitiamo di:
+* stato attuale del gioco
+* elenco delle mosse disponibili
+* calcolo del prossimo stato del gioco data una mossa
+
+
+Per "stato attuale del gioco" si intende:
+* una stringa che rappresenta il piano di gioco
+* se il gioco è in corso o terminato (e come)
+* il giocatore di turno
+
+
+Per "elenco delle mosse disponibili" si intende:
+* un elenco da cui un giocatore (umano o non) può scegliere esclusivamente le mosse valide per proseguire il gioco
+
+
+Per "calcolo del prossimo stato del gioco" si intende:
+* fornita una mossa, produrre un nuovo oggetto contenente lo stato del gioco dopo l'applicazione della mossa
+
+Note: per esigenze legate all'uso concorrente, quest'oggetto dev'essere assolutamente slegato da quello originale.
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+        slideNumber: 'c/t',
+        showSlideNumber: 'all'
+      });
+    </script>
+  </body>
+</html>

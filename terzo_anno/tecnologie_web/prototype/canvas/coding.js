@@ -1,6 +1,9 @@
 //! Canvas 2D Context
 //! Prototyping
 
+import Canvas from './canvas.js'
+import Spese from './spese.js'
+
 ///
 /// UNO
 ///
@@ -8,18 +11,24 @@
 const uno = document.getElementById('uno')
 const ctx_uno = uno.getContext('2d')
 
+const uno_w = screen.width
+const uno_h = screen.height
+
+uno.width = uno_w
+uno.height = uno_h
+
 ctx_uno.beginPath() // start a brand new path
 // ctx_uno.moveTo(x, y)
-ctx_uno.moveTo(100, 50) // move the pen to (x, y)
-ctx_uno.lineTo(150, 25) // draw a line to (150, 25)
-ctx_uno.lineTo(200, 50) // draw a line to (200, 50)
-ctx_uno.lineTo(200, 100)
-ctx_uno.lineTo(100, 100)
-ctx_uno.lineTo(100, 50)
+ctx_uno.moveTo(1 / 4 * uno_w, 2 / 5 * uno_h)
+ctx_uno.lineTo(1 / 4 * uno_w, 4 / 5 * uno_h)
+ctx_uno.lineTo(3 / 4 * uno_w, 4 / 5 * uno_h)
+ctx_uno.lineTo(3 / 4 * uno_w, 2 / 5 * uno_h)
+ctx_uno.lineTo(1 / 2 * uno_w, 1 / 5 * uno_h)
+ctx_uno.lineTo(1 / 4 * uno_w, 2 / 5 * uno_h)
 ctx_uno.stroke()
 
 ctx_uno.beginPath() // start a brand new path
-ctx_uno.arc(130, 100, 30, Math.PI, Math.PI * 2) // draw a circle
+ctx_uno.arc(3 / 8 * uno_w, 4 / 5 * uno_h, 1 / 8 * uno_w, Math.PI, Math.PI * 2) // draw a circle
 // (center_x, certer_y, radius, starting_angle, ending_angle)
 ctx_uno.stroke()	// draw the path
 
@@ -33,6 +42,28 @@ ctx_uno.moveTo(130, 70)
 ctx_uno.lineTo(200, 70)
 ctx_uno.stroke()
 
+///
+/// UNO-BIS
+///
+
+const points = [
+	[1 / 4, 2 / 5],
+	[1 / 4, 4 / 5],
+	[3 / 4, 4 / 5],
+	[3 / 4, 2 / 5],
+	[1 / 2, 1 / 5],
+	[1 / 4, 2 / 5]
+]
+
+let uno_bis = new Canvas('uno-bis')
+
+uno_bis.setWidth(uno_w)
+	.setHeight(uno_h)
+	.withProportion(true)
+
+uno_bis.beginPath()
+	.lines(points)
+	.stroke()
 
 ///
 /// DUE
@@ -71,3 +102,42 @@ ctx_tre.rect(130, 60, 35, 35)
 ctx_tre.fill()
 ctx_tre.stroke()
 
+///
+/// QUATTRO
+///
+
+const spese = new Spese('tecnologiche')
+
+spese.fromPoints([
+	[0, 0],
+	[1, -100],
+	[2, 50],
+	[3, 200],
+	[5, 0],
+	[4, -400],
+	[6, 600],
+	[7, 700],
+	[8, -800],
+	[9, 900],
+	[10, -1000]
+])
+
+let quattro = new Canvas('quattro')
+
+quattro.setWidth(2 * uno_w)
+	.setHeight(2 * uno_h)
+	.withProportion(true)
+
+quattro.setStrokeStyle('blue')
+	.setLineWidth(2)
+
+quattro
+	.setAxis(1 / 20, 1 / 20) // set the origin of the axis (x, y)
+	.axisLineWidth(4) // set the line width of the axis
+	.axisStrokeStyle('black') // set the line color of the axis
+	.drawAxis()
+
+quattro.lines(spese.toPoints())
+	.grid(Math.floor(spese.getMax()))
+
+console.log(Math.round(spese.getMax()))

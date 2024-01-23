@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>PDP2021 - E02</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/white.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^\r?\n---\r?\n$" data-separator-vertical="^\n\n"
+        data-background-image="imgs/sfondo.png" data-separator-notes="^Note:">
+          <textarea data-template>
+
+# Paradigmi di Programmazione
+
+A.A. 2022/2023
+
+Laurea triennale in Informatica
+
+E1: Tema dell'esercizio
+
+---
+
+# Tema dell'esercizio
+
+
+Lo scopo dell'esercizio è offrire un'occasione per dimostrare, nella scrittura di codice Java, la comprensione del ruolo delle strutture introdotte a lezione.
+
+---
+
+# Pattinaggio di Figura
+
+
+Hanyu Yusuru
+
+[PyeongChang 2018](https://www.youtube.com/watch?v=23EfsN7vEOA)
+
+
+Il punteggio della prova viene raccolto in tempo reale, e mostrato nei canali interni all'arena, nella diretta televisiva e sul sito isuresults.org.
+
+
+Semplificando la Rule 353 del regolamento ufficiale ISU possiamo dire che:
+
+
+Per ogni elemento tecnico:
+* il Technical Panel pubblica il _Base Value_
+* ogni giudice pubblica un _Grade Of Execution_
+* ogni giudice può chiedere la _Review_
+
+
+A fine della prova:
+* i giudici pubblicano i _GOE_ per gli elementi rivisti
+* i giudici pubblicano i giudizi complessivi dei _Components_
+
+
+Un _Base Value_ è un valore maggiore di 0.
+
+Un _Grade Of Execution_ va da -5 a 5 a passi di 1.
+
+Un _Component_ va da 0.25 a 10.0 a passi di 0.25
+
+
+I component sono:
+* Skating Skills
+* Transitions
+* Performance
+* Composition
+* Interpretation of Music
+
+
+L'esercizio consiste nel completare un sistema per la raccolta e visualizzazione dei punteggi.
+
+---
+
+# Classi implementate
+
+
+Alcune classi sono già implementate e non dovrebbero richiedere modifiche.
+
+
+`it.unipd.pdp2022.ex1.Element`
+```java
+public record Element(int idx, String element)
+```
+Elemento che l'atleta esegue.
+
+
+`it.unipd.pdp2022.ex1.Nation`
+```java
+public enum Nation
+```
+Distingue i giudici. Ci sono 9 nazioni, quindi ci sono 9 giudici nel sistema.
+
+
+`it.unipd.pdp2022.ex1.Vote`
+```java
+public interface Vote
+```
+Accomuna i vari tipi di voti che giudici e pannello tecnico possono emettere.
+
+
+`it.unipd.pdp2022.ex1.Athlete`
+```java
+Athlete(final BlockingQueue<Element> rink, 
+  final List<Element> program)
+```
+Emette sul rink gli elementi del programma, e si ferma.
+
+
+`it.unipd.pdp2022.ex1.Judge`
+```java
+public Judge(Nation nation, int idx, 
+  BlockingQueue<Element> screen, BlockingQueue<Vote> votes)
+```
+Osserva gli elementi sullo schermo, emette i relativi voti. Quando vede l'ultimo elemento, emette i components e si ferma.
+
+
+`it.unipd.pdp2022.ex1.TechnicalPanel`
+```java
+public TechnicalPanel(BlockingQueue<Element> screen, 
+  BlockingQueue<Vote> values)
+```
+Osserva gli elementi sullo schermo, emette i relativi Base Values. Quando vede l'ultimo elemento si ferma.
+
+
+`it.unipd.pdp2022.ex1.ScoreBoard`
+```java
+public ScoreBoard(BlockingQueue<Vote> votes)
+```
+Osserva i voti e li somma. Espone un `AtomicReference` contenente il risultato parziale da stampare. Va fermato a conteggio concluso.
+
+---
+
+# Classi da Implementare
+
+
+`it.unipd.pdp2022.ex1.VideoSystem`
+```java
+public VideoSystem(BlockingQueue<Element> rink)
+```
+
+
+Fornisce delle code, che memorizza internamente. Una volta avviato, riporta su ogni coda fornita gli elementi che osserva sul rink, in modo che gli altri componenti del sistema li possano osservare. Si ferma quando osserva l'ultimo elemento.
+
+Note: non è necessario copiare gli elementi. Quelli ricevuti possono essere accodati su più code, in quanto immutabili.
+
+
+`it.unipd.pdp2022.ex1.Printer`
+```java
+Printer(ScoreBoard score)
+```
+
+Quando viene avviato, ogni secondo accede al risultato e lo stampa formattato. Va fermato a conteggio concluso.
+
+
+`it.unipd.pdp2022.ex1.Main`
+
+Inizializza e collega i vari oggetti. Avvia le parti del sistema. Rileva quando l'esercizio è concluso (cioè le parti che si fermano da sole si sono fermate) e ferma le parti che vanno fermate.
+
+
+I punti in cui inserire il vostro codice sono evidenziati dai commenti `TODO`.
+
+Aggiungete quanto ritenete necessario, e verificate il funzionamento del sistema.
+
+---
+
+# Consegna
+
+
+```bash
+> hg pull
+PS C:\Users\michele.mauro\git\pdp2021-pub> hg heads default
+
+changeset:   12:******
+tag:         tip
+user:        Michele Mauro
+date:        Thu Apr 07 14:26:55 2022 +0200
+summary:     Lezioni 14 e 15. Esercizio valutato.
+```
+
+
+```bash
+> hg update {matricola}M
+> hg merge default
+> ./gradlew ex1
+```
+
+
+La JVM deve terminare regolarmente. Significa cioè che ogni Thread deve fermarsi o essere fermato.
+
+
+In caso di errori di formattazione, il sistema non parte, evidenziando i file non formattati. Correggete con il comando:
+```bash
+> ./gradlew spotlessApply
+```
+
+
+Quando siete soddisfatti del codice che avete scritto, consegnate aggiornando il bundle condiviso.
+
+---
+
+# Valutazione
+
+
+L'esercizio vale 3 punti. Il suo risultato sarà considerato valido fino all'ultimo appello della sessione di Febbraio 2024.
+
+
+* 1 punto per la corretta esecuzione e formattazione del codice
+* 1 punto per lo stile e le idee implementate
+* 1 punto per il corretto uso delle classi usate a lezione
+
+
+Non prendete soluzioni da altri senza averle esaminate criticamente: è statisticamente provato che sono probabilmente sbagliate.
+
+Consegnate anche se non riuscite a far funzionare il sistema. Se l'errore è triviale ma l'idea corretta, posso comunque darvi qualche punto.
+
+
+I bundle validi saranno quelli con data di ultima modifica non maggiore delle 23:59 del 1/5. 
+
+Tale condizione è tassativa.
+
+
+In caso di dubbi, chiedetemi pure via mail.
+
+In caso di errata, segnalerò sugli annunci del corso il problema e come proseguire.
+
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+        slideNumber: 'c/t',
+        showSlideNumber: 'all'
+      });
+    </script>
+  </body>
+</html>

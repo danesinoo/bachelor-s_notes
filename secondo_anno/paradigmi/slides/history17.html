@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>PDP2022 - H17</title>
+
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/white.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <img src="imgs/hist/deu.png" alt="Historical person" style="width:50%" />
+      </section>
+      <section>
+        <table>
+          <tr>
+            <td width="50%">
+              <img src="imgs/hist/deu.png" alt="Historical person" />
+            </td>
+            <td width="60%">
+              <p>
+                L Peter Deutsch
+              </p>
+              <p>
+              <ul>
+                <li class="fragment" data-fragment-index="1">Ghostscript</li>
+                <li class="fragment" data-fragment-index="1">PDP-1 Lisp 1.5</li>
+                <li class="fragment" data-fragment-index="1">Smalltalk JIT</li>
+                <li class="fragment" data-fragment-index="1">ZLIB/Deflate/Gzip RFC</li>
+              </ul>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <p>"Implementation is the sincerest form of flattery"</p>
+        <p>"To iterate is human, to recurse divine"</p>
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <link rel="stylesheet" href="lib/css/monokai.css">
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      plugins: [RevealHighlight],
+      slideNumber: 'c/t',
+      showSlideNumber: 'all'
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>PDP2022 - H11</title>
+
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/white.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <img src="imgs/hist/101a.jpg" alt="Historical thing" style="width:70%" />
+      </section>
+      <section>
+        <table>
+          <tr>
+            <td width="50%">
+              <img src="imgs/hist/101b.jpg" alt="Historical thing" />
+            </td>
+            <td width="60%">
+              <p>
+                Programma 101
+              </p>
+              <p>
+              <ul>
+                <li class="fragment" data-fragment-index="1">Programma su memoria magnetica</li>
+                <li class="fragment" data-fragment-index="2">Presentata nel 1965</li>
+              </ul>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <img src="imgs/hist/101c.jpg" alt="Historical thing" style="width:70%" /><br/>
+        Perotto, De Sandre. Dietro: Garziera, Toppi.
+      </section>
+      <section>
+        Il Sole 24 Ore Podcast:<br/>
+        <a href="https://stream24.ilsole24ore.com/podcasts/olivetti-l-occasione-perduta-AEkeq2C">Olivetti: L'occasione perduta</a><br/>
+        di Paolo Colombo
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <link rel="stylesheet" href="lib/css/monokai.css">
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      plugins: [RevealHighlight],
+      slideNumber: 'c/t',
+      showSlideNumber: 'all'
+    });
+  </script>
+</body>
+
+</html>
