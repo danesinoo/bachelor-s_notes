@@ -32,3 +32,7 @@ aumentare la sincronizzazione.
 	real time | thread, lock, latenza e esecuzione controllata nel tempo
 
 	preventive | thread, lock
+
+## classes repo
+
+default = [[https://hg.sr.ht/~michelemauro/pdp2022-pub]]
