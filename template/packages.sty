@@ -1,13 +1,56 @@
 \renewcommand{\familydefault}{\sfdefault}
-
 \usepackage{listings}
 \usepackage{xcolor}
-\lstset { %
-	language=C++,
-	backgroundcolor=\color{black!5}, % set backgroundcolor
-	basicstyle=\footnotesize,% basic font setting
+\lstset{
+	language=[GNU]C++,
+	numbers=left,
+	backgroundcolor=\color{gray!5}, % set backgroundcolor
+	basicstyle=\footnotesize\ttfamily,% basic font setting
+	commentstyle=\color{green!50!black},
+	keywordstyle=\color{blue},
+	stringstyle=\color{purple},
+	numberstyle=\tiny\color{gray},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=4,
+	morecomment=[l][\color{magenta}]{\#},
+	morekeywords={include, printf, scanf, int, double, struct, return, import, from, class, def, for, in, if, else, while, let, const, async, await, function, export, require, module, const, var, let, true, false, null},
+	deletekeywords={...}
 }
 
+\lstdefinelanguage{HTML}{
+	morekeywords={html,body,head,title,table,tr,th,td},
+	sensitive=false,
+	morecomment=[s]{<!--}{-->},
+	morestring=[b]",
+}
+
+\lstnewenvironment{htmlcode}[1][]
+{
+	\lstset{
+		language=HTML,
+		backgroundcolor=\color{gray!5}, % set backgroundcolor
+		basicstyle=\footnotesize\ttfamily,% basic font setting
+		commentstyle=\color{green!50!black},
+		keywordstyle=\color{blue},
+		stringstyle=\color{purple},
+		numberstyle=\tiny\color{gray},
+		breakatwhitespace=false,
+		breaklines=true,
+		captionpos=b,
+		keepspaces=true,
+		showspaces=false,
+		showstringspaces=false,
+		showtabs=false,
+		tabsize=4,
+		#1
+	}
+}{}
 
 \usepackage{comment}
 \usepackage{tabularx}
@@ -20,6 +63,7 @@
 \usepackage{caption}
 \usepackage{fancyhdr}
 \usepackage{geometry}
+\usepackage[utf8]{inputenc}
 \usepackage{multirow}
 \geometry{height=24 cm}
 \geometry{left=2.5 cm}
@@ -33,5 +77,7 @@
 \newtheorem{definition}{Def.}[section]
 \newtheorem{theorem}{Teorema}[section]
 \newtheorem{proof}{Dimostrazione}[section]
+\usepackage[T1]{fontenc} % Font encoding for Italian characters
+\usepackage[italian]{babel} % Set default language to Italian
 
 \linespread{1.5}
