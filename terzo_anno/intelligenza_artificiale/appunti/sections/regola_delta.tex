@@ -1,0 +1,95 @@
+\section{Regola Delta}
+
+La regola delta è applicabile a unità di output dotate di una funzione di
+attivazione continua e differenziabile. Questa caratteristica permette di
+descrivere le prestazioni di una rete neurale tramite una funzione continua
+$E_w$ che misura l'errore della rete.
+
+\subsection{Unità lineari}
+
+Consideriamo una rete neurale di tipo feedforward con unità di output ad
+attivazione lineare:
+
+\begin{equation}
+	y_i = \sum_{j=1}^n w_j x_j
+\end{equation}
+
+L'obiettivo è ottenere una matrice di pesi sinaptici $W$, per cui ogni esempio
+restituisce in output il valore corretto, ovvero ciascun esempio viene
+classificato correttamente:
+
+\begin{equation*}
+	y^{\mu}_i = t^{\mu}_i \quad \forall i, \mu
+\end{equation*}
+
+
+dove $t^{\mu}_i$ è l'output corretto ($t$ sta per \textit{target}) per l'input $\mu$-esimo sul neurone
+$i$-esimo. La funzione di errore è definita come:
+
+\begin{equation}
+	E_W = \frac{1}{2} \sum_{\mu} \sum_{i} (t^{\mu}_i - y^{\mu}_i)^2
+\end{equation}
+
+Ovvero, viene calcolata la distanza (lo scarto quadratico medio) tra l'output
+desiderato e quello effettivo
+per ogni esempio e per ogni neurone di output. L'obiettivo è minimizzare la
+funzione di errore $E$, infatti nel caso in cui tutti gli esempi vengano
+classificati correttamente, l'errore sarà nullo ($E_W = 0$).
+Dunque dobbiamo capire in quale direzione muovere i pesi per ridurre l'errore.
+La derivata della funzione di errore rispetto ai pesi ci fornisce la pendenza
+del grafico, ovvero dato un punto dello spazio dei pesi (individuato dai pesi
+sinaptici correnti) ci indica quali pesi aumentare e quali diminuire per ridurre
+il valore dell'errore. In particolare:
+
+\begin{equation}
+	\Delta w_{ij} = - \frac{\partial E_W}{\partial w_{ij}}
+\end{equation}
+
+ci indica in quale direzione muovere il peso $w_{ij}$ per ridurre l'errore,
+indica a tutti gli effetti la pendenza del grafico dell'errore rispetto al peso
+e quindi in quale direzione si muove una pallina che rotola lungo il grafico.
+Calcoliamo dunque le derivate che ci interessano:
+
+\begin{equation}
+	\Delta w_{ij} = \sum_{\mu}(t^{\mu}_i - y^{\mu}_i) x^{\mu}_j
+\end{equation}
+
+Interpretiamo la formula: per ciascun esempio $\mu$ calcoliamo la differenza tra
+il valore desiderato e quello effettivo, moltiplichiamo il risultato per il
+valore dell'input $j$-esimo e sommiamo il tutto per ciascun esempio. Notiamo che
+se ci fosse solo un esempio, dopo il cambio di peso l'errore sarebbe nullo,
+infatti si va a modificare il peso in modo tale che l'output sia uguale al
+target. Sommando le variazioni per ogni esempio, si ottiene la variazione totale
+dei pesi, per avvicinare l'output effettivo a quello desiderato, non è detto che
+esso sia raggiunto, ma ci si avvicina.
+
+\subsection{Unità non lineari}
+
+Allo stesso modo possiamo calcolare la variazione dei pesi per unità di output
+dotate di una funzione di attivazione non lineare. In particolare, data una
+funzione di attivazione $\phi$ e un output $y_i$ calcolato come:
+
+\begin{equation}
+	y_i = \phi(\sum_{j=1}^n w_{ij} x_j)
+\end{equation}
+
+La variazione dei pesi è calcolata come:
+
+\begin{equation}
+	\Delta w_{ij} = \sum_{\mu}(t^{\mu}_i - y^{\mu}_i) \phi'(\sum_j w_{ij} x^\mu_j) x^{\mu}_j
+\end{equation}
+
+Dove $\phi'(\sum_j w_{ij} x^\mu_j)$ è la derivata della funzione di attivazione
+rispetto all'input. Poiché la formula diventa lunga e complessa,
+poniamo $A^{\mu}_i = \sum_j w_{ij} x^\mu_j$, per cui
+$y^{\mu}_i = \phi(A^{\mu}_i)$, ottenendo:
+
+\begin{equation}
+	\Delta w_{ij} = \sum_{\mu}(t^{\mu}_i - y^{\mu}_i) \phi'(A^{\mu}_i) x^{\mu}_j
+\end{equation}
+
+Dunque per ogni esempio $\mu$ la modifica dei pesi sinaptici diventa:
+
+\begin{equation}
+	\Delta w_{ij} = \eta (t_i - y_i) \phi'(A_i) x_j
+\end{equation}

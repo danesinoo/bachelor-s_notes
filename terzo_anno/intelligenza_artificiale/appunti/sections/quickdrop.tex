@@ -1,0 +1,45 @@
+\section{Quickdrop}
+
+Fahlman ha proposto un algoritmo di discesa del gradiente completamente locale
+(per cui la modifica di una connessione richiede solo informazione direttamente
+disponibile a livello dell'unità presinaptica e di quella postsinaptica). Il
+metodo è basato sull'assunzione che la discesa della superficie di errore di un
+singolo peso sinaptico è relativamente indipendente dalle modifiche che vengono
+apportate agli altri pesi sinaptici. Questa assunzione è in realtà
+un'approssimazione, tuttavia l'algoritmo che si ottiene è molto molto rapido,
+per cui, nel momento in cui ci si ritrova in una stagnazione, è sufficiente far
+ripartire l'algoritmo da un punto diverso.\\
+Il metodo consiste nel modificare ciascun peso sinaptico in base al confronto in
+due tempi successivi della variazione dell'errore ottenuta grazie a quel peso:
+se la variazione è nella stessa direzione della variazione precedente, allora il
+peso verrà modificato nella stessa direzione del cambiamento effettuato in
+precedenza, altriemnto esso verrà modificato nella direzione opposta. Per ogni
+peso della rete, la regola di modifica sinaptica è la seguente:
+
+\begin{equation}
+	\Delta w^t = \frac{S^t}{S^{t-1} - S^t}\Delta w^{t-1}
+\end{equation}
+
+Dove $S$ esprime la variazione della funzione di errore $E_W$ su tutti i pattern
+di addestramento per quel peso sinaptico:
+
+\begin{equation}
+	S = \frac{\partial E_W}{\partial w}
+\end{equation}
+
+Per cui, considerato una rete come quella della back-propagation (vedi
+\autoref{fig:backpropagation}), la variazione dell'errore per un peso sinaptico,
+($S$) è:
+
+\begin{equation}
+	S_{ij} = - \sum_{\mu} E^\mu_i x^\mu_j
+\end{equation}
+
+Dove $S_{ij}$ è la variazione dell'errore per il peso sinaptico che connette
+l'unità $j$ all'unità $i$, $E^\mu_i$ è l'errore dell'unità $i$ per il pattern
+$\mu$ e $x^\mu_j$ è l'uscita dell'unità $j$ per il pattern $\mu$.\\
+Dato che quando $S$ assume la stessa direzione e valore per due epoche
+consecutive, il cambiamento dei pesi sinaptici cresce all'infinito, viene
+applicato un limite $\lambda$: $\Delta w^t = \lambda \Delta w^{t-1}$ (di solito
+$\lambda = 1.75$). Infine, viene addizionata una frazione della discesa di
+gradiente per evitare il "congelamento" dei pesi.

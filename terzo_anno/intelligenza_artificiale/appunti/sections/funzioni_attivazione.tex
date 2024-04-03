@@ -1,0 +1,209 @@
+\section{Funzioni di attivazione}
+
+La funzione di attivazione determina il tipo di risposta che un neurone può
+emettere. Di seguito sono elencati alcuni esempi di funzioni di attivazione.
+
+\subsection{Funzione "a gradino"}
+
+\begin{equation*}
+	\phi(A) = \begin{cases}
+		1 & \text{se } A \geq \theta \\
+		0 & \text{se } altrimenti
+	\end{cases}
+\end{equation*}
+
+Dove $\theta$ è la soglia del neurone. Ponendo $\theta = 0$ si ottiene:
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.5]
+		% Asse x
+		\draw[->] (-2,0) -- (2,0) node[right] {$A$};
+		\foreach \x in {-1, 1}
+		\draw (\x,0.1) -- (\x,-0.1) node[below] {$\x$};
+
+		% Asse y
+		\draw[-] (0,0) -- (0,1) node[above] {$y$};
+		\draw (0.1,1) -- (-0.1,1) node[left] {1};
+
+		% Funzione
+		\draw[domain=-2:0,thick,variable=\x,blue] plot ({\x},{0});
+		\draw[domain=0:2,thick,variable=\x,blue] plot ({\x},{1});
+	\end{tikzpicture}
+\end{center}
+
+Alternativamente, l'output può essere bipolare:
+
+\begin{equation*}
+	\phi(A) = \begin{cases}
+		1  & \text{se } A \geq \theta \\
+		-1 & \text{se } altrimenti
+	\end{cases}
+\end{equation*}
+
+\subsection{Funzione lineare}
+
+Maggiori informazioni sono trasmesse se si utilizza una funzione continua
+lineare:
+
+\begin{equation*}
+	\phi(A) = kA
+\end{equation*}
+
+dove $k$ è una costante. Le funzioni continue permettono al neurone di
+trasmettere una gradazione di segnali di vaira intensità che può essere
+opportunamente sfruttata dai neuroni riceventi.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel=$A$,
+				ylabel={$\phi(A)$},
+				axis lines=middle,
+				xtick={-1, 0, 1},
+				ytick={-1, 0, 1},
+				ymin=-1.5,
+				ymax=1.5,
+				xmin=-1.5,
+				xmax=1.5,
+			]
+
+			\addplot[domain=-1:1, blue, thick] {x};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Funzione sigmoide}
+
+In alcune situazione risulta utile forzare l'output del neurone ad assumere
+valori compresi in un intervallo, per esempio $[0, 1]$ o $[-1, 1]$. Infatti, in
+questo modo si può interpretare l'output come una probabilità o come una
+misura di confidenza. La funzione sigmoide o logistica è definita come:
+
+\begin{equation*}
+	\phi(A) = \frac{1}{1 + e^{-kA}}
+\end{equation*}
+
+Dove $k$ è la costante che controlla l'inclinazione della curva; per $k
+	\rightarrow \infty$ la funzione si comporta come una funzione a gradino. Le
+rette $y = 0$ e $y = 1$ sono asintoti orizzontali della funzione sigmoide.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel=$A$,
+				ylabel={$\phi(A)$},
+				axis lines=middle,
+				xtick={-1, 0, 1},
+				ytick={0, 0.5, 1},
+				ymin=-0.5,
+				ymax=1.5,
+				xmin=-1.5,
+				xmax=1.5,
+			]
+
+			\addplot[domain=-1.9:1.9, blue, thick] {1/(1 + exp(-2*x))};
+			\addplot[domain=-1.9:1.9, black, dashed] {1};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+Una funzione simile è la tangente iperbolica ($\tanh(kA)$) che ha le rette $y =
+	-1$ e $y = 1$ come asintoti orizzontali.\\
+Nella maggior parte dei modelli tutti i neuroni eccetto i neuroni di input
+(recettori) utilizzano la medesima funzione di attivazione.
+
+\subsection{Funzione a base radiale}
+
+Una funzione a base radiale genera un output non-negativo per tutti i pattern ed
+è simmetrica rispetto al baricentro di un gruppo di input. Le funzioni più
+comunemente usaet sono delle variazioni della funzione gaussiana:
+
+\begin{equation*}
+	\phi(A) = \exp(-kA^2)
+\end{equation*}
+
+La cui derivata prima è esprimibile in funzione dell'output generato:
+
+\begin{equation*}
+	\frac{d\phi(A)}{dA} = -2kA\phi(A)
+\end{equation*}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel=$A$,
+				ylabel={$\phi(A)$},
+				axis lines=middle,
+				xtick={-1, 0, 1},
+				ytick={0, 0.5, 1},
+				ymin=-0.5,
+				ymax=1.5,
+				xmin=-1.5,
+				xmax=1.5,
+			]
+
+			\addplot[domain=-1.9:1.9, blue, thick] {exp(-2*x^2)};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+Le funzioni a base radiale sono particolarmente utili nel caso in i pattern di
+input si distribuiscano in gruppetti nello spazio; in questo caso durante
+l'apprendimento ciascuna unità centra la propria risposta sul baricentro di un
+gruppetto di pattern.\\
+
+Moody e Darken hanno proposto di utilizzare la seguente funzione gaussiana:
+
+\begin{equation*}
+	\phi(A)_i = \frac{\exp(\frac{(A - \mu_i)^2}{2\sigma_i^2})}%
+	{\sum_{k}\exp(\frac{(A - \mu_k)^2}{2\sigma_k^2})}
+\end{equation*}
+
+Dove $\mu_i$ e $\sigma_i$ sono rispettivamente la media e la varianza della
+funzione dell'unità $i$ e il denominatore è la sommatoria dell'output di tutti i
+nodi $k$ dello stesso strato. Per cui il vettore di attivazione dell'intero
+strato è normalizzato.
+
+\subsection{Funzioni logaritmiche}
+
+Per reti che possiedono un elevato numero di unità presinaptiche, è utile
+impiegare funzioni che non sono sottoposte a saturazione (cioè se diventa
+difficile cambiare i pesi sinaptici). In questi caso è utile utilizzare una
+funzione logaritmica:
+
+\begin{equation*}
+	\phi(A) = \begin{cases}
+		\log(1 + A) & \text{per } A \geq 0 \\
+		\log(1 - A) & \text{per } A < 0
+	\end{cases}
+\end{equation*}
+
+Che ha derivata:
+
+\begin{equation*}
+	\phi'(A) = \begin{cases}
+		\frac{1}{1 + A} & \text{per } A \geq 0 \\
+		\frac{1}{1 - A} & \text{per } A < 0
+	\end{cases}
+\end{equation*}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel=$A$,
+				ylabel={$\phi(A)$},
+				axis lines=middle,
+				xtick={-10, 0, 10},
+				ytick={0, 2.5, 5},
+				ymin=-2.5,
+				ymax=7.5,
+				xmin=-15,
+				xmax=15,
+			]
+
+			\addplot[domain=0:19, blue, thick] {ln(1 + x)};
+			\addplot[domain=-19:0, blue, thick] {ln(1 - x)};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
