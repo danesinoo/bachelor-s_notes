@@ -88,3 +88,72 @@ viene generato il testo.
 - apprendimento per singolo simbolo (carattere, lettera)
 - ha bisogno di uno stato iniziale (seed, prompt), dopo il quale la rete procede
   in modo autonomo tirando fuori i caratteri succesivi più probabili
+
+Problema:
+
+- la memorizzazione previa carattere richiede moltissima memoria
+
+### Word embeddings
+
+- codificare le singole parole con vettori numerici di lunghezza fissa
+- i vettori vicini (simili) hanno significato simile
+- algoritmi di embedding ad hoc per effettuare la trasformazione
+- alcuni di questi algoritmi sono basati su reti neurali:
+    - Word2Vec
+    - GloVe
+    - FastText
+
+In questo modo, effettuando la trasformazione:
+```
+vec("Madrid") - vec("Spagna") + vec("Italia") = vec("Roma")
+vec("Fratello") - vec("Uomo") + vec("Donna") = vec("Sorella")
+```
+
+La rappresentazione della parola codifica il significato della parola stessa per
+implicazione. Di per sé il modello memorizza le parole sul loro contesto. Per
+cui ciascuna parola è rappresentata dai contesti in cui appare.  
+Rispetto ad una parola, il contesto sono l'insieme delle parole che la
+accompagnano (ovvero la precedono e la seguono).
+
+### Trasformers
+
+- self attention mechanism: ogni token è collegato a tutti gli altri, in modo
+  più o meno marcato (ha come dei pesi sinaptici), per cui tornando alla
+  rappresentazione precedente, due parole hanno un peso maggiore se compaiono in
+  contesti simili.
+- prende in input una sequenza di elementi, chiamati token
+- restituisce in output una sequenza di elementi
+
+- ecoder: costruisce una rappresentazione interna della sequenza utilizzando
+  come contesto per ogni token tutti gli altri token
+  - BERT
+  - addestramento: una parola viene mascherata e il modello deve prevederla
+    (BERT)
+
+- decoder: genera una sequenza di tokens utilizzando solo i tokens precedenti (a
+  sinistra) come contesto per condizionare la generazione.
+  - GPT
+  - addestramento: il modello deve prevedere il token successivo
+  - causal language modelling: n dipende solo da n-1 (e non da n+1)
+
+Un encoder tendenzialmente è migliore per la comprensione del testo. Un decoder
+è migliore per la generazione del testo.
+
+### Large language models
+
+- basati su trasformers (tutti)
+- addestrati su enormi quantità di testo
+- più blocchi di encoder e/o decoder (aumentano moltissimo i parametri)
+- più aumenta la dimensione del modello, più aumenta la capacità di
+  generalizzazione
+- pre-addestramento: addestramento su un task generico (es. prevedere la parola
+  successiva, ...)
+- fine-tuning: addestramento su un task specifico
+- allineamento (reinforment learning from human feedback): addestramento
+  supervisionato con feedback umano, per aggiungere il politically correct
+
+## GPT
+
+- ad ogni passo che viene generato un token
+- il modello è addestrato calcola la probabilità del token successivo
+- non sempre scegliere il token più probabile è la scelta migliore
