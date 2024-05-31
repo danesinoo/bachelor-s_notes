@@ -1,0 +1,142 @@
+\section{Computazione Neurale}
+La computazione neurale consiste in un nuovo paradigma di elaborazione
+dell'informazione, ovvero viene contrapposto alla computazione digitale.
+La computazione neurale viene eseguita da reti di neuroni biologici o
+artificiali.\\
+Le reti biologiche sono formate da neuroni che si influenzano attraverso le
+connessioni (sinapsi) che li collegano:
+\begin{itemize}
+	\item ogni neurone rileva un certo insieme di condizioni e segnala ciò che ha
+	rilevato attraverso la sua frequenza di scarica;
+	\item i neuroni possono ricevere segnali da altri neuroni e formare strati di
+	rilevatori più complessi, il cui segnale indica la presenza di qualche struttura
+	più elaborata (letteralmente come somma di segnali più semplici);
+
+	\item le interazioni tra neuroni sono adattive e si modificano attraverso
+	l'apprendimento.
+\end{itemize}
+
+Ciascun neurone è sintonizzato su uno stimolo preferito, specifico. Per cui se
+nell'input c'è lo stimolo ricercato dal neurone il neurone emette un segnale
+molto forte, altrimenti emette un segnale debole. Il campo recettivo del neurone
+è quella porzione di spazio sensoriale che attiva la risposta del neurone.\\
+Dunque, la codifica dell'informazione diventa più complessa ed astratta passando
+a livelli più profondi della gerarchia. Infatti ci negli
+stratti più vicini all'input sono codificate caratteristiche molto semplici,
+queste sono raggruppate negli strati successivi in maniera sempre più complessa
+fino ad arrivare a caratteristiche molto complesse.\\
+Le reti neurali artificiali sono sistemi di elaborazione in grado di apprendere
+compiti complessi e ispirati al funzionamento dei sistemi biologici.\\
+Una rete neurale artificiale ha un'architettura ad elaborazione distribuita e
+parallela; questo vuol dire che "sullo stesso livello" (layer letteralmente)
+possono essere presenti più neuroni che lavorano in parallelo. Per esempio, data
+un'immagine, essa può contenere un quadrato ed una stella, e ci possiamo
+immaginare che ci siano due neuroni sullo stesso livello che si attivano nello
+stesso momento e che rilevano la presenza di un quadrato e di una stella. In
+generale, possiamo assumere che neuroni sullo stesso livello codifichino
+(segnalino la presenza di) caratteristiche ugualmente complesse. Le reti neurali
+sono caratterizzate da semplici unità di elaborazione (eseguono solo l'addizione
+e la moltiplicazione), con un'elevata interconnessione tra le unità. I messaggi
+che viaggiano tra le unità sono semplici numeri reali (i numeri che studiamo
+alle superiori, quelli con la virgola per intenderci); infine, le reti neurali
+possono evolvere nel tempo (ovvero possono imparare) e lo fanno modificando i
+pesi delle connessioni tra le unità.\\
+Nell'ambito delle scienze cognitive, le reti neurali artificiali sono utilizzate
+con lo scopo di "ricostruire" le abilità cognitive e il comportamento umano.
+Infatti per spiegare come funziona una funzione cognitiva, viene costruita una
+simulazione adeguata, utilizzando un substrato di elaborazione che somigli
+quanto più possibile al substrato biologico.\\
+
+La rete neurale si compone di:
+\begin{itemize}
+	\item neuroni: sono dei rilevatori, per cui la loro attivazione segnla che hanno
+	rilevato qualche cosa;
+
+	\item reti neurali: connettono, coordinano, amplificano e selezionano
+	pattern di attivazioni su neuroni;
+
+	\item apprendimento: organizza le reti per eseguire compiti e per sviluppare
+	modelli interni dell'ambiente. In particolare, viene attuato modificando la
+	rete naurale (in base ai pattern in input).
+\end{itemize}
+
+\subsection{Neurone}
+
+Un neurone formale (unità di elaborazione o nodo) è un modello matematico che
+cerca di catturare gli aspetti fondamentali del funzionamento neuronale:
+\begin{itemize}
+\item I neuroni hanno connessioni in ingresso e in uscita con altri neuroni;
+\item Ogni connessione ha un peso che indica la forza della relazione e può
+avere valore positivo (eccitatorio) o negativo (inibitorio);
+\item L'input di un neurone da un altro neurone si calcola come moltiplicazione
+del segnale di output del neurone in ingresso per il peso della connessione;
+\item L'input totale di un neurone è la somma di tutti gli input calcolati al 
+passo precedente;
+\item Lo stato di attivazione finale viene calcolato come funzione di
+attivazione o di output del neurone (ovvero si prende la somma precedentemente
+definita e la si passa ad una funzione che restituisce un valore, che è il
+valore di attivazione del neurone);
+\item L'output del neurone (il suo valore di attivazione) viene passato a tutti
+i neuroni a cui è connesso (in uscita e pesando il segnale con la connessione,
+ovvero moltiplicazione al punto 3).
+\end{itemize}
+
+\subsection{Reti di neuroni}
+
+L'architettura della rete identifica:
+\begin{itemize}
+\item l'organizzazione in gruppo o strati dei neuroni;
+	\begin{itemize}
+		\item le unità che ricevono input dirrettamente dall'ambiente formano lo strato
+		di input;
+		\item le unità che producono l'output finale della rete formano lo strato di
+		output;
+		\item gli strati intermedi sono detti strati nascosti.
+	\end{itemize}
+\item il modo in cuii neuroni sono collegati tra di loro;
+	\begin{itemize}
+		\item reti feed-forward: ci sono solo connessioni unidirezionali da unità di
+		input a unità nascoste a unità di output;
+
+		\item reti ricorrenti: ci sono connessioni bidirezionali, per cui
+		l'attivazione di uno strato può attivare uno strato precedente;
+
+		\item reti interamente ricorrenti: come le reti ricorrenti, in più ci
+		sono connessioni anche tra unità dello stesso strato.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Differenze tra reti neurali biologiche e artificiali}
+
+Le reti neurali artificiali catturano i principi base di funzionamento delle
+reti neurali biologiche, ma non sono copie fedeli (perché non siamo in grado di
+costruire una copia fedele).\\
+Cosa manca al neurone artificiale:
+\begin{itemize}
+\item organizzazione spaziale dei contatti sinaptici: le connessioni tra neuroni
+biologici sono molto più complesse di quelle tra neuroni artificiali; inoltre,
+nel cervello ci sono gruppi di neuroni che lavorano insieme e poi ci sono dei
+neruoni che collegano questi gruppi, ma non abbiamo ancora compreso questo
+meccanismo;
+\item differenziazione tra neuroni eccitatori e inibitori: i neuroni artificiali
+sono tutti uguali, mentre i neuroni biologici possono essere eccitatori o
+inibitori;
+\item tipi diversi di sinapsi: nelle reti artificiali abbiamo solo connessioni
+con peso positivo o negativo, mentre nel cervello ci sono sinapsi con diversi
+meccanismi di trasmissione;
+\item ?: qualcos'altro che non sono in grado di spiegare;
+\end{itemize}
+
+Cosa manca alla rete artificiale:
+\begin{itemize}
+\item struttura laminare e organizzazioen colonnare: le reti neurali artificiali
+sono bidimensionali, mentre il cervello è tridimensionale;
+\item organizzazione in mappe topografiche: la rete non si divide in gruppi per
+rappresentare informazioni diverse o capacità diverse;
+\item differenza di scala: le reti neurali artificiali sono molto più piccole
+rispetto al cervello;
+\end{itemize}
+
+Infine, le differenze maggiori sono quelle di cui ancora non ci rendiamo conto,
+meglio simuliamo il cervello e più ci rendiamo conto di quante cose manchino per
+rappresentarlo fedelmente, questo elenco non è esaustivo.

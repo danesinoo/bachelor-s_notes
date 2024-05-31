@@ -1,0 +1,100 @@
+\section{Apprendimento e memoria nelle reti neurali}
+
+Il machine learning consiste nei metodi e negli algoritmi che permettono ad un
+software di apprendere dall'esperienza. Gli algoritmi di apprendimento
+automatico apprendono dai dati. La qualità dell'apprendiemnto tipicamente
+migliora all'aumentare del numero di esempi disponibili per l'addestramento. Le
+reti neurali artificiali rappresentano una classe importante di algoritmi di
+apprendimento, ma non sono gli unici metodi di machine learning.\\
+Il deep learning si riferisce alle reti neurali artificiali (con almeno due
+strati nascosti) e rappresenta lo stato dell'arte.\\
+Il machine learning si divide in tre categorie a seconda dei dati forniti al
+modello:
+\begin{itemize}
+\item \textbf{Apprendimento supervisionato}: al modello sono presentati dei dati
+in input e i risultati attesi, lo scopo è di imparare a produrre l'output
+corretto dato un nuovo input;
+
+\item \textbf{Apprendimento non supervisionato}: al modello sono presentati solo
+dati in input, non gli viene detto che cosa cercare. Lo scopo è di costruire una
+rappresentazione dell'input scoprendo le proprietà più importanti e informative
+(ci saranno esempi di modelli di questo tipo);
+
+\item \textbf{Apprendimento per rinforzo}: il modello produce delle azioni a
+partire da un input. A seconda delle azioni che produce, il modello riceve dei
+rinforzi o delle punizioni (come carota e bastone). Lo scopo del modello è
+mangiare più carote possibili e evitare i bastoni nel lungo periodo. Formalmente
+il modello massimizza i rinforzi a lungo termine.
+\end{itemize}
+
+\subsection{Apprendimento}
+
+L'apprendimento in una rete neurale consiste nel trovare l'insieme di pesi delle
+connessioni che permette alla rete di produrre la risposta appropriata ad un
+certo input.\\
+La forma più semplice di apprendimento è la regola di Hebb: \textit{se due
+neuroni collegati tra loro sono contemporaneamente attivi, l'efficacia sinaptica
+della connessione viene aumentata}. L'apprendimento hebbiano è biologicamente
+plausibile.\\
+I contro della regola di Hebb sono:
+\begin{itemize}
+\item la regola di hebb può solo aumentare il peso delle connessioni;
+\item i valori dei pesi (le connessioni) possono cresce indefinitamente
+(all'infinito);
+\end{itemize}
+
+I valori dei pesi sinaptici iniziali sono impostati in modo casuale a valori
+piccoli. Durante l'allenamento sono presentati più volte gli stessi pattern di
+addestramento. L'apprendimento consiste nella modifica dei pesi, ovvero il
+calcolo di $\Delta w_{ij}$, rispetto a $w_{ij}$, dove $w_{ij}$ è il peso della
+connessione tra il neurone $i$ e il neurone $j$.\\
+Se l'aggiornamento dei pesi avviene dopo ogni pattern si chiama on-line
+learning.  Se l'aggiornamento dei pesi avviene dopo ogni epoca si chiama batch
+learning.\\
+per non stravolgere le conoscenze precedentemente apprese, viene utilizzata solo
+una frazione della modifica sinpatica calcolata. Il fattore molteplicativo
+$\eta$ è chiamato tasso di apprendimento.
+\begin{equation*}
+	w^t_{ij} = w^{t-1}_{ij} + \eta \Delta w^t_{ij}
+\end{equation*}
+
+Dove $t$ è l'epoca corrente, $w^t_{ij}$ è il peso della connessione tra il
+neurone $i$ e il neurone $j$ all'epoca $t$, $w^{t-1}_{ij}$ è il peso della
+connessione tra il neurone $i$ e il neurone $j$ all'epoca $t-1$, $\eta$ è il
+tasso di apprendimento e $\Delta w^t_{ij}$ è la modifica del peso della
+connessione tra il neurone $i$ e il neurone $j$ all'epoca $t$.\\
+
+\subsection{Memoria}
+
+La memoria in una rete neurale consiste nella capacità di memorizzare la
+corrispondenza tra un input e un output. La memoria di un modello è data
+dall'insieme dei pesi delle connessioni.\\
+L'attivazione dei neuroni è un fenomeno temporaneo ed è specifico per lo stimolo
+presentato e si esaurisce con la sua scomparsa. Fondamentalmente, da uno stimolo in
+input corrisponde un'esito in output. Questo vuol dire che c'è
+un'associazione tra tutti gli stimoli possibili in input e ciascun esito in
+output. Queste associazioni sono memorizzate nei pesi delle connessioni.\\
+Invece, se l'attivazione non cessa bruscamente, può influenzare l'elaborazione
+dello stimolo successivo (reti ricorrenti). Alcuni compiti cognitivi richiedono
+di ricordare per breve tempo informazioni che non sono più presenti utilizzanod
+la memoria di lavoro o a breve termine.
+
+\paragraph{Esempio del fallimento della regola di Hebb} Se una rete neurale
+viene sottoposta al compito di apprendimento associativo AB-AC si ottiene un
+effetto di interferenza ancora maggiore che negli esseri umani. Ovvero viene
+rinforzata la connessione AB e la connessione AC, dunque ogni volta che si
+riceve A in input, la risposta è arbitraria tra B e C, perché entrambe le
+connessioni AB e AC sono state rafforzate.\\
+Due fattori determinano l'interferenza in una rete neurale:
+il grado di sovrapposizione delle rappresentazioni, ovvero quanto sono simili B
+e C e la correlazione tra i pattern di input; e il tasso di apprendimento
+elevato. Biologicamente, il cervello umano ha sviluppato due sistemi di
+apprendimento separati e complementari:
+\begin{itemize}
+\item \textbf{Ippocampo}: specializzato nell'apprendimento rapido e non
+soggetto a interferenze, con rappresentazioni sparse;
+\item \textbf{Neocorteccia}: apprende lentamente e integra gradualmente le
+esperienze estrendo le conoscenze generali sul mondo. In questo caso la
+rappresentazione è distribuita (sono coinvolti più neuroni e c'è maggiore
+precisione).
+\end{itemize}

@@ -1,0 +1,73 @@
+\section{Apprendimento non supervisionato}
+
+Pro:
+\begin{itemize}
+	\item l'apprendimento non richiede nessuna etichetta negli esempi, quindi si
+		possono sfruttare enormi quantità di informazioni grezze ("as is");
+
+	\item \textbf{transfer learning}: si può allenare un modello di base in
+		questo modo e poi specializzarlo per un compito specifico mediante
+		l'allenamento supervisionato oppure per rinforzo. Per esempio GPT
+		(Generative Pre-trained Transformer) è preallenato, mentra ChatGPT è un
+		modello specializzato per il compito di chatbot;
+
+	\item biologicamente plausibile: sembra che gli animali (anche l'uomo)
+		sfruttino massivamente questa modalità di apprendimento durante lo 
+		sviluppo.
+\end{itemize}
+
+Contro:
+\begin{itemize}
+	\item è difficile definire una buona rappresentazione dell'ambiente
+		(che cosa è importante e che cosa no?);
+
+	\item richiede un'enorme quantità di dati e di potenza di calcolo per
+		ottenere risultati soddisfacenti;
+
+	\item non è possibile inferire relazioni causali.
+\end{itemize}
+
+Ci sono due approcci principali all'apprendimento non supervisionato:
+\begin{itemize}
+	\item \textbf{clustering}: si cerca di raggruppare gli esempi in modo che
+		quelli dello stesso gruppo siano simili tra loro e diversi da quelli
+		appartenenti ad altri gruppi. Questo approccio è utile per scoprire
+		nuove categorie o per ridurre la complessità di un problema. In genere
+		viene individuato un prototipo per ogni gruppo al livello più vicino
+		all'output, mentre i livelli sottostanti elaborano l'input per
+		evidenziare le differenze tra gli esempi e rendere l'input via via più
+		simile al prototipo;
+
+	\item \textbf{riduzione della dimensionalità}: si cerca di ridurre la
+		dimensione dello spazio di input, mantenendo le informazioni più
+		rilevanti. Questo approccio è utile per visualizzare i dati, per
+		ridurre il rumore e per velocizzare l'addestramento dei modelli.
+\end{itemize}
+
+\subsection{PCA (Principal Component Analysis)}
+
+La PCA è una tecnica statistica che cerca di trovare la direzione di massima
+variabilità in un certo insieme di dati; ovvero, la PCA scropre un insieme di
+variabili linearmente scorrelate, le componenti principali, che spieghino la
+maggior parte della varianza osservata nella distribuzione.
+La scomposizione dei dati della PCA permette di mappare i pattern di input in un
+nuovo sistema di coordinate a bassa dimensionalità. Naturalmente, minore è il
+numero di feature che si considerano, minore è la quantità di informazione che
+si riesce a catturare (peggiore sarà la ricostruzione dell'input originale).
+
+\subsection{Autoencoder}
+
+Gli autoencoder sono una famiglia di reti neurali che cercano di apprendere una
+rappresentazione compatta di un insieme di dati. Gli autoencoder sono composti
+da due parti: un \textbf{encoder} che mappa l'input in uno spazio di
+rappresentazione più compatto e un \textbf{decoder} che mappa la rappresentazione
+compatta in un'immagine ricostruita. Gli autoencoder sono addestrati per
+minimizzare la differenza tra l'input e l'output.\\
+Utilizzando neuroni nascosti con funzione di attivazione non lineare, effetuano
+uan riduzione non lineare della dimensionalità, questo aumenta molto la capacità
+di compressione del modello, non solo a parità di parametri, anche la qualità
+dell'immagine ricostruita è migliore.\\
+Allenando gli autoencoder con dati rumorosi, si può ottenere un modello che
+riesce a ricostruire l'input originale anche se questo è stato corrotto.\\
+Gli autoencoders sono modelli generativi, ovvero possono generare nuovi esempi
+simili a quelli di training.

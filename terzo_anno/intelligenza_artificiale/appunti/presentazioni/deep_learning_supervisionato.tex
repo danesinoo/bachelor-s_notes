@@ -1,0 +1,93 @@
+\section{Deep Learning Supervisionato}
+
+Per risolvere il problema della linearità, ovvero per riuscire a classificare
+correttamente input che non sono linearmente separabili, ci è venuto in mente di
+adottare funzioni non lineari. In particolare, abbiamo pensanto ottenere
+separabilità lineare attraverso proiezioni non lineari dello spazio degli input.
+Mettendo più livello uno sopra l'altro, si ottiene una rete neurale profonda in
+grado di approssimare funzioni complesse.\\
+L'elaborazione gerarchica (profonda) è una caratteristica fondamentale della
+computazione neurale nel cervello. La codifica dell'informazione diventa più
+complessa ed astratta passando a livelli più elevati (profondi) della
+gerarchia.\\
+Nel deep learning la rete neurale ha più di uno strato nascosto, quindi si forma
+una rete profonda. Per poter allenare una rete profonda sono necessari molti
+pattern di addestramento (già etichettati) e un'enorme potenza di calcolo. Una
+caratteristica interessante dei modelli che sfruttano il deep learning è che è
+in grado di imparare da dati grezzi, anche rumorosi, senza bisogno di
+pre-elaborazione.\\
+Se aggiungiamo molti strati nascosti, il segnale di errore deve passare molti
+livelli di backpropagation. Con una funzione del tipo sigmoide, la derivata
+tende a 0 su una rete satura, ovvero quando il valore della sinapsi tende a 0 o
+a 1. Questo porta a problemi di vanishing gradient, ovvero il gradiente diventa
+troppo piccolo e la rete non riesce più ad apprendere.\\
+Il problema del vanishing gradient viene arginato con alcune tecniche:
+\begin{itemize}
+	\item inizializzazione dei pesi furba (per esempio, nell'intorno dello 0,
+		dove la derivata della sigmoide è massima);
+
+	\item learning rate adattivo, piuttosto che costante;
+
+	\item rete di grandi dimensioni insieme a tecniche di regolarizzazione
+		avanzata, come weight decay, dropout, etc.;
+
+	\item ottimizzatori del secondo ordine, viene stimata la curvatura del
+		gradiente e si aggiusta il learning rate di conseguenza;
+
+	\item funzione di attivazione ReLU (al posto di sigmoide), che non satura il 
+		gradiente.
+\end{itemize}
+
+I metodi sempre adottati per migliorare le prestazioni di una rete neurale sono:
+l'adozione di dataset più grandi, l'utilizzo di hardware più potente e
+l'adozione di architetture convoluzionali (per esempio, per immagini).
+
+\section{Convolutional Neural Networks}
+
+La CNN è una rete profonda che include almeno uno strato convoluzionale, in cui
+i neuroni nascosti non sono interamente connessi con lo strato precedente, ma
+hanno campi recettivi locali. 
+Lo strato convoluzionale, di solito, è seguito da
+uno strato di pooling per ridurre la dimensionalità ed enfatizzare le
+caratteristiche più interessanti.
+Nella parte più profonda della rete è inserito almeno uno strato nascosto
+standard, interamente connesso con quello precedente.
+L'ultimo strato nascosto è interamente connesso con lo strato di output.\\
+Ogni neurone nascosto dello strato convoluzionale ha un campo recettivo locale,
+che codifica una feature specifica, per questo motivo i neuroni in questo strato
+sono anche chimati filtri (o kernel). Il numero di filtri definisce quante
+feature sono rappresentate in ciascun livello (proprio perché ogni filtro
+codifica una feature).
+Ciascun filtro è applicato all'intera immagine attraverso un'operazione di
+convoluzione. Fondamentalmente, i filtri sono applicati a una porzione piccola
+dell'immagine, scorrendo su tutta l'immagine, è come se venisse passato l'input
+poco per volta.\\
+
+Iperparametri di una CNN:
+\begin{itemize}
+	\item \textbf{Numero di neuroni nascosti}: specifica quanti filtri usare in
+		ciascun layer;
+	
+	\item \textbf{Dimensione del kernel}: definisce il campo recettivo del
+		filtro, ovvero la dimensione del filtro stesso, quindi la dimensione
+		dell'input che il filtro considera alla volta;
+
+	\item \textbf{Stride}: la dimensione del passo con cui il filtro scorre
+		sull'immagine;
+
+	\item \textbf{Padding}: aggiunge zeri attorno ai bordi dell'immagine, in
+		modo che il filtro possa essere applicato anche ai bordi;
+\end{itemize}
+
+\subsection{Pooling}
+
+Lo strato di pooling viene inserito dopo uno strato convoluzionale per ridurre
+la dimensione dell'immagine e quindi il numero di parametri.\\
+
+\subsection{Adversarial Examples}
+
+Possiamo indurre errori di classificazione in una rete neurale profonda facendo
+modifiche ad hoc all'immagine di input. Le modifiche non sono distinguibili
+all'occhio umano. Le modifiche sono studiate a partire dall'immagine di input in
+modo tale da massimizzare la funzione di errore e tendenzialmente modelli
+diversi sono ugualmente vulnerabili.

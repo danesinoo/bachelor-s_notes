@@ -1,0 +1,246 @@
+\section{Apprendimento supervisionato}
+
+L'apprendimento supervisionato si divide in due categorie:
+\begin{itemize}
+	\item \textbf{Classificazione}: associare ai dati di input una categoria
+	(cane-gatto, a-b-c-...-z, ecc.);
+	\item \textbf{Regressione}: associare ai dati di input un valore continuo
+	(per esempio, prezzo di un'abitazione, date tutte le sue caratteristiche,
+	...).
+\end{itemize}
+
+La rete impara ad associare un dato in input ad uno specifico output, ovvero la
+risposta corretta, che deve essere fornita esplicitamente durante il training.
+Per questo motivo, tutti i pattern di input devono essere etichettati.\\
+Algoritmi:
+\begin{itemize}
+	\item \textbf{Percettrone};
+	\item \textbf{Regola Delta};
+	\item \textbf{Backpropagation};
+\end{itemize}
+
+Applicazione:
+\begin{itemize}
+	\item classificazione;
+	\item regressione.
+\end{itemize}
+
+Apprendimento (overview): il training set è l'insieme dei pattern su cui è
+addestrato il modello. Per ogni pattern di input sono definiti:
+\begin{itemize}
+	\item \textbf{Input (x)}: la configurazione dei valori di input, una qualche
+	rappresentazione di un pattern di input;
+
+	\item \textbf{Output (y)}: la risposta corretta, la label associata al
+	pattern di input, deve avere una forma specifica;
+
+	\item \textbf{Target (t)}: il valore di output desiderato, la risposta
+	corrispondente al pattern di input. La soluzione che diamo al modello, che
+	viene confrontata con l'output per vedere se la risposta data (output) è
+	corretta oppure no.
+\end{itemize}
+
+Dunque l'apprendimento consiste nei seguenti passaggi:
+\begin{enumerate}
+	\item viene presentato un pattern di input alla rete;
+	\item la rete produce un output sulla base dei parametri attuali (pesi
+	sinaptici);
+	\item l'output prodotto viene confrontato con l'output desiderato (target);
+	\item sono modificati i parametri (pesi sinaptici) per ridurre l'errore;
+	\item si ripete il processo fino a che l'errore non è accettabile.
+\end{enumerate}
+
+Testing: per verificare le prestazioni del modello, si utilizza un test set, che
+ha la stessa struttura del training set, ma non viene utilizzato per modificare
+i pesi sinaptici. Semplicemente, per ogni pattern del test set, si calcola
+l'output corrispondete e si confronta con l'output desiderato. Il rapporto tra
+il numero di risposte corrette e il numero totale di pattern è la misura di
+accuratezza del modello.
+
+\subsection{Percettrone}
+
+Si tratta del primo modello di rete neruale con pesi sinaptici modificabili da
+un algoritmo di apprendimento. La rete ha $n$ input che codificano l'esempio
+presentato con valori $x_i$ ed un singolo neurone di output che codifica la
+risposta in modo bipolare o binario. L'output della rete è calcolato come:
+\begin{equation}
+	y = \begin{cases}
+		1 & \text{se } \sum_{i=1}^{n} w_i x_i - \theta \geq 0 \\
+		-1 & \text{altrimenti}
+	\end{cases}
+\end{equation}
+
+Per ogni esempio presentato, l'output y viene confrontato con la risposta
+desiderata (target) $t$ che codifica la classe di appartenenza:
+\begin{itemize}
+\item se $y = t$, i pesi non vengono modificati;
+\item se $y \neq t$, i pesi vengono modificati con: $\Delta w_i = \eta t x_i$.
+\end{itemize}
+dove $\eta$ è il tasso di apprendimento.
+
+\subsection{Associatore lineare}
+
+Un associatore di configurazioni è simile ad un percettrone, ma i neuroni di
+output utilizzano una funzione di attivazione continua, come la sigmoide.
+L'output dei neuroni quindi è continuo, questo permette di quantificare
+l'errore, perché il target vale o 0 o 1, mentre l'output è un valore continuo
+compreso tra 0 e 1.
+
+\subsection{Regola Delta}
+
+La regola Delta è applicabile quando le unità di output hanno una funzione di
+attivazione continua e differenziabile, come la sigmoide. Permette di descrivere
+la prestazione con una funzione che misura l'errore della rete (funzione di
+errore o di costo). Si basa sullo scarto quadratico medio tra le risposte
+desiderate e quelle prodotte dalla rete:
+\begin{equation*}
+	E_W = \frac{1}{2} \sum_{\mu} \sum_{i} (t_i^\mu - y_i^\mu)^2
+\end{equation*}
+
+L'apprendimento consiste nel minimizzare la funzione di costo $E$, che dipende
+unicamente dal valore delle connessioni sinaptiche $W$ (perché tutto quello che
+cambia sono proprio le connessioni sinaptiche, questa funzione indica in quale
+modo cambiare, letteralmente indica in quale modo cambiare i pesi sinaptici e
+quindi come imparare). Quindi si modificano i pesi nella direzione opposta al
+gradiente della funzione stessa (ovvero si minimizza l'errore):
+\begin{equation*}
+	\Delta w_{ij} = - \eta \frac{\partial E}{\partial w_{ij}}
+\end{equation*}
+
+Approfondiamo il modo in cui una rete impara:
+\begin{enumerate}
+	\item viene presentato un pattern di input alla rete;
+	\item viene calcolato l'output della rete;
+	\item viene calcolata la discrepanza tra l'output della rete e l'output
+		desiderato;
+	\item sono modificati i pesi sinaptici per ridurre l'errore calcolato al 
+		punto precedente;
+	\item si ripete il processo fino a che l'errore non è accettabile.
+\end{enumerate}
+
+I problemi di inserparabilità lineare (AB e AC) possono essere risolti da reti
+neurali multistrato, ovvero con uno o più strati di neuroni nascosti che
+utilizzano una funzione di attivazione non-lineare.\\
+La rete multistrato è un approssimatore universale, ovvero una rete neurale con
+almeno uno strato nascosto composto da un numero appropriato di neuroni con
+funzione di attivazione non-lineare può, in linea di principio, approssimare
+qualunque funzione $X \rightarrow Y$; cioè può abbinare opportunamente qualunque
+input all'output appropriato.
+
+\subsection{Backpropagation}
+
+L'algoritmo noto come backpropagation è un'estensione della regola Delta che
+permette di allenare reti multistrato; quindi, può essere applicato a qualunque
+modello di rete neurale con uno o più strati nascosti e con qualunque tipo di
+connettività (feedforward o ricorrente).\\
+In effetti, la backpropagation permette di calcolare l'errore per le unità
+nascoste, ovvero indica come modificare i pesi sinaptici, non solo per le unità
+di output, ma anche per tutte le connessioni precedenti.\\
+Da un punto di vista biologico, la backpropagation non è plausibile, perché
+richiede che l'errore sia calcolato e propagato all'indietro attraverso la rete,
+cosa che non avviene nel cervello.\\
+Fondamentalmente utilizzando la regola delta si calcola l'errore per le unità di
+output. Utilizzando il peso delle connessioni sinaptiche l'errore è calcolato
+per ciascuna unità al livello precedente, sono modificati i pesi sinaptici e si
+ripete il processo fino a che non si arriva allo strato di input.
+
+\subsection{Tasso di apprendimento}
+
+Il tasso di apprendimento è un parametro che regola la velocità con cui i pesi
+sinaptici vengono modificati durante l'apprendimento. A tassi di apprendimento
+alti, l'apprendimento diventa più veloce, ma impreciso; mentre a tassi di
+apprendimento piccoli, l'apprendimento è più lento, ma più preciso. Infine, a
+tassi di apprendimento elevati, l'algoritmo di apprendimento potrebbe divergere
+(non covergere, e quindi non arrivare mai ad una soluzione). Il tasso di
+apprendimento può anche essere variabile, ovvero può cambiare durante il
+processo di apprendimento.
+
+\subsection{Momentum}
+
+Il momento aggiunge all'aggiornamento del peso sinaptico una frazione del
+precedente cambiamento di valore. Quando il gradiente dell'errore ha la stessa
+direzione, il momento aumenta la grandezza del passo che viene fatto.\\
+Ci possiamo immaginare i pesi sinaptici attuali come una palla che rotola su una
+superficie. Il momento è la quantità di moto della palla, che aumenta se la
+palla va in discesa e diminuisce se la palla va in salita (ovvero la palla
+prende velocità, il momento è ciò che permette alla pallina di prendere
+velocità).
+
+\subsection{Generalizzazione}
+
+La generalizzazione è la capatcità di utilizzare in modo appropriato la
+conoscenza sul dominio quando si incontrano nuovi esempi del problema.\\
+Ovvero è la produzione di una risposta appropriata a pattern di input non
+utilizzati per l'addestramento, ovvero un test set indipendente dal training
+set.\\
+Alla generalizzazione si contrappone l'overfitting: si verifica quando il
+modello continua a migliorare le prestazioni sul training set, ma peggiora la
+prestazione in termini di generalizzazione (ovvero le predizioni sul test set
+sono peggiori del modello precedente).\\
+Come evitare l'overfitting?
+\begin{itemize}
+	\item \textbf{limitare il numero di unità nascoste}: se il modello è troppo 
+		complesso, la rete può memorizzare i pattern di input, piuttosto che 
+		generalizzare;
+
+	\item \textbf{Early stopping}: utilizzare un validation set, quando l'errore
+		sul validation set inizia a crescere, si ferma l'addestramento;
+
+	\item \textbf{Decadimento dei pesi}: aggiungere un termine di decadimento
+		ai pesi sinaptici, che li riduce ad ogni iterazione. In questo modo pesi
+		inutili vengono ridotti a zero.
+\end{itemize}
+
+In generale, i metodi per prevenire eccessivo overfitting sono chiamati metodi
+di regolarizzazione.
+
+\subsection{Dataset}
+
+\paragraph{Training set}: insieme di esempi (pattern) per l'addestramento. Sono
+utilizzati dall'algoritmo di apprendimento per trovare i valori dei pesi delle
+connessioni.
+
+\paragraph{Validation set}: insieme di esempi utilizzati per ottimizzare
+apprendimento (e.g. learning rate, momentum, weight decay, ecc.), il numero di
+unità nascoste, ecc. e per decidere quando fermare l'addestramento (early
+stopping).
+
+\paragraph{Test set}: insieme di esempi utilizzati per valutare le prestazioni
+finali del modello. Non è utilizzato per l'addestramento, ma solo per valutare 
+le prestazioni quando il modello è pronto.\\
+
+Perchè utilizzare set diversi per validation e test? Il set di validazione viene
+utilizzato per selezionare il modello migliore, quindi l'accuratezza sul
+validation set ha un bias (è sovrastimata).
+
+\subsubsection{Cross-validation}
+
+Se i dati non sono sufficienti per ripartirli in due insiemi separati di
+training e test, è essenziale massimizzare il numero di esempi di training
+utilizzando la tecnica di cross-validation. La k-fold cross-validation consiste
+nella divisione in k parti uguali del dataset totale. Ad ogni ciclo di
+cross-validation, la k-esima parte del dataset viene esclusa dal training per
+essere utilizzata come test.
+
+\subsubsection{Valutazione delle prestazioni}
+
+La valutazione delle performance di un modello va fatta sul test set. Esistono
+diverse metriche di performance e tendenzialmente sono specifiche per dominio.
+La distinzione principale tra metriche di performance è relativa a compiti di
+regressione e classificazione: un compito di regressione prevede la predizione
+di un valore continuo, quindi le prestazioni sono misurate in termini di
+distanza tra l'output del modello e quello desiderato; un compito di
+classificazione implica output binari, ovvero risposta corretta oppure no.
+D'altra parte una valutazione in termini di accuratezza non è sufficiente per
+stabilire la qualità di un classificatore, ma va considerata la matrice di
+confuzione.
+
+\paragraph{Curva ROC} la curva ROC (Receiver Operating Characteristic) per un
+classificatore binario è una curva che mostra la relazione tra il tasso di
+veri positivi e il tasso di falsi positivi al variare della soglia di
+classificazione (di due classi in genere).\\
+
+\paragraph{Curva AUC} l'area sotto la curva ROC (AUC, Area Under the Curve) è
+una misura della bontà di un classificatore binario, anche in questo caso il
+valore è compreso tra 0 e 1. In particolare, AUC è invariante rispetto alla
+soglia di classificazione.

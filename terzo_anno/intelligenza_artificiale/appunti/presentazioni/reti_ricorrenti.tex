@@ -1,0 +1,146 @@
+\section{Reti ricorrenti}
+
+L'informazione in input può arrivare al sistema neurale in modo sequenziale e
+quindi può possedere una struttura temporale. Anche l'output può avere una
+struttura sequenziale.\\
+In una classica rete multistrato l'output $O(t)$ al tempo $t$ dipende solo
+dall'input corrente: $I(t)$. Possibile soluzione: trasformare il tempo in
+spazio, ovvero viene fornito al modello alcuni elementi della sequenza $S$ in
+una finestra temporale $W^T(t)$ che si sposta sopra $S: W^T(t) = S(t:t+T) =
+[S_t, S_t+1, \dots S_{t+T}]$.\\
+Questo metodo presenta alcuni problemi:
+\begin{itemize}
+	\item i neuroni di input sono replicati per ogni elemento nella finestra,
+		ovvero per ciascun $S_t$ si hanno $N$ neuroni di input che servono per
+		rappresentare l'elemento $S_t$;
+
+	\item la dimensione della finestra $T$ è fissa e non si adatta alla
+		lunghezza della sequenza;
+\end{itemize}
+
+Per ovviare a questi problemi si possono usare le \textbf{reti parzialmente 
+ricorrenti}, in questo modo gli input alla rete sono il risultato di:
+\begin{itemize}
+	\item l'input corrente $I(t)$
+	\item l'output precedente $O(t-1)$
+\end{itemize}
+
+Notiamo che se $O(t)$ dipende da $O(t-1)$, allora $O(t-1)$ dipende da $O(t-2)$ e
+così via; ma allora $O(t)$ dipende da $O(t-1), O(t-2), \dots, O(0)$, ovvero
+dall'intera sequenza di output precedente. Questa è letteralmente la definizione
+di ricorrenza.\\
+Le reti parzialmente ricorrenti si possono addestrare con l'algoritmo
+backpropagation, perché la struttura temporale può essere "srotolata",
+trasformandola in una struttura spaziale, come se l'architettura fosse più o
+meno grande a seconda della lunghezza dell'input. I pesi della rete sono
+aggiornati sommando il cambiamento ad ogni passo temporale: $\Delta w_{ij} =
+\sum_t \Delta w_{ij}(t)$.\\
+
+\subsection{Reti di Elman (SRN - Simple Recurrent Network)}
+
+Le reti di Elman sono implementate aggiungendo un layer di neuroni nascosti
+ricorrenti su se stessi. Ovvero:
+\begin{enumerate}
+	\item viene passato $I(t = 0)$ al layer di input;
+	\item viene calcolato $H(t = 0)$ a partire da $I(t = 0)$ ed è passato al layer di 
+		output;
+	\item viene calcolato $O(t = 0)$ a partire da $H(t = 0)$;
+	\item viene passato $I(t + 1)$ al layer di input;
+	\item viene calcolato $H(t + 1)$ a partire da $I(t + 1)$ e $H(t (= 0 ))$ ed 
+		è passato al layer di output;
+	\item viene calcolato $O(t + 1)$ a partire da $H(t + 1)$;
+	\item e così via.
+\end{enumerate}
+
+\subsection{Self-supervised learning}
+
+Questo tipo di apprendimento viene chiamato self-supervised learning perché
+input e target hanno la stessa struttura (fondamentalmente gli input sono usati
+anche come target).
+
+\subsection{Long-Short Term Memory (LSTM, RNN - Recurrent Neural Network)}
+
+Le SRN appena descritte hanno una memoria a breve termine, non riescono ad
+apprendere dipendenze temporali lontane nella sequenza di input. 
+Questo problema
+viene risolto nelle reti LSTM, in cui lo strato nascosto è formato da unità LSTM
+che hanno una struttura più complessa rispetto ai tipici neuroni nascosti.
+Le unità LSTM operano attraverso tre porte che gestiscono l'informazione di una
+feature temporale:
+\begin{itemize}
+	\item \textbf{input gate}: regola l'input nella cella, ovvero se cambiare o
+		meno il contenuto della cella;
+
+	\item \textbf{output gate}: regola l'output della cella, ovvero se usare o
+		meno il contenuto della cella;
+
+	\item \textbf{forget gate}: regola se dimenticare o meno il contenuto
+		della cella.
+\end{itemize}
+
+Overview del funzionamento delle unità LSTM: 
+\begin{itemize}
+	\item rete profonda con molteplici strati nascosti di unità LSTM;
+
+	\item l'input è un elemento della sequenza $S_t$;
+
+	\item l'output è la previsione del prossimo elemento della sequenza 
+		$S_{t+1}$;
+
+	\item predizione della sequenza: l'output al passo attuale diventa l'input 
+		al passo successivo, permettendo alla rete di predire la sequenza $[O_t,
+		O_{t+1}, \dots, O_{t+T}]$ a partire da $S_t$.
+\end{itemize}
+
+\subsection{Word embeddings}
+La modellizzazione di sequenze per l'elaborazione del linguaggio naturale (NLP)
+è più efficiente al livello della parola, per cui bisogna codificare le singole
+parole come vettori di lunghezza fissa usando algoritmi di embedding.
+
+\paragraph{Word embedding} è un termine usato per la rappresentazione di parole
+in forma di un vettore numerico che codifica il significato della parola. Ci
+sono molti algoritmi di embedding, alcuni basati su reti neurali.\\
+Gli embedding preservano le relazioni semantiche: parole vicine nello spazio
+hanno significato simile; inoltre, operazioni lineari sui vettori danno
+risultati coerenti.
+
+\subsection{Transformer}
+
+Un transformer è un'architettura neurale che si basa su meccanismi di
+self-attention per trasformare una sequenza di elementi in input in una sequenza
+di elementi in output, senza utilizzare convoluzioni o connessioni ricorrenti.
+I transformer sono divisi in due blocchi principali:
+\begin{itemize}
+	\item \textbf{encoder}: prende una sequenza di input e genera una
+		rappresentazione interna;
+
+	\item \textbf{decoder}: prende la rappresentazione interna e genera una
+		sequenza di output.
+\end{itemize}
+
+Entrambi i blocchi sono formati da più layer con connessioni solo feedforward
+(quindi non ricorrenti!).\\
+Il meccanismo di self-attention permette di calcolare l'importanza di ciascun
+elemento della sequenza rispetto agli altri elementi. Per esempio, i tranformer
+sono molto usati per lavorare con il linguaggio naturale, il sistema di
+self-attention tende a scartare gli articoli e le preposizioni, che sono
+generalmente meno importanti per il significato di una frase.\\
+I tranformer hanno il vantaggio di avere un'architettura altamente parallela,
+che permette di ridurre i tempi di addestramento. Inoltre sono molto forti nella
+gestione di lunghe sequenze, in quanto non hanno problemi di memoria a lungo
+termine come le RNN.
+
+\subsection{Large Language Models (LLM)}
+
+Gli LLM sono basati su architetture di transformer addestrati su enormi quantità
+di testo (chatGPT è un LLM). Fondamentalmente, sono transformer molto più grandi
+e ripetuti in serie. Gli LLM sono allenati con apprendimento self-supervised,
+ovvero senza target, ma cercando di prevedere la parola successiva in una
+sequenza di testo.\\
+Successivamente vengono adattati a compiti specifici con apprendimento
+supervisionato (con target); questa seconda fase di addestramento è detta
+\textbf{fine-tuning}. Ogni tanto è complesso specificare un target per un LLM,
+per cui viene allenato per rinforzo, ovvero una persona dice sono se la risposta
+va bene oppure no; questo si contraddistingue all'allenamento supervisionato che
+è in grado di dire di quanto la risposta è sbagliata. L'allenamento per rinforzo
+è meno preciso, per questo ha bisogno di più dati.

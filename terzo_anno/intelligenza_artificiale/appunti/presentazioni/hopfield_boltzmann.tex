@@ -1,0 +1,108 @@
+\section{Dalla rebola di Hebb ai modelli generativi}
+
+\subsection{Reti di Hopfield}
+
+Le reti di Hopfield possono essere utilizzate per memorizzare e recuperare
+pattern (e niente altro).
+La memorizzazione, come al solito, avviene modificando i pesi delle connessioni,
+in particolare, applicando la regola di Hebb. Il recupero avviene in modo
+dinamico, aggiornando iterativamente lo stato dei neuroni fino a che non si
+raggiunge uno stato di equilibrio (attrattore).
+Infatti, si definisce una funzione di energia che che indica in quale modo
+aggiornare lo stato dei neuroni, ai minimi locali corrisponde uno stato di
+equilibrio, per cui durante il recupero, la funzione di energia aggiorna lo
+stato dei neuroni per diminuire l'energia del sistema e raggiungere uno stato
+di equilibrio.
+Lo scopo dell'apprendimento è quello di modificare i pesi in modo tale che la
+funzione di energia abbia minimi locali corrispondenti ai pattern memorizzati.
+Quando si presenta un pattern parziale (in realtà per ogni input), la rete
+gradualmente assegna si assesta nella configurazione corrispondente al pattern
+memorizzato più simile.
+\paragraph{Architettura}: la rete è ricorrente, ovvero tutte le connessioni sono
+bidirezionali) con topologia completamente connessa, ovvero tutti i neuroni sono
+collegati tra loro.
+Infine, tutti i neuroni sono visibili; cioè lo strato di input coincide con lo
+strato di output e non ci sono altri strati.
+
+\paragraph{Funzione di energia}: la funzione di energia è definita come:
+\begin{equation*}
+	E = -\frac{1}{2} \sum_{i,j} w_{ij} x_i x_j
+\end{equation*}
+
+Gli attrattori della rete corrispondono ai punti di minimo locale della funzione
+di energia, e rappresentano i pattern memorizzati.\\
+Ci sono due metodi per minimizzare la funzione di energia:
+\begin{itemize}
+	\item \textbf{Recupero di un pattern}: sono aggiornate le attivazioni dei
+		neuroni una alla volta, in modo sequenziale, fino a che non si raggiunge
+		uno stato di equilibrio (è aggiornato $x_i$ o $x_j$);
+
+	\item \textbf{Apprendimento}: sono aggiornati i pesi delle connessioni per
+		creare minimi locali in corrispondenza dei pattern memorizzati (è 
+		aggiornato ($w_{ij}$).
+\end{itemize}
+
+\subsubsection{Recupero dei pattern}
+I neuroni possono avere solo due stati possibili: -1 e 1 e la loro attivazione è
+calcolata con la regola:
+\begin{equation*}
+	x_i = \begin{cases}
+		1 & \text{se } \sum_{j} w_{ij} x_j > \theta_i\\
+		-1 & \text{altrimenti}
+	\end{cases}
+\end{equation*}
+
+\subsubsection{Apprendimento}
+
+Come sono modificati i pesi delle connessioni per memorizzare i pattern? Si
+utilizza la regola di Hebb, che in questo caso è:
+
+\begin{equation*}
+	\Delta w_{ij} = \eta x_i y_j
+\end{equation*}
+
+Ovvero, la variazione del peso tra due neuroni è proporzionale al prodotto dei 
+segnali in input e in output. Interprentando la formula, il peso della
+connessione tra i due neuroni aumenta se i due neuroni hanno lo stesso segno (+
+per +, - per -), e diminuisce se i due neuroni hanno segno opposto.\\
+In questo modo, l'apprendimento scava il bacino degli attrattori, in modo che
+la funzione di energia abbia minimi locali corrispondenti ai pattern memorizzati.
+Allo stesso modo è aumentata l'energia corrispondente a configurazioni
+improbabili (non presenti nei pattern).\\
+Questo metodo può imparare solo un numero limitato di pattern in base al numero
+di neuroni della rete. La dinamica stocastica può aiutare a memorizzare più
+pattern, per cui la funzione di attivazione diventa:
+
+\begin{equation*}
+	P(x_i) = \frac{1}{1 + e^{-\frac{1}{T} \sum_{j} w_{ij} x_j}}
+\end{equation*}
+
+Fondamentalmente, al posto di usare la funzione a scalino si usa una sigmoide
+che da un valore di probabilità tra 0 e 1 per l'attivazione del neurone, infatti
+$T$ è la temperatura e regola la pendenza della sigmoide e quindi a una
+temperatura elevata, la sigmoide è piatta e quindi la probabilità di attivazione
+è 0.5; mentre a una temperatura bassa, la sigmoide è molto ripida e quindi la
+probabilità di attivazione è 0 o 1.\\
+L'idea è quella di diminuire la temperatura durante il recupero, in modo che la
+rete si assesti in uno stato di equilibrio evitando attratori spuri (fasulli).
+
+\subsection{Macchine di Boltzmann}
+
+Le macchine di Boltzmann sono una variante stocastica delle reti di Hopfield.
+che sfruttano unità nascoste per estrarre correlazioni di ordine superiore dei
+dati (astrazioni maggiori sui dati).
+Hanno una capacità di memorizzazione superiore, infatti i neuroni nascosti sono
+usati per comprimere l'informazione.
+Le macchine di Boltzmann sono molto computazionalmente molto costose.\\
+Fondamentalmente, oltre alle unità visibili, sono presenti unità nascoste
+totalmente connesse tra loro e con le unità visibili.
+
+\subsection{Macchine di Boltzmann Ristrette}
+ 
+ In questo caso la complessità computazionale viene enormemente ridotta. Ora ci
+ sono due strati di neuroni: uno visibile e uno nascosto. Gli strati sono
+ completamente connessi tra loro, ma non ci sono connessioni tra neuroni dello
+ stesso strato.\\
+ La funzione di energia dipende dalle attivazioni dei neuroni visibili e 
+ nascosti e dai pesi delle connessioni.
+
