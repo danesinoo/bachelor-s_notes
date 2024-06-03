@@ -1,0 +1,80 @@
+\section{Apprendimento con rinforzo}
+
+La prospettiva della cognizione incarnata (embodied cognition): finora ci siamo
+focalizzati su due modalità per percepire ed interpretare l'informazione
+sensoriale: abbiamo visto l'apprendimento supervisionato e l'apprendimento
+non supervisionato. 
+Tuttavia, gli agenti cognitivi sono solitamente embodied,
+ovvero sono dotati di un corpo con effettori (mani, braccia, gambe, ecc.) che
+possono essere usati per manipolare attivamente l'ambiente.\\
+Secondo il condizionamento classico, la contingenza temporale degli stimoli
+gioca un ruolo fondamentale nell'apprendimento di associazioni tra uno stimolo e
+la sua risposta. 
+Infatti, è teorizzato il condizionamento operante, che richiede
+all'animale di scegliere la risposta più appropriata per ricevere un rinforzo
+positivo ed evitare una punizione.\\
+Il problema fondamentale dell'apprendimento con riforzo riguarda la ricerca
+delle azioni migliori, ovvero delle sequenze di azioni che massimizzano i
+guadagni futuri (reward).\\
+Problemi:
+\begin{itemize}
+	\item Alcune azioni sono molto buone nel breve periodo, ma nel lungo periodo
+		si rivelano controproducenti;
+
+	\item L'ambiente è stocastico, quindi non è detto che alla stessa azione
+		corrisponda sempre lo stesso reward;
+
+	\item dovrei esplorare nuovi stati oppure sfruttare quelli già conosciuti?
+\end{itemize}
+
+In realtà, abbiamo già affrontato i quesiti, per cui rispondiamo. Bisogna
+imparare le azioni migliori nel lungo periodo, quindi un'iterazione termina solo
+al completamento della sequenza di azioni. D'altra parte, il modello è composto
+in da due blocchi: uno cerca di massimizzare le risposte nel lungo periodo,
+l'altro viene usato per prevedere le risposte a breve termine per poter
+selezionare le azioni migliori. In particoalre, il secondo blocco si occupa di
+prevedere i reward futuri e gli stati futuri, in modo tale che a sua volta possa
+essere usato per selezionare le azioni migliori a cascata.\\
+Dal momento che l'ambiente è stocastico, non si può sapere con certezza quale
+sia la migliore azione da compiere, quindi si effettuano scelte probabilistiche
+e l'allenamento consiste proprio nel modificare la probabilità di qualche
+azione.\\
+Infine, l'esplorazione è fondamentale, in quanto permette di scoprire nuove
+azioni che potrebbero essere migliori di quelle già conosciute, quindi si
+ricorre all'annealing, ovvero si parte con un'esplorazione molto alta per
+scendere gradualmente, è molto simile all'annealing simulato.\\
+
+\subsection{Descrizione del modello}
+
+Il modello si deve trovare in un ambiente, o almeno in un ambiente simulato, per
+cui bisogna definire un set di stati ambientali $S$, un set di azioni che si
+possono effettuare $A$, un set di osservaizoni dell'ambiente $O$, infine bisogna
+definire le regole di transizioni fra gli stati e le regole che specificano il
+guadagno immediato (reward) in funzione della transizione da uno stato ad un
+altro.\\
+Avendo definito questi insiemi, il modello sarà così allenato:
+ad ogni tempo $t$, l'agente riceve una nuova osservazione $o_t$ che consiste
+nello stato $s_t$ e nella ricompensa $r_t$. Poi sceglie di compiere l'azione
+$a_t$ dal set di azioni disponibili, che causa una transizione nello stato
+successivo $s_{t+1}$ e una ricompensa $r_{t+1}$. Il procedimento si ripete fino
+a che non si raggiunge un certo stato terminale ($s_f$).\\
+Lo scopo dell'agente è di massimizzare le ricompense accumulate prima di
+raggiungere lo stato terminale.\\
+Ad ogni iterazione qui descritta, corriponde la somministrazione di un pattern
+di input al modello interno che si occupa di prevedere il reward futuro e lo
+stato futuro a partire dallo stato attuale e dall'azione scelta.\\
+Il reinforcement learning è utilizzato per allineare l'output generato da GPT
+con le istruzioni date dall'utente, ovvero per effettuare il fine-tuning del
+modello.\\
+
+\subsection{Plausibilità biologica}
+
+I neuroni dopaminergici sembrano codificare l'aspettativa della ricompensa.
+Questi neuroni proiettano verso strutture coinvolte nella motivazione e nel
+comportamento "goal-directed", ma anche nel controllo emotivo e nella memoria.\\
+I neuroni dopaminergici nella scimmia rispondono con attivazione massima quando
+viene somministrato uno stimolo appetitoso. Tuttavia, creando un'associazione
+con stimoli predittivi i neuroni dopaminergici si attivano al momento dello
+stimolo condizionante, ovvero quando si prevede la ricompensa.
+Sembra quindi che i neuroni dopaminergici codifichino la discrepanza tra la
+ricompensa attualmente ricevuta e la sua predizione.

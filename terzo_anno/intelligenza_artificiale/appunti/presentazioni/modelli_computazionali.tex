@@ -1,0 +1,65 @@
+\section{Modelli computazionali}
+
+\subsection{Modelli connessionisti localistici}
+
+I modelli connessionisti (quindi basati su una rete neurale) localistici hanno
+le seguenti caratteristiche:
+\begin{itemize}
+	\item non apprendono: le connessioni e i pesi sono fissati a priori;
+
+	\item ogni nodo corrisopnde a una rappresentazione con un ruolo specifico;
+
+	\item i livelli di rappresentazione sono decisi a priori;
+
+	\item sono utilizzati per simulare i dati comportamentali.
+\end{itemize}
+
+\subsection{Modelli connessionisti PDP (Parallel Distributed Processing)}
+
+I modelli connessionisti PDP hanno le seguenti caratteristiche:
+\begin{itemize}
+	\item sono utilizzati per simulare l'apprendimento di un'abilità;
+
+	\item utilizzano algoritmi di apprendimento per reti neurali, in particolare
+		si basano sulla backpropagation;
+
+	\item le informazioni sono distribuite su più nodi, il che li rende più
+		plausibili da un punto di vista biologico;
+
+	\item livelli emergenti di rappresentazione.
+\end{itemize}
+
+Problemi dei modelli PDP fino al 2010:
+\begin{itemize}
+	\item architettura feed-forward;
+
+	\item architettura superficiale (non più di uno strato nascosto, perché non
+		avevamo computer abbastanza forti);
+
+	\item apprendimento solo supervisionato, che non è biologicamente 
+		plausibile.
+
+	\item input non realistico e su piccola scala.
+\end{itemize}
+
+Queste caratteristiche non valgono per i modelli basati sul deep learning
+generativo. Caratteristiche dell'appendimento generativo (non supervisionato):
+\begin{itemize}
+	\item apprendimento per osservazione: l'obiettivo è di costruire un modello
+		interno dell'informazione sensoriale, quindi compattare l'informazione
+		sensoriale;
+
+	\item l'apprendimento avviene su dati grezzi;
+
+	\item approccio probabilistico: sono trovati i parametri del modello che
+		meglio descrivono le osservazioni, per massima verosimiglianza.
+
+	\item elbaorazione gerarchica: ci sono molti strati di neuroni organizzati
+		gerarchicamente;
+
+	\item elaborazione ricorrente: ci sono sia connessioni feed-forward che
+		feedback, ovvero ricorrenti.
+\end{itemize}
+
+In particolare ci sono i modelli DBN (Deep Belief Networks) che si ottengono
+ponendo diversi RBM (Restricted Boltzmann Machine) una sopra l'altra.

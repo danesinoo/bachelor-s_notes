@@ -85,6 +85,7 @@ temperatura elevata, la sigmoide è piatta e quindi la probabilità di attivazio
 probabilità di attivazione è 0 o 1.\\
 L'idea è quella di diminuire la temperatura durante il recupero, in modo che la
 rete si assesti in uno stato di equilibrio evitando attratori spuri (fasulli).
+Questa tecnica è chiamata \textbf{simulated annealing}.
 
 \subsection{Macchine di Boltzmann}
 
@@ -105,4 +106,58 @@ totalmente connesse tra loro e con le unità visibili.
  stesso strato.\\
  La funzione di energia dipende dalle attivazioni dei neuroni visibili e 
  nascosti e dai pesi delle connessioni.
+
+\subsubsection{Divergenza contrastiva}
+
+Lo scopo del modello è quello di minimizzare la discrepanza fra la distribuzione
+empirica dei dati (pattern nel training set) e la distrivuzione generata dal
+modello (pattern generati dalla rete).\\
+Intuitivamente vorremmo che il modello generi pattern simili a quelli
+dell'allenamento:
+\begin{equation*}
+	\Delta W = \alpha(v^{+}h^{+} - v^{-}h^{-})
+\end{equation*}
+
+dove $v^{+}$ e $h^{+}$ sono le attivazioni dei neuroni visibili al tempo $0$,
+mentre $v^{-}$ e $h^{-}$ sono le attivazioni dei neuroni visibili al tempo
+$1$. Infatti:
+\begin{enumerate}
+	\item si passa un pattern in input, per cui $v(0) = v^{+}$ vale quanto
+		l'input; 
+
+	\item Si campionano le attivazioni dei neuroni nascosti $h(0)$, ovvero viene
+	fatto passare il segnale dallo strato di input allo strato nascosto;
+
+	\item Si campionano le attivazioni dei neuroni visibili $v(1)$, ovvero viene
+	fatto passare il segnale dallo strato nascosto allo strato di input;
+
+	\item Si campionano le attivazioni dei neuroni nascosti $h(1)$, ovvero viene
+	fatto passare il segnale dallo strato di input allo strato nascosto.
+
+	\item Si aggiornano i pesi delle connessioni con la formula sopra.
+
+	\item Si ripete il processo per un numero di iterazioni fissato.
+\end{enumerate}
+
+Dove nei punti 1 e 2 si ha la fase positiva, mentre nei punti 3 e 4 si ha la
+fase negativa.\\
+Si nota la somiglianza con gli autoencoder: l'econder è rappresentato dalla fase
+attiva, mentre il decoder è rappresentato dalla fase negativa.\\
+Sembra che i primi stadi di processamento visivo possano essere appresi in modo
+non supervisionato (non è detto che si utilizzino le macchine di Boltzmann).\\
+
+Si possono combinare varie RBM per apprendere modelli interni più complessi: lo
+strato nascosto di una RBM è usato come input per la RBM successiva.
+
+\subsection{Generative Adversarial Network (GAN)}
+
+Si utilizza un training set per allenare un discriminatore, ovvero una rete che
+deve distinguere i pattern reali da quelli generati da un generatore. Il
+generatore è una rete che cerca di generare pattern simili a quelli del training
+set. \\
+Un po' casualemnte ha citato che si può prendere un transformer in grado di
+comprendere il testo e mappare la sua rappresentazione dello spazio latente con
+un GAN per generare immagini a partire da testo, DALL-E è un esempio di questo
+processo.
+
 
