@@ -51,7 +51,7 @@ connessione tra il neurone $i$ e il neurone $j$.\\
 Se l'aggiornamento dei pesi avviene dopo ogni pattern si chiama on-line
 learning.  Se l'aggiornamento dei pesi avviene dopo ogni epoca si chiama batch
 learning.\\
-per non stravolgere le conoscenze precedentemente apprese, viene utilizzata solo
+Per non stravolgere le conoscenze precedentemente apprese, viene utilizzata solo
 una frazione della modifica sinpatica calcolata. Il fattore molteplicativo
 $\eta$ è chiamato tasso di apprendimento.
 \begin{equation*}
@@ -62,7 +62,8 @@ Dove $t$ è l'epoca corrente, $w^t_{ij}$ è il peso della connessione tra il
 neurone $i$ e il neurone $j$ all'epoca $t$, $w^{t-1}_{ij}$ è il peso della
 connessione tra il neurone $i$ e il neurone $j$ all'epoca $t-1$, $\eta$ è il
 tasso di apprendimento e $\Delta w^t_{ij}$ è la modifica del peso della
-connessione tra il neurone $i$ e il neurone $j$ all'epoca $t$.\\
+connessione tra il neurone $i$ e il neurone $j$ all'epoca $t$. Praticamente,
+$\Delta w^t_{ij}$ è quello che viene imparato durante l'epoca $t-1$.
 
 \subsection{Memoria}
 
@@ -76,7 +77,7 @@ un'associazione tra tutti gli stimoli possibili in input e ciascun esito in
 output. Queste associazioni sono memorizzate nei pesi delle connessioni.\\
 Invece, se l'attivazione non cessa bruscamente, può influenzare l'elaborazione
 dello stimolo successivo (reti ricorrenti). Alcuni compiti cognitivi richiedono
-di ricordare per breve tempo informazioni che non sono più presenti utilizzanod
+di ricordare per breve tempo informazioni che non sono più presenti utilizzando
 la memoria di lavoro o a breve termine.
 
 \paragraph{Esempio del fallimento della regola di Hebb} Se una rete neurale

@@ -12,27 +12,28 @@ L'apprendimento supervisionato si divide in due categorie:
 La rete impara ad associare un dato in input ad uno specifico output, ovvero la
 risposta corretta, che deve essere fornita esplicitamente durante il training.
 Per questo motivo, tutti i pattern di input devono essere etichettati.\\
-Algoritmi:
+\textbf{Algoritmi}:
 \begin{itemize}
-	\item \textbf{Percettrone};
-	\item \textbf{Regola Delta};
-	\item \textbf{Backpropagation};
+	\item Percettrone;
+	\item Regola Delta;
+	\item Backpropagation;
 \end{itemize}
 
-Applicazione:
+\textbf{Applicazione}:
 \begin{itemize}
 	\item classificazione;
 	\item regressione.
 \end{itemize}
 
-Apprendimento (overview): il training set è l'insieme dei pattern su cui è
+\subsection{Apprendimento}
+Il training set è l'insieme dei pattern su cui è
 addestrato il modello. Per ogni pattern di input sono definiti:
 \begin{itemize}
 	\item \textbf{Input (x)}: la configurazione dei valori di input, una qualche
 	rappresentazione di un pattern di input;
 
-	\item \textbf{Output (y)}: la risposta corretta, la label associata al
-	pattern di input, deve avere una forma specifica;
+	\item \textbf{Output (y)}: la risposta del modello, la label che il modello 
+		associa al pattern di input, deve avere una forma specifica;
 
 	\item \textbf{Target (t)}: il valore di output desiderato, la risposta
 	corrispondente al pattern di input. La soluzione che diamo al modello, che
@@ -50,16 +51,16 @@ Dunque l'apprendimento consiste nei seguenti passaggi:
 	\item si ripete il processo fino a che l'errore non è accettabile.
 \end{enumerate}
 
-Testing: per verificare le prestazioni del modello, si utilizza un test set, che
+Testing: per valutare le prestazioni del modello, si utilizza un test set, che
 ha la stessa struttura del training set, ma non viene utilizzato per modificare
 i pesi sinaptici. Semplicemente, per ogni pattern del test set, si calcola
-l'output corrispondete e si confronta con l'output desiderato. Il rapporto tra
+l'output corrispondete e lo si confronta con l'output desiderato. Il rapporto tra
 il numero di risposte corrette e il numero totale di pattern è la misura di
 accuratezza del modello.
 
 \subsection{Percettrone}
 
-Si tratta del primo modello di rete neruale con pesi sinaptici modificabili da
+Si tratta del primo modello di rete neurale con pesi sinaptici modificabili da
 un algoritmo di apprendimento. La rete ha $n$ input che codificano l'esempio
 presentato con valori $x_i$ ed un singolo neurone di output che codifica la
 risposta in modo bipolare o binario. L'output della rete è calcolato come:
@@ -100,7 +101,7 @@ desiderate e quelle prodotte dalla rete:
 L'apprendimento consiste nel minimizzare la funzione di costo $E$, che dipende
 unicamente dal valore delle connessioni sinaptiche $W$ (perché tutto quello che
 cambia sono proprio le connessioni sinaptiche, questa funzione indica in quale
-modo cambiare, letteralmente indica in quale modo cambiare i pesi sinaptici e
+modo cambiarle, letteralmente indica in quale modo cambiare i pesi sinaptici e
 quindi come imparare). Quindi si modificano i pesi nella direzione opposta al
 gradiente della funzione stessa (ovvero si minimizza l'errore):
 \begin{equation*}
@@ -118,14 +119,9 @@ Approfondiamo il modo in cui una rete impara:
 	\item si ripete il processo fino a che l'errore non è accettabile.
 \end{enumerate}
 
-I problemi di inserparabilità lineare (AB e AC) possono essere risolti da reti
+I problemi di inseparabilità lineare (AB e AC) possono essere risolti da reti
 neurali multistrato, ovvero con uno o più strati di neuroni nascosti che
-utilizzano una funzione di attivazione non-lineare.\\
-La rete multistrato è un approssimatore universale, ovvero una rete neurale con
-almeno uno strato nascosto composto da un numero appropriato di neuroni con
-funzione di attivazione non-lineare può, in linea di principio, approssimare
-qualunque funzione $X \rightarrow Y$; cioè può abbinare opportunamente qualunque
-input all'output appropriato.
+utilizzano una funzione di attivazione non-lineare.
 
 \subsection{Backpropagation}
 
@@ -163,16 +159,13 @@ direzione, il momento aumenta la grandezza del passo che viene fatto.\\
 Ci possiamo immaginare i pesi sinaptici attuali come una palla che rotola su una
 superficie. Il momento è la quantità di moto della palla, che aumenta se la
 palla va in discesa e diminuisce se la palla va in salita (ovvero la palla
-prende velocità, il momento è ciò che permette alla pallina di prendere
+prende velocità, il momento è ciò che permette alla pallina di accumulare
 velocità).
 
 \subsection{Generalizzazione}
 
-La generalizzazione è la capatcità di utilizzare in modo appropriato la
+La generalizzazione è la capacità di utilizzare in modo appropriato la
 conoscenza sul dominio quando si incontrano nuovi esempi del problema.\\
-Ovvero è la produzione di una risposta appropriata a pattern di input non
-utilizzati per l'addestramento, ovvero un test set indipendente dal training
-set.\\
 Alla generalizzazione si contrappone l'overfitting: si verifica quando il
 modello continua a migliorare le prestazioni sul training set, ma peggiora la
 prestazione in termini di generalizzazione (ovvero le predizioni sul test set
@@ -191,7 +184,7 @@ Come evitare l'overfitting?
 		inutili vengono ridotti a zero.
 \end{itemize}
 
-In generale, i metodi per prevenire eccessivo overfitting sono chiamati metodi
+In generale, i metodi per prevenire l'overfitting sono chiamati metodi
 di regolarizzazione.
 
 \subsection{Dataset}
@@ -213,15 +206,6 @@ Perchè utilizzare set diversi per validation e test? Il set di validazione vien
 utilizzato per selezionare il modello migliore, quindi l'accuratezza sul
 validation set ha un bias (è sovrastimata).
 
-\subsubsection{Cross-validation}
-
-Se i dati non sono sufficienti per ripartirli in due insiemi separati di
-training e test, è essenziale massimizzare il numero di esempi di training
-utilizzando la tecnica di cross-validation. La k-fold cross-validation consiste
-nella divisione in k parti uguali del dataset totale. Ad ogni ciclo di
-cross-validation, la k-esima parte del dataset viene esclusa dal training per
-essere utilizzata come test.
-
 \subsubsection{Valutazione delle prestazioni}
 
 La valutazione delle performance di un modello va fatta sul test set. Esistono
@@ -238,9 +222,10 @@ confuzione.
 \paragraph{Curva ROC} la curva ROC (Receiver Operating Characteristic) per un
 classificatore binario è una curva che mostra la relazione tra il tasso di
 veri positivi e il tasso di falsi positivi al variare della soglia di
-classificazione (di due classi in genere).\\
+classificazione (di due classi in genere).
 
 \paragraph{Curva AUC} l'area sotto la curva ROC (AUC, Area Under the Curve) è
 una misura della bontà di un classificatore binario, anche in questo caso il
 valore è compreso tra 0 e 1. In particolare, AUC è invariante rispetto alla
-soglia di classificazione.
+soglia di classificazione; mentre la curva ROC serve proprio per valutare il
+modello in base alla soglia di classificazione.
