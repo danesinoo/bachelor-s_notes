@@ -47,8 +47,8 @@ scendere gradualmente, è molto simile all'annealing simulato.\\
 \subsection{Descrizione del modello}
 
 Il modello si deve trovare in un ambiente, o almeno in un ambiente simulato, per
-cui bisogna definire un set di stati ambientali $S$, un set di azioni che si
-possono effettuare $A$, un set di osservaizoni dell'ambiente $O$, infine bisogna
+cui bisogna ,efinire un set di stati ambientali $S$; un set di azioni che si
+possono effettuare $A$; un set di osservazioni dell'ambiente $O$; infine bisogna
 definire le regole di transizioni fra gli stati e le regole che specificano il
 guadagno immediato (reward) in funzione della transizione da uno stato ad un
 altro.\\
@@ -60,12 +60,9 @@ successivo $s_{t+1}$ e una ricompensa $r_{t+1}$. Il procedimento si ripete fino
 a che non si raggiunge un certo stato terminale ($s_f$).\\
 Lo scopo dell'agente è di massimizzare le ricompense accumulate prima di
 raggiungere lo stato terminale.\\
-Ad ogni iterazione qui descritta, corriponde la somministrazione di un pattern
-di input al modello interno che si occupa di prevedere il reward futuro e lo
-stato futuro a partire dallo stato attuale e dall'azione scelta.\\
 Il reinforcement learning è utilizzato per allineare l'output generato da GPT
 con le istruzioni date dall'utente, ovvero per effettuare il fine-tuning del
-modello.\\
+modello.
 
 \subsection{Plausibilità biologica}
 

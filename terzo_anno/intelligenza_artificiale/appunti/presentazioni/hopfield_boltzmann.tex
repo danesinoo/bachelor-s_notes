@@ -1,4 +1,4 @@
-\section{Dalla rebola di Hebb ai modelli generativi}
+\section{Dalla regola di Hebb ai modelli generativi}
 
 \subsection{Reti di Hopfield}
 
@@ -8,18 +8,18 @@ La memorizzazione, come al solito, avviene modificando i pesi delle connessioni,
 in particolare, applicando la regola di Hebb. Il recupero avviene in modo
 dinamico, aggiornando iterativamente lo stato dei neuroni fino a che non si
 raggiunge uno stato di equilibrio (attrattore).
-Infatti, si definisce una funzione di energia che che indica in quale modo
-aggiornare lo stato dei neuroni, ai minimi locali corrisponde uno stato di
+Infatti, si definisce una funzione di energia che indica in quale modo
+aggiornare lo stato dei neuroni. Ai minimi locali corrisponde uno stato di
 equilibrio, per cui durante il recupero, la funzione di energia aggiorna lo
-stato dei neuroni per diminuire l'energia del sistema e raggiungere uno stato
-di equilibrio.
+stato dei neuroni per diminuire l'energia del sistema e quindi per raggiungere 
+uno stato di equilibrio.
 Lo scopo dell'apprendimento è quello di modificare i pesi in modo tale che la
 funzione di energia abbia minimi locali corrispondenti ai pattern memorizzati.
 Quando si presenta un pattern parziale (in realtà per ogni input), la rete
-gradualmente assegna si assesta nella configurazione corrispondente al pattern
+assegna si assesta nella configurazione corrispondente al pattern
 memorizzato più simile.
 \paragraph{Architettura}: la rete è ricorrente, ovvero tutte le connessioni sono
-bidirezionali) con topologia completamente connessa, ovvero tutti i neuroni sono
+bidirezionali con topologia completamente connessa, ovvero tutti i neuroni sono
 collegati tra loro.
 Infine, tutti i neuroni sono visibili; cioè lo strato di input coincide con lo
 strato di output e non ci sono altri strati.
@@ -39,7 +39,7 @@ Ci sono due metodi per minimizzare la funzione di energia:
 
 	\item \textbf{Apprendimento}: sono aggiornati i pesi delle connessioni per
 		creare minimi locali in corrispondenza dei pattern memorizzati (è 
-		aggiornato ($w_{ij}$).
+		aggiornato $w_{ij}$).
 \end{itemize}
 
 \subsubsection{Recupero dei pattern}
@@ -64,8 +64,9 @@ utilizza la regola di Hebb, che in questo caso è:
 Ovvero, la variazione del peso tra due neuroni è proporzionale al prodotto dei 
 segnali in input e in output. Interprentando la formula, il peso della
 connessione tra i due neuroni aumenta se i due neuroni hanno lo stesso segno (+
-per +, - per -), e diminuisce se i due neuroni hanno segno opposto.\\
-In questo modo, l'apprendimento scava il bacino degli attrattori, in modo che
+per +, - per -), e diminuisce se i due neuroni hanno segno opposto; infine
+notiamo che $x_i, y_j \in \{-1, 1\}$, per cui anche $x_i y_j \in \{-1, 1\}$.\\
+L'apprendimento scava il bacino degli attrattori, in modo che
 la funzione di energia abbia minimi locali corrispondenti ai pattern memorizzati.
 Allo stesso modo è aumentata l'energia corrispondente a configurazioni
 improbabili (non presenti nei pattern).\\
@@ -82,19 +83,19 @@ che da un valore di probabilità tra 0 e 1 per l'attivazione del neurone, infatt
 $T$ è la temperatura e regola la pendenza della sigmoide e quindi a una
 temperatura elevata, la sigmoide è piatta e quindi la probabilità di attivazione
 è 0.5; mentre a una temperatura bassa, la sigmoide è molto ripida e quindi la
-probabilità di attivazione è 0 o 1.\\
+probabilità di attivazione è 0 o 1 (diventa la funzione a gradino vista prima).\\
 L'idea è quella di diminuire la temperatura durante il recupero, in modo che la
 rete si assesti in uno stato di equilibrio evitando attratori spuri (fasulli).
 Questa tecnica è chiamata \textbf{simulated annealing}.
 
 \subsection{Macchine di Boltzmann}
 
-Le macchine di Boltzmann sono una variante stocastica delle reti di Hopfield.
+Le macchine di Boltzmann sono una variante stocastica delle reti di Hopfield,
 che sfruttano unità nascoste per estrarre correlazioni di ordine superiore dei
 dati (astrazioni maggiori sui dati).
 Hanno una capacità di memorizzazione superiore, infatti i neuroni nascosti sono
 usati per comprimere l'informazione.
-Le macchine di Boltzmann sono molto computazionalmente molto costose.\\
+Le macchine di Boltzmann computazionalmente sono molto costose.\\
 Fondamentalmente, oltre alle unità visibili, sono presenti unità nascoste
 totalmente connesse tra loro e con le unità visibili.
 
@@ -110,7 +111,7 @@ totalmente connesse tra loro e con le unità visibili.
 \subsubsection{Divergenza contrastiva}
 
 Lo scopo del modello è quello di minimizzare la discrepanza fra la distribuzione
-empirica dei dati (pattern nel training set) e la distrivuzione generata dal
+empirica dei dati (pattern nel training set) e la distribuzione generata dal
 modello (pattern generati dalla rete).\\
 Intuitivamente vorremmo che il modello generi pattern simili a quelli
 dell'allenamento:
@@ -145,7 +146,6 @@ Si nota la somiglianza con gli autoencoder: l'econder è rappresentato dalla fas
 attiva, mentre il decoder è rappresentato dalla fase negativa.\\
 Sembra che i primi stadi di processamento visivo possano essere appresi in modo
 non supervisionato (non è detto che si utilizzino le macchine di Boltzmann).\\
-
 Si possono combinare varie RBM per apprendere modelli interni più complessi: lo
 strato nascosto di una RBM è usato come input per la RBM successiva.
 
@@ -155,9 +155,9 @@ Si utilizza un training set per allenare un discriminatore, ovvero una rete che
 deve distinguere i pattern reali da quelli generati da un generatore. Il
 generatore è una rete che cerca di generare pattern simili a quelli del training
 set. \\
-Un po' casualemnte ha citato che si può prendere un transformer in grado di
+Un po' casualmente ha citato che si può prendere un transformer in grado di
 comprendere il testo e mappare la sua rappresentazione dello spazio latente con
 un GAN per generare immagini a partire da testo, DALL-E è un esempio di questo
-processo.
+processo. Questo processo è chiamato fine-tuning.
 
 

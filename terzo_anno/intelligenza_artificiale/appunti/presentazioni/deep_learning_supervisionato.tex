@@ -2,16 +2,14 @@
 
 Per risolvere il problema della linearità, ovvero per riuscire a classificare
 correttamente input che non sono linearmente separabili, ci è venuto in mente di
-adottare funzioni non lineari. In particolare, abbiamo pensanto ottenere
-separabilità lineare attraverso proiezioni non lineari dello spazio degli input.
-Mettendo più livello uno sopra l'altro, si ottiene una rete neurale profonda in
+adottare funzioni non lineari.
+Inoltre, mettendo più livello uno sopra l'altro, si ottiene una rete neurale profonda in
 grado di approssimare funzioni complesse.\\
 L'elaborazione gerarchica (profonda) è una caratteristica fondamentale della
 computazione neurale nel cervello. La codifica dell'informazione diventa più
 complessa ed astratta passando a livelli più elevati (profondi) della
 gerarchia.\\
-Nel deep learning la rete neurale ha più di uno strato nascosto, quindi si forma
-una rete profonda. Per poter allenare una rete profonda sono necessari molti
+Per poter allenare una rete profonda sono necessari molti
 pattern di addestramento (già etichettati) e un'enorme potenza di calcolo. Una
 caratteristica interessante dei modelli che sfruttano il deep learning è che è
 in grado di imparare da dati grezzi, anche rumorosi, senza bisogno di
@@ -23,18 +21,18 @@ a 1. Questo porta a problemi di vanishing gradient, ovvero il gradiente diventa
 troppo piccolo e la rete non riesce più ad apprendere.\\
 Il problema del vanishing gradient viene arginato con alcune tecniche:
 \begin{itemize}
-	\item inizializzazione dei pesi furba (per esempio, nell'intorno dello 0,
+	\item \textbf{inizializzazione dei pesi furba} (per esempio, nell'intorno dello 0,
 		dove la derivata della sigmoide è massima);
 
-	\item learning rate adattivo, piuttosto che costante;
+	\item \textbf{learning rate adattivo}: piuttosto che costante;
 
-	\item rete di grandi dimensioni insieme a tecniche di regolarizzazione
-		avanzata, come weight decay, dropout, etc.;
+	\item \textbf{regolarizzazione}: rete di grandi dimensioni insieme a 
+		tecniche di regolarizzazione avanzata, come weight decay, dropout, etc.;
 
-	\item ottimizzatori del secondo ordine, viene stimata la curvatura del
+	\item \textbf{ottimizzatori del secondo ordine}: viene stimata la curvatura del
 		gradiente e si aggiusta il learning rate di conseguenza;
 
-	\item funzione di attivazione ReLU (al posto di sigmoide), che non satura il 
+	\item \textbf{funzione di attivazione ReLU}: al posto di sigmoide, che non satura il 
 		gradiente.
 \end{itemize}
 
@@ -82,7 +80,7 @@ Iperparametri di una CNN:
 \subsection{Pooling}
 
 Lo strato di pooling viene inserito dopo uno strato convoluzionale per ridurre
-la dimensione dell'immagine e quindi il numero di parametri.\\
+la dimensione dell'immagine e quindi il numero di parametri.
 
 \subsection{Adversarial Examples}
 

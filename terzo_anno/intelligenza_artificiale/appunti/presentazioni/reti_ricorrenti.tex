@@ -5,7 +5,7 @@ quindi può possedere una struttura temporale. Anche l'output può avere una
 struttura sequenziale.\\
 In una classica rete multistrato l'output $O(t)$ al tempo $t$ dipende solo
 dall'input corrente: $I(t)$. Possibile soluzione: trasformare il tempo in
-spazio, ovvero viene fornito al modello alcuni elementi della sequenza $S$ in
+spazio, ovvero sono forniti al modello alcuni elementi della sequenza $S$ in
 una finestra temporale $W^T(t)$ che si sposta sopra $S: W^T(t) = S(t:t+T) =
 [S_t, S_t+1, \dots S_{t+T}]$.\\
 Questo metodo presenta alcuni problemi:
@@ -21,8 +21,8 @@ Questo metodo presenta alcuni problemi:
 Per ovviare a questi problemi si possono usare le \textbf{reti parzialmente 
 ricorrenti}, in questo modo gli input alla rete sono il risultato di:
 \begin{itemize}
-	\item l'input corrente $I(t)$
-	\item l'output precedente $O(t-1)$
+	\item input corrente $I(t)$
+	\item output precedente $O(t-1)$
 \end{itemize}
 
 Notiamo che se $O(t)$ dipende da $O(t-1)$, allora $O(t-1)$ dipende da $O(t-2)$ e
@@ -34,7 +34,7 @@ backpropagation, perché la struttura temporale può essere "srotolata",
 trasformandola in una struttura spaziale, come se l'architettura fosse più o
 meno grande a seconda della lunghezza dell'input. I pesi della rete sono
 aggiornati sommando il cambiamento ad ogni passo temporale: $\Delta w_{ij} =
-\sum_t \Delta w_{ij}(t)$.\\
+\sum_t \Delta w_{ij}(t)$.
 
 \subsection{Reti di Elman (SRN - Simple Recurrent Network)}
 
