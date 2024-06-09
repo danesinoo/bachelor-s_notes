@@ -1,4 +1,9 @@
-# secondo_semestre
-appunti del secondo semestre del primo anno di informatica. In particolare ho seguito algebra e geometria lineare, programmazione e sistemi operativi.
+# Notes
 
-Di algebra noto che è futile ricopiare gli appunti in latex, può darsi che caricherò le note degli appunti che prendo con l'ipad.
+Here I keep the notes of my bachelor's degree in Computer Science at the
+University of Padua.  
+These notes aren't well organized and are written in Italian. Simply put, there
+is a folder for each course I attended and in each folder there are some files
+which contain some information about the course. Some course may be exhaustive,
+some may be incomplete, there is no guarantee that these notes are correct or
+up to date.
