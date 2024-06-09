@@ -1,0 +1,49 @@
+\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Astrazione}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Gestione delle risorse}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Processi}{2}{subsection.1.3}%
+\contentsline {subsubsection}{Address space}{2}{section*.2}%
+\contentsline {subsection}{\numberline {1.4}Directories}{3}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Processo}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Il ciclo di un processo}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Stati}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Comunicazione tra processi}{4}{subsection.2.3}%
+\contentsline {subsubsection}{Disabilitare gli interrupt}{4}{section*.3}%
+\contentsline {subsubsection}{Lock variables}{4}{section*.4}%
+\contentsline {subsubsection}{Strict Alternation}{5}{section*.5}%
+\contentsline {subsubsection}{Peterson's solution}{5}{section*.6}%
+\contentsline {subsection}{\numberline {2.4}Problema del produttore e del consumatore}{6}{subsection.2.4}%
+\contentsline {subsubsection}{Semafori}{7}{section*.7}%
+\contentsline {subsubsection}{Monitors}{8}{section*.8}%
+\contentsline {subsection}{\numberline {2.5}Ordinamento dei processi}{8}{subsection.2.5}%
+\contentsline {subsubsection}{FCFS, first come first served}{8}{section*.9}%
+\contentsline {subsubsection}{RR, round robin}{8}{section*.10}%
+\contentsline {subsubsection}{Shortest Job First (shortest next-cpu-burst first)}{9}{section*.11}%
+\contentsline {subsubsection}{Shortest Remaining Time next}{9}{section*.12}%
+\contentsline {section}{\numberline {3}Memoria Virtuale}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Partizione ad hoc}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}RAM allocata dinamicamente}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}La tabella delle pagine}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}La tabella delle pagine invertite}{11}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Algoritmi di inserimento delle pagine}{11}{subsection.3.5}%
+\contentsline {subsubsection}{First Fit}{11}{section*.14}%
+\contentsline {subsubsection}{Next Fit}{11}{section*.15}%
+\contentsline {subsubsection}{Best Fit}{11}{section*.16}%
+\contentsline {subsubsection}{Worst Fit}{11}{section*.17}%
+\contentsline {subsubsection}{Quick Fit}{11}{section*.18}%
+\contentsline {subsection}{\numberline {3.6}Sostituzione delle pagine}{11}{subsection.3.6}%
+\contentsline {subsubsection}{Optimal}{12}{section*.19}%
+\contentsline {subsubsection}{Not Recently Used}{12}{section*.20}%
+\contentsline {subsubsection}{FIFO}{12}{section*.21}%
+\contentsline {subsubsection}{Second Chance}{12}{section*.22}%
+\contentsline {subsubsection}{Orologio}{12}{section*.23}%
+\contentsline {subsubsection}{Least Recently Used}{12}{section*.24}%
+\contentsline {subsubsection}{Not Frequently Used}{12}{section*.25}%
+\contentsline {subsubsection}{Aging}{12}{section*.26}%
+\contentsline {subsubsection}{Working Set}{13}{section*.27}%
+\contentsline {subsection}{\numberline {3.7}L'anomalia di Belamy}{13}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}Dimensione ideale delle pagine}{13}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.9}Segmentazione}{13}{subsection.3.9}%
+\contentsline {section}{\numberline {4}File System}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}File}{14}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Directory}{15}{subsection.4.2}%
