@@ -1,0 +1,63 @@
+\section{Introduction}
+
+\subsection{Issues in structured data representation}
+
+One of the main problem of the machine learning is the reduction of the
+dimensionality of the data. In fact, the smaller and more compact the data, the
+faster the calculations. One approach is to extract the most important features.
+This approach is discarded, because there is a limit to the number of features
+that can be extracted to maintain an acceptable accuracy. In fact, the greater
+the number of features, the greater the probability that the data are sparse,
+which means that it is not possible to group them. On the other hand it is
+desirable to make use of techinques able to directly handle structured data.
+
+\subsection{Kernel methods}
+
+Here we introduce the kernel methods. By definition, kernel methods look for
+linear relations in the feature space.
+
+Basecally, input items are compared via dot products of their representation in
+the feature space (the most similar items have the highest dot product).
+Actually, the dot product is replaced by a kernel function, which needs to be
+symmetric positive and semidefinite, so that it is applied directly in the
+original space (without the need to compute the feature space). So the
+computational complexity is not dependent on the size of the feature space but
+on the complexity of the kernel function (the generalization capability of a
+kernel method depends on the number of misclassified examples in the learning
+phase).
+
+% Here it is explained something very interesting, but we will discuss it later.
+Briefly, the classification of a new example is computed via weighted sum of
+kernel evaluations between the example and a subset of the training instances
+(non ci sono basi, ma alcuni pattern di training sono usati come base). In this
+way the technique is able to directly handle structured data (if the kernel
+function is appropriate enough).\\
+Kernel functions have two interesting properties:
+\begin{itemize}
+	\item they are closed under \textbf{addition} and \textbf{linear
+		combination}. This makes different inputs easy to combine;
+
+	\item they scale on the number of different examples, not on the number of
+		features, so they do not scale on the dimensionality of the data, but on 
+		the number of the data. This is very interesting if we consider 
+		words as single data.
+\end{itemize}
+
+Finally, kernel function are super cool, but it is hard to find fast to compute
+and expressive ones.
+
+\subsection{Thesis motivation}
+
+Completely expressive kernels for graphs are NP-hard to compute (so not
+feasible).\\
+If the data are too sparse, the kernel function is going to give sparse results
+as well (it's not going to be accurate enough). So we think about a way to make
+data more dense (using other kernels).\\
+Another interesting thing might be keeping the information about the position of
+the substructures in the trees for a better classification. Kinda making it more
+convolutional and considering more the context of each node.\\
+Finally, since the kernel function works on raw data, the model needs to store
+those raw data, which can be a problem if the data are too big. Indeed, if the
+kernel function doesn't have enough raw data to compare the new example with, it
+looses accuracy; in fact, the accuracy of the classifier improves with the size
+of the training set.

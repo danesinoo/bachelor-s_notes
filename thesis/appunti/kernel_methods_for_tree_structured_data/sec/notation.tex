@@ -1,0 +1,158 @@
+\section{Notation}
+
+Since I already studied most of the notation, I am going to write only the new
+stuff.
+
+\subsection{Statistical Learning Theory}
+
+The VC (Vapnik-Chervonenkis) dimension of a family of functions $H$ is defined as
+the cardinality of the largest subset of points of the domain that can be
+labelled arbitrarily by choosing a function $h \in H$.
+For example for $H = ax, VC(H) = 2$ (I think).\\
+There is a cool theorem which uses the VC dimension: let $v$ be the $VC$
+dimension of the family of functions $H$. Then $\forall \delta > 0, h \in H$
+dependent from a set of parameters $\Theta$, the upper bound
+
+\begin{equation}
+	R(h(\Theta)) \leq R_e(h(\Theta)) + \Omega\left(\frac{VC(h)}{n}\right)
+\end{equation}
+
+where $R_e$ is the empirical risk (space under the loss curve) and $n$ is the
+size of the training set, holds with probability of at least $1-\delta$ for 
+$n > VC(h)$. Note that $\Omega\left(\frac{VC(h)}{n}\right)$ is a monotonic
+increasing function and it is called the confidence interval.
+
+Given the reported theorem, we can see that if the $VC$ dimension increases (and
+$n$ remain constant), then the expected risk gets a bigger upper bound, which
+means that H might generalize poorly. 
+On the other hand, the bigger $n$ the lower the upper bound gets.\\
+When a function is able to correctly classify the training set but has a large
+error on the rest of the distribution, then the function is told to overfit the
+data.
+
+\subsection{Self Organizing Maps}
+
+The aim of the Self Organizing Maps (SOM) learning arlgorithm is to learn a
+feature map 
+
+\begin{equation}
+	\label{som_eq}
+	\mathcal{M}: \mathcal{I} \rightarrow \mathcal{A}
+\end{equation}
+
+This is obtained
+by associating each point in $\mathcal{A}$ to a different neuron. High
+dimentional input vectors are projected into the two (actually $n \in
+\mathbb{N}$) dimensional coordinates of the lattice, with the aim of preserving,
+as much as possible, the topological relationships among the input vectors
+(which means that close input vectors are associated to neurons which are close
+on the lattice).
+
+\subsubsection{An example}
+
+When the input space is a structured domain with labels in $\mathcal{U}$, we
+redefine \autoref{som_eq} to be:
+
+\begin{equation}
+	\mathcal{M}^{\#}: \mathcal{U}^{\#[i,o]} \rightarrow \mathcal{A}
+\end{equation}
+
+Where we define $\mathcal{M}^{\#}$ recursively as:
+
+\begin{equation}
+	\mathcal{M}^{\#}(G) = 
+		\begin{cases}
+			nil_{\mathcal{A}} & \text{if } G=\xi \\
+			\mathcal{M}_{node}(u_s, \mathcal{M}^{\#}(G^{(1)}), \dots, 
+				\mathcal{M}^{\#}(G^{(o)})) & otherwise
+		\end{cases}
+\end{equation}
+
+Where $s = source(G), G^{(1)}, \dots, G^{(o)}$ are the subgraphs pointed by the
+outgoing edges leaving from $s$, $nil_{\mathcal{A}}$ represents the 0 and $u_s$
+is the label of the $s$ node; finally, $\mathcal{M}_{node}$ is a SOM, defined on
+a generic node, which takes in input the label of the node and the "encoding" of
+the subgraphs ($G^{(1)}, \dots, G^{(o)}$) according to the $M^{\#}$ map. So 
+
+\begin{equation}
+	\mathcal{M}_{node}: \mathcal{U} \times \mathcal{A} \times \dots \times
+	\mathcal{A} \rightarrow \mathcal{A}
+\end{equation}
+
+\subsubsection{Training lagorithm}
+
+The weights associated with each neuron in the $q$ dimensional lattice
+$\mathcal{M}_node$ can be trained as follow:
+
+\begin{enumerate}
+	\item[Step] Competitive step. The winnign neuron, at
+		iteration $t$, with the closest weight vector is selected:
+
+		\begin{equation}
+			y_{i^*}(t) = \arg \min_{c_i} || \Lambda (x_v(t) - m_{c_i}(t))||
+		\end{equation}
+
+		where $\Lambda$ is used to balance the importance of labels;
+
+	\item[Step] Comparative step. The weight vector $m_{y_{i^*}}$, as well as
+		the weight vector of neurons in the topological neighborhood of the 
+		winning neuron, are moved closer to the input vector:
+
+		\begin{equation}
+			m_{c_r}(t+1) = m_{c_r}(t) + \eta (t)f(\Delta_{i^*r})(x_v(t)-m_{c_r}(t))
+		\end{equation}
+
+		where $\Delta_{i^*r}$ is the topological distance between $c_r$ and
+		$c_{i^*}$ in the lattice. Usually $f(\cdot)$ takes the form of a
+		Gaussian function to update very near neurons and almost ignore far away
+		ones. For example:
+
+		\begin{equation}
+			f(x) = \exp\left(-\frac{x^2}{2\sigma(t)^2}\right)
+		\end{equation}
+
+		Usually the neighborhood radius $\sigma(t)$ decreases to zero along with
+		the training.
+\end{enumerate}
+
+The described model (SOM-SD) allows the processing of undirected graphs, and
+non-positional  graphs where the order of edges is not relevant. The heuristic
+nature of the model can not formally guarantee to preserve the topology of the
+items in the input space.
+
+\subsection{Kernel Methods}
+
+The class of kernel methods comprises all those algorithms that do not require
+an explicit representation of the examples but only information aobu the
+similarities among them. Any kernel method can be decomposed into two modules:
+\begin{itemize}
+	\item a problem specific kernel function (to get the differences between the
+		different inputs);
+
+	\item a general purpose learning algorithm.
+\end{itemize}
+
+The modularity of the approach allows to study representation and optimization
+independently. Wahba's representer theorem states that the solution of certain
+optimization problems involving an empirical risk term and a quadratic
+regularizer can be written in terms of an expansion of the training examples.
+Thus, given a dataset $S = \{(x_i, y_i): i = 1, \dots, n\}$ and a kernel
+function $K$, the solution $w$ of the problem can be expressed as:
+\begin{equation}
+	w = \sum_i^n \alpha_i y_i \phi(x_i)
+\end{equation}
+
+Now let's introduce the score function:
+
+\begin{equation}
+	S=x) = \sum_i^n \alpha_i y_i \phi(x_i) \phi(x) = \sum_i^n \alpha_i y_i
+	K(x_i, x)
+\end{equation}
+
+Note tbat the score function can be expressed as a weighted linear combination
+of kernel function evaluations between examples in the dataset and x. Here
+follows the classification function:
+
+\begin{equation}
+	c(x) = sign(S(x)) = sign \left( \sum_i^n \alpha_i y_i K(x_i, x) \right)
+\end{equation}

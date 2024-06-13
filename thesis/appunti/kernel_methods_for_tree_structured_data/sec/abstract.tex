@@ -1,0 +1,28 @@
+\section{Abstract}
+
+For dealing with structured data, kernel methods seems to have strong
+theoretical background. They do not require explicit vectorial representation,
+instead it is defined a kernel function that measures the similarity between
+the two objects. This approach has two problems:
+\begin{itemize}
+	\item kernel for trees should not be sparse: we use ML to group data, if
+		they are sparse, we aren't able to group them;
+
+	\item it is slow: the kernel function is used both in the prediction and in
+		the training phase, so it needs to be fast.
+\end{itemize}
+
+This paper presents three alternative methods:
+\begin{enumerate}
+	\item \textbf{kernel composition}: having representations too spare to be useful, a kernel function is
+	applied to the tree structure, so the data are projected onto a lower
+	dimensional space with the property that similar structures are mapped
+	similarly. Then it is applied a second kernel function to the projected
+	data, which is the "logic" function;
+
+	\item \textbf{convolutional kernel}: the kernel function which measures the
+		similarity between two trees uses convolution;
+
+	\item \textbf{DAG}: the trees are exploded into a directed acyclic graph,
+		instead of a forest of trees, thus the rapresentation is more dense.
+\end{enumerate}
