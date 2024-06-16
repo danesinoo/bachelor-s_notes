@@ -1,6 +1,6 @@
 \section{Notation}
 
-Since I already studied most of the notation, I am going to write only the new
+Since I've already studied most of the notation, I am going to write only the new
 stuff.
 
 \subsection{Statistical Learning Theory}
@@ -28,7 +28,7 @@ means that H might generalize poorly.
 On the other hand, the bigger $n$ the lower the upper bound gets.\\
 When a function is able to correctly classify the training set but has a large
 error on the rest of the distribution, then the function is told to overfit the
-data.
+data ($VC >> n$).
 
 \subsection{Self Organizing Maps}
 
@@ -82,11 +82,12 @@ the subgraphs ($G^{(1)}, \dots, G^{(o)}$) according to the $M^{\#}$ map. So
 \subsubsection{Training lagorithm}
 
 The weights associated with each neuron in the $q$ dimensional lattice
-$\mathcal{M}_node$ can be trained as follow:
+$\mathcal{M}_{node}$ can be trained as follow:
 
-\begin{enumerate}
-	\item[Step] Competitive step. The winnign neuron, at
-		iteration $t$, with the closest weight vector is selected:
+\begin{enumerate}[label=Step \arabic*:]
+	\item \textbf{Competitive step}: the winning neuron, at
+		iteration $t$, with the closest weight vector to the input vector
+		is selected:
 
 		\begin{equation}
 			y_{i^*}(t) = \arg \min_{c_i} || \Lambda (x_v(t) - m_{c_i}(t))||
@@ -94,7 +95,7 @@ $\mathcal{M}_node$ can be trained as follow:
 
 		where $\Lambda$ is used to balance the importance of labels;
 
-	\item[Step] Comparative step. The weight vector $m_{y_{i^*}}$, as well as
+	\item \textbf{Comparative step}: the weight vector $m_{y_{i^*}}$, as well as
 		the weight vector of neurons in the topological neighborhood of the 
 		winning neuron, are moved closer to the input vector:
 
@@ -123,7 +124,7 @@ items in the input space.
 \subsection{Kernel Methods}
 
 The class of kernel methods comprises all those algorithms that do not require
-an explicit representation of the examples but only information aobu the
+an explicit representation of the examples but only information about the
 similarities among them. Any kernel method can be decomposed into two modules:
 \begin{itemize}
 	\item a problem specific kernel function (to get the differences between the
@@ -149,10 +150,216 @@ Now let's introduce the score function:
 	K(x_i, x)
 \end{equation}
 
-Note tbat the score function can be expressed as a weighted linear combination
+Note that the score function can be expressed as a weighted linear combination
 of kernel function evaluations between examples in the dataset and x. Here
 follows the classification function:
 
 \begin{equation}
 	c(x) = sign(S(x)) = sign \left( \sum_i^n \alpha_i y_i K(x_i, x) \right)
 \end{equation}
+
+\subsubsection{Perceptron}
+
+The perceptron is meant to classify data encoded by real vectors with a linear
+decision function (a hyperplane).\\
+Every element of the dataset is represented by a feature vector. A prototype
+vector $w$ is randomly initialized. Then the classification of each example
+$x_i$ is compared to the one made by the prototype, computed according to the
+following formula:
+\begin{equation}
+	f(x) = sign(w \cdot x_i + b)
+\end{equation}
+
+If the perceptron in classifying uncorrectly te example, then a new prototype
+$w'$ is computed as:
+\begin{equation}
+	w' = w + \alpha y_i x_i
+\end{equation}
+
+where $\alpha$ is a constant ($\alpha > 0$) and $y_i \in \{-1, 1\}$ is the
+correct classification of the example.\\
+Using the kernel trick it is possible to extend the perceptron to generate a
+non-linear decision funciton and/or treat structured data by using kernels.\\
+The on-line kernel-perceptron algorithm, adapted to tree-kernels, requires to
+keep in memory the set of the already seen examples for which the perceptron
+prediction was erroneous.
+Thus we can consider the set of examples $M = \{(x_i, y_i) \in S : \alpha_i \in 
+\{-1, 1\}\}$ (I think that $\alpha_i$ is some sort of weight which is going to
+be stored with  the example, so that it can be used by the kernel function ($K$))
+as the model of the perceptron and slightly redefine the kernel-perceptron 
+algorithm as in the following. 
+Let $M = \emptyset$ be an initial empty model, a new example $x_i$ is added to
+the model $M$ whenever its score
+
+\begin{equation}
+	S(x_i) = \sum_{(x_j, y_j) \in M} y_j K(x_i, x_j)
+\end{equation}
+
+has different sign from its classification $y_i$.
+For many applications, the cardinality of $M$ grows linearly with the number of
+tree presentations. Moreover, the efficiency in the evaluation of the function
+$S(x)$ decreases super-linearly. Clearly, this seems not satisfactory for
+on-line applications.
+
+\subsubsection{Support Vector Machines}
+
+Support Vector Machines (SVM) are based on the Structural Risk Minimization
+principle for which bounds on the generalization error have been proven. SVM is
+a binary classifier which projects the examples in feature space and then looks
+for an hyperplane separating positive nad negative examples. In particular, it
+is chosen the hyperplane which maximizes the margin between the two classes.\\
+Given a linearly separable dataset, the separating hyperplane maximizing the
+margin corresponds to the solution of the following optimization problem:
+\begin{align}
+	& \arg \min_{w, b} \frac{||w||^2}{2}  \\
+	& \text{subject to } \forall(x_i, y_i) \in S, \ y_i(w \cdot \phi(x_i) + b) \geq 1
+\end{align}
+
+where $w$ and $b$ define the hyperplane in the feature space. The margin is
+inversely proportional to the norm of the weight vector $w$ ($\gamma =
+1/||w||$), so minimizing the norm of $w$ is equivalent to maximizing the 
+margin.\\
+The representer theorem states that the solution $f$ of the problem can be
+expressed as:
+\begin{equation}
+	\forall x \in \mathcal{X}, f(x) = \sum_{i=1}^n \alpha_i K(x_i, x)
+\end{equation}
+
+The examples for which the corresponding $\alpha$ is not $0$ are called support
+vectors (note that this is also very similar to the concept of algebric basis of 
+a vector space, where the basis is the set of support vectors).
+
+\subsubsection{Kernel Functions}
+
+The representation in feature space is obtained by the application of an
+appropriate function $\phi, x \rightarrow \phi(x) = \{\phi_i(x)|i \geq 1\}$.
+The elements $\phi_i(x)$ are called features of $x$.\\
+A kernel function is a function measuring the similarity of any pair of objects
+of a domain, $K: \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}$.\\
+The Gram matrix $G^K$ related to a kernel $K$ with respect to a set $S$ of
+examples is defined as:
+\begin{equation}
+	G^K_{ij} = K(x_i, x_j)
+\end{equation}
+
+Given two examples $x_i$ and $x_j$, the relationship between the distance 
+$d(x_i, x_j)$ in the feature space and the kernel $K(x_i, x_j)$ is 
+\begin{equation}
+	d(x_i, x_j) = ||\phi(x_i) - \phi(x_j)|| = \sqrt{K(x_i, x_i) + K(x_j, x_j) - 2K(x_i, x_j)}
+\end{equation}
+
+When two examples are mostly dissimilar, the application of a kernel $K$ to them
+returns 0. When the kernel is normalized the maximum value of $K$ is 1.\\
+Here follows very cool properties of kernel functions. Let $K_1, K_2:
+\mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}$  be two kernel functions,
+$X = \{x_1, \dots, x_n\}$ a set of examples from the domain $\mathcal{X}$ then:
+\begin{enumerate}
+	\item $K(x, x') = K_1(x, x') + K_2(x, x')$ is a valid kernel (additive property);
+
+	\item $K(x, x') = K_1(x, x') \cdot K_2(x, x')$ is a valid kernel (multiplicative property);
+
+	\item $K(x, x') = f(x)f(x')$, where $f$ is any function defined on the
+		domain $\mathcal{X}$, is a valid kernel;
+
+	\item $K(x, x') = K_4(\phi(x), \phi(x'))$ is a valid kernel;
+
+	\item $K(x, x') = K_1 \oplus K_3((x, u), (x', u))$,
+		where $K_3: U \times U \rightarrow \mathbb{R}$ is a valid kernel defined
+		on domain $U$, is a valid kernel;
+
+	\item $K(x, x') = K_1 \otimes K_3((x, u), (x', u))$,
+		where $K_3: U \times U \rightarrow \mathbb{R}$ is a valid kernel defined
+		on domain $U$, is a valid kernel.
+\end{enumerate}
+
+Here we show how to normalize a kernel function:
+\begin{equation}
+	K'(x, x') = \frac{K(x, x')}{\sqrt{K(x, x)K(x', x')}}
+\end{equation}
+
+In the counting of the number of features the normalization can be useful,
+because two very tiny trees can be considered as similar as two very big trees,
+even if their distance calculated with the kernel function is very different.
+
+\subsubsection{Standard Kernels}
+
+\paragraph{Linear kernel}
+\begin{equation}
+	K(x, x') = \langle x, x' \rangle
+\end{equation}
+The feature space is the same as the input space.
+
+\paragraph{Polynomial kernel}
+\begin{equation}
+	K(x, x') = (\langle x, x' \rangle + c)^d, \ c \in \mathbb{R}, d \in \mathbb{N}
+\end{equation}
+The feature space associated with the polynomial kernel is composed by products
+of elements of the original vectors. This operation allows to create new
+features as combinations of the original ones.
+
+\paragraph{Gaussian kernel}
+\begin{equation}
+	K(x, x') = \exp\left(-\frac{||x - x'||^2}{2\sigma^2}\right), \ 
+	\sigma \in \mathbb{R}
+\end{equation}
+The use of a kernel function is the only way for computing the corresponding
+dot product in feature space. The kernel value is maximum when $x = x', K(x, x')
+= 1$, and it is monotonic decreasing when the distance between $x$ and $x'$
+increases. $\sigma$ affects the resulting feature space as follows:
+\begin{itemize}
+	\item $\sigma \rightarrow \infty$: all examples are identical;
+	\item $\sigma \rightarrow 0$: all examples are orthogonal;
+\end{itemize}
+
+Later on we will see the kernel used for tree structured data.
+
+\subsubsection{Kernel Functions Evaluation}
+
+What is a good kernel function? Being valid is a necessary but not sufficient
+requirement for a kernel function to be good. 
+
+\paragraph{Sparsity index}
+\begin{equation}
+	Sparsity(K, S) = \frac{|\{(i, j) \in S | K(i, j) = 0\}|}{|S|^2}
+\end{equation}
+
+\paragraph{Kernel Alignment}
+\begin{equation}
+	\label{kernel_alignment}
+	A(K_1, K_2, S) = \frac{\langle G^{K_1}, G^{K_2} \rangle_F}
+	{\sqrt{\langle G^{K_1}, G^{K_1} \rangle_F \langle G^{K_2}, G^{K_2} \rangle_F}}
+\end{equation}
+
+where $\langle G^{K_1}, G^{K_2} \rangle_F = \sum\limits_{i,j} G^{K_1}_{ij}
+G^{K_2}_{ij}$. Note how similar the formula is to a normalized dot product,
+indeed $A \in [-1, 1]$. The value $A$ can be used to measure how appropriate a
+kernel $K$ is for a given two-class classification task by aligning $K$ with a
+matrix $Y$ defined as: $Y_{ij} = y_i y_j$ (it kinda measure the accuracy of the
+kernel).
+
+\paragraph{Completeness, Correctness and Appropriateness}
+Let $c: \mathcal{X} \rightarrow \Omega$ be a function that assigns to every
+example of a domain its class. Functions $c$ are grouped into a concept class
+$C$.
+\begin{itemize}
+	\item \textbf{Complete}: a kernel $K$ is complete if: $\forall c \in C, \
+		K(x_i, \cdot) = K(x_j, \cdot) \Rightarrow c(x_i) = c(x_j)$ 
+		(kinda injectivity, though using $c$ instead of identity, which is good
+		enough for the purpose of classification);
+
+	\item \textbf{Correct}: a kernel $K$ is said to be correct with respect to a
+		concept class $C$ and an hypothesis space $H$, if for every concept can
+		be found an hypothesis that correctly classifies all examples;
+
+	\item \textbf{Appropriateness}: a kernel $K$ is appropriate for learning
+		concepts in a given concept class by a learning algorithm if polynomial
+		bounds on its generalization error can be derived for some algorithms
+		using this kernel (basically, conservation of the topology of the data).
+\end{itemize}
+
+A complete and correct kernel separates the concept well (it is able to achive
+high accuracy on the given data). An appropriate kernel is able to generalize
+well to unseen data.\\
+
+Finally, in practical applications, the right trade-off between expressive power
+and computational complexity should be selected according to the current task.

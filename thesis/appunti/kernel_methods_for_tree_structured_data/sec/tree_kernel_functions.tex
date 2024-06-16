@@ -1,0 +1,354 @@
+\section{State of the Art on Tree Kernel Functions}
+
+Kernel methods make use of kernel functions to measure the similarity of the
+items in feature space. Kernel functions are the only type of information
+specific to the task that this class of learning algoritms may use.\\
+The methodologies for designing kernels for trees include:
+\begin{itemize}
+	\item \textbf{Convolutional kernel framework}: a convolutional kernel
+		measures the similarity of two objects in terms of the similarities of 
+		their subparts;
+
+	\item \textbf{Extraction of features}: builds a vectorial representation of
+		the data, and then applies kernels for vectors;
+
+	\item \textbf{Generative models' kernels}: these kernels measure the
+		similarity of two items as a function of the parameters and states
+		reached by a generative model for the data.
+\end{itemize}
+
+\subsection{Convolution Kernels}
+
+Convolution kernels express a kernel on a discrete object by a sum of kernels of
+their constituent pars.
+
+\begin{definition}[Convolution Kernel]
+Let $\mathcal{X}, \mathcal{X}_1, \dots, \mathcal{X}_D$ be $D + 1$ non empty
+separable metric spaces, 
+$x \in \mathcal{X}$ a structure and $\vec{x} = (x^1, x^2, \dots, x^D)$
+the parts of $x$. 
+A relation 
+$R: \mathcal{X}_1 \times \dots \times \mathcal{X}_D \times \mathcal{X}$ 
+where $R(\vec{x},x)$ is true if and only if $x^1, \dots, x^D$ are the 
+parts of $x$. 
+Moreover, let $R^*(x)$ be the set of all the subparts of $x$.
+
+Then the convolution kernel can be expressed as:
+\begin{equation}
+	k(x_i, x_j) = 
+	\sum_{\vec{x}_i \in R^*(x_i)} 
+	\sum_{\vec{x}_j \in R^*(x_j)} 
+	\prod_{d=1}^D k_d(x_i^d, x_j^d)
+\end{equation}
+
+where the $k_d$ are kernels on the substructres (and are called local kernels).
+\end{definition}
+
+\begin{definition}[Mapping Kernel]
+Let each $x \in \mathcal{X}$ be associated with a finite subset $\mathcal{X}_x'$,
+where $\mathcal{X}_x'$ is the set of substructures associated with $x$.
+Let $k: \mathcal{X}_x' \times \mathcal{X}_x' \rightarrow \mathbb{R}$ be a
+kernel.
+Then the mapping kernel is defined as:
+\begin{equation}
+	K(x_i, x_j) = \sum_{x_i;, x_j' \in \mathcal{M}_{x_i, x_j}} k(x_i', x_j')
+\end{equation}
+
+where $\mathcal{M}$ is part of a mapping system $\mathbb{M}$ defined as follow:
+\begin{equation}
+	\mathbb{M} = 
+	\left( 
+		\mathcal{X}, 
+		\{ \mathcal{X}_x' | x \in \mathcal{X} \},
+		\{ \mathcal{M}_{x_i, x_j} \subseteq 
+			\mathcal{X}_{x_i}' \times \mathcal{X}_{x_j}' | 
+			(x_i, x_j) \in \mathcal{X} \times \mathcal{X} \} 
+	\right)
+\end{equation}
+\end{definition}
+
+$\mathbb{M}$ is a triplet composed by the domain of the examples, the space of 
+the substructes of the examples, and a function $\mathcal{M}$ specifying for 
+which pairs of substructures the local kernel has to be computed.
+$\mathcal{M}$ is assumed to be finite and symmetric.
+The kernel $K$ is positive semidefinite if and only if $\mathcal{M}$ is
+transitive. A mapping system is transitive if and only if $\forall x_1, x_2, x_3
+\in \mathcal{X}. \ (x_1', x_2') \in \mathcal{M}_{x_1, x_2} \land (x_2', x_3')
+\in \mathcal{M}_{x_2, x_3} \Rightarrow (x_1', x_3') \in \mathcal{M}_{x_1,
+x_3}$.\\
+
+The following sections are devoted to review convolution kernels for tree 
+structured data.
+
+\subsection{Convolutional Tree Kernels}
+
+\subsubsection{Subtree Kernel}
+
+The features of the kernel when applied to trees are the proper subtrees of the 
+input tree. The kernel returns a weighted sum of the number of common proper
+subtrees. The kernel for strings is defined as follows:
+\begin{equation}
+	K(x_i, x_j) = 
+	\sum_{s \in x_i} \sum_{u \in x_j} \llbracket s = u \rrbracket w_s = 
+	\sum_{s \in \mathcal{A}^*} h_s(x) h_s(y)w_s
+\end{equation}
+
+where $s, u$ are substring of the strings $x_i, x_j$, $w_s$ is the weight
+associated to the substring $s$, $\mathcal{A}$ is the set of non empty strings
+of the alphabet $\mathcal{A}$, $h_s(x)$ counts the frequency of the substring
+$s$ in $x$, and $\llbracket condition \rrbracket$ is a function returning 1
+whether $condition$ is true, i.e. $s = u$, 0 otherwise.\\
+It is pointe out that not all subset trees can be generated if the trees are
+represented as strings (e.g. $[a[b][g]]$ is not a substring of
+$[a[b[c][e]][g]]$).
+
+\subsubsection{Subset Tree Kernel}
+\label{kernel:subset_tree}
+
+This kernel solve the problem of the Subtree Kernel by considering all the
+subtrees of the input trees. \\
+Let's consider a finite set of trees in which $m$ different subset trees are
+present. Each subset tree can be indexed by an integer between 1 and $m$. Then
+$h_s(T)$ is the number of times the subset tree indexed with $s$ occurs in 
+tree $T$. We represent each tree $T$ as a feature vector $\phi(T) = [h_1(T),
+\dots, h_m(T)]$. We define the innder product between two trees under the
+reported representation as:
+\begin{equation}
+	K(T_1, T_2) = \phi(T_1) \cdot \phi(T_2) = \sum_{s=1}^m h_s(T_1) h_s(T_2)
+\end{equation}
+
+Thus the subset tree kernel defines a similarity measure between trees which is
+proportional to the number of shared subset trees. Since in the thesis it is
+explained how to reach the last formula I will not report it here, I will just
+report the final formula for the kernel:
+\begin{equation}
+	K(T_1, T_2) = \sum_{t_1 \in N_{T_1}} \sum_{t_2 \in N_{T_2}}
+		C(t_1, t_2)
+\end{equation}
+
+where $N_{T_1}$ is the set of all the subset trees of $T_1$. 
+Let a \textit{production at} node $t$ be the subset tree constituted by $t$ and
+only its direct children. Then $C$ is defined as follow:
+
+\begin{itemize}
+	\item if the produciton at $t_1$ and $t_2$ are different then $C(t_1, t_2) =
+		0$;
+
+	\item if the productions at $t_1$ and $t_2$ are the same and they have only
+		leaf children then:
+		\begin{equation}
+			\label{eq:subset_tree:leaf}
+			C(t_1, t_2) = \lambda
+		\end{equation}
+
+	\item if the productions at $t_1$ and $t_2$ are the same (and previous
+		condition not satisfied) then:
+		\begin{equation}
+			C(t_1, t_2) = 
+			\prod_{j=1}^{nc(t_1)} (\lambda + C(ch_j[t_1], ch_j[t_2]))
+		\end{equation}
+
+		where $nc(t)$ is the number of children of $t$ and $ch_j[t]$ is the 
+		$j$-th child of $t$ (note that $nc(t_1) = nc(t_2)$, if their productions
+		are the same).
+\end{itemize}
+
+Where $0 < \lambda \leq 1$ is a weight parameter: since subset tree kernel
+values depend on the number of nodes in the trees, $\lambda$ is used to
+regularize the kernel.\\
+The worst case time computational complexity of the kernel is $O(|N_{T_1}|
+\times |N_{T_2}|)$. Which makes the algorithm infeasible for large 
+trees. Another problem, is that this kernel can't be used with continuous
+labels, because the resultant feature space would be too sparse.\\
+The next sections will either reduce the computational complexity or they will
+add expressiveness to the kernel.
+
+\subsubsection{Approximate Kernels for Trees}
+
+In this section we describe an approximated tree kernel with worst case linear
+time complexity. The speed up is obtained by selecting a restricted set of
+sparse and discriminative features:
+\begin{equation}
+	K(x_i, x_j) = 
+		\sum_s \gamma(s) 
+		\sum_{t_i \in x_i} \sum_{t_j \in x_j} C(t_i, t_j)
+\end{equation}
+
+where $t_i$ is a node of $x_i$ and $\gamma(s) = \{0, 1\}$ is a function telling
+whether the current subtree has to be considered.
+The goodness of a kernel can be measured by its alignment to the matrix $yy^T$
+(see \autoref{kernel_alignment}):
+\begin{equation*}
+	\langle yy^T, K \rangle_{\mathcal{F}} = 
+	\sum_{y_i = y_j} K(x_i, x_j) -
+	\sum_{y_i \neq y_j} K(x_i, x_j)
+\end{equation*}
+
+So the final problem to be solved can be formulated as follows:
+\begin{align*}
+	& max_{\gamma \in \{0, 1\}^{|S|}} \sum_{i, j = 1}^n \sum_{s \in S} \gamma(s)
+		\sum_{t_i \in x_i}
+		\sum_{t_j \in x_j} C(t_i, t_j), \\
+	& \text{s.t. } \sum_{s \in S} \gamma(s) = N
+\end{align*}
+
+where $S$ is the feature space, $n$ is the size of the training set and $N$ is
+the number of different substructures we want to consider.
+
+If this isn't enough, you can bound the expected runtime to a variable $b$:
+\begin{equation*}
+	\sum_{s \in S} \gamma(s) \sigma(s) \leq b
+\end{equation*}
+
+where $\sigma(s)$ is the number of times the substructure $s$ appears in the
+training set.
+
+\subsubsection{Partial Tree Kernel}
+
+One way for enlarging the feature space consists on counting the partial
+matching between subtrees (the definition of partial tree correponds to
+subtree's definition). The partial tree kernel can be evaluated in
+$O(\rho^3|N_{T_1}||N_{T_2}|)$, where $\rho$ is the maximum out-degree of the two
+trees. To see how the kernel is defined, please refer to the thesis.
+
+\subsubsection{Elastic Tree Kernel}
+
+An elastic tree is a subset of nodes for which the relative positions in the
+original tree are preserved. 
+Let two trees $T_1$ and $T_2$ and two subtrees, $t_1$ and $t_2$, rooted at 
+$v_1 \in T_1$ and $v_2 \in T_2$, respectively. 
+This kernel extends the subset tree kernel \autoref{kernel:subset_tree}
+in the following way:
+\begin{itemize}
+	\item $t_1$ and $t_2$ may match even if they don't have the same number of
+	children, the only contraint is to preserve left-to-right order of the
+	children, therefore the $C$ function becomes:
+	\begin{equation}
+		C(v_1, v_2) = S_{v_1, v_2}(nc(v_1), nc(v_2))
+	\end{equation}
+	and $S$ can be defined as:
+	\begin{align*}
+		S_{v_1, v_2}(i, j) = & S_{v_1, v_2}(i - 1, j)			\\
+		& + S_{v_1, v_2}(i, j - 1)								\\			
+		& - S_{v_1, v_2}(i - 1, j - 1)							\\
+		& + S_{v_1, v_2}(i - 1, j - 1) C(ch_i[v_1], ch_j[v_2])
+	\end{align*}
+	and $S_{v_1, v_2}(i, 0) = S_{v_1, v_2}(0, j) = 1$. Basically the idea is
+	that the number of matchings considering $l$ children can be expressed in
+	terms of the number of matchings considering $l - 1$ children, indeed the
+	formulation can be seen as a dynamic programming algorithm;
+
+	\item $t_1$ and $t_2$ may match even if their labels are not identical.
+	This is obtained by multiplying each match by a value determined by a
+	function $P_{mut}(l_1, l_2) \in [0, 1]$, where $P_{mut}(l_1, l_2)$ is the
+	cost for transforming label $l_1$ into label $l_2$. The $C$ function then
+	becomes:
+	\begin{equation}
+		C(v_1, v_2) =
+		\sum_{a \in \mathcal{A}}
+		P_{mut}(l_1, a)
+		P_{mut}(l_2, a)
+		S_{v_1, v_2}(nc(v_1), nc(v_2))
+	\end{equation}
+	where $\mathcal{A}$ is the space of labels. Thus it takes into account all
+	possible mutations of the labels of the nodes being computing the $C$ value.
+	No actual $P_{mut}$ function is provided neither in the thesis or in its
+	references;
+
+	\item $t_1$ and $t_2$ can be elastic trees. Since all descendants of a node
+	can be part of an elasti subtree, all of them have to be considered. This
+	leads to $C$ being defined as:
+	\begin{equation}
+		C(v_1, v_2) = 
+		\sum_{v_a \in D(v_1)} \sum_{v_b \in D(v_2)}
+		C(v_a, v_b)
+	\end{equation}
+	where $D(v)$ is the set of descendants of $v$, including $v$ itself. Note,
+	that the dynamic programming algorithm already stores the values for the
+	descendants of a node, so the computation of the $C$ value is not
+	problematic.
+\end{itemize}
+
+\subsubsection{Semantic Syntactic Tree Kernels}
+
+This kernel is designed for text categorization tasks. The kernel introduces two
+ideas:
+\begin{itemize}
+	\item embedded semantic term kernel and a leaf weighting component;
+
+	\item partial matches between tree fragments, where a partial match between
+	two subtrees occurs when they differ only by their terminal symbols.
+\end{itemize}
+
+The tree fragment kernel is defined as:
+\begin{equation}
+	K(f_1, f_2) = 
+	comp(f_1, f_2)
+	\prod_{i = 1}^{nt(f_1)} k_S(f_1(i), f_2(i))
+\end{equation}
+
+where the function $comp(f_1, f_2)$ equals 1 whether the $f_1$ and $f_2$ differs 
+only in the terminal nodes, 0 otherwise; 
+$nt(f_1)$  is the number of terminal nodes of the two tree fragments.
+The semantic syntactic tree kernel is obrained by modifying
+\autoref{eq:subset_tree:leaf} as follows:
+\begin{equation}
+	C(v_1, v_2) = \lambda k_S(v_1, v_2)
+\end{equation}
+
+Note that $k_s$ might be:
+\begin{itemize}
+	\item taxonomy for computing the term similarity (I don't know what it is);
+	\item latent semantic indexing, which computes the similarity by means of
+	co-occurence analysis of terms in documents and vice versa (which neither I
+	know about, but I have some intuition about and I like it!).
+\end{itemize}
+
+\subsection{Non Convolutional Kernels}
+
+\subsubsection{Spectrum Tree Kernel}
+
+The spectrum tree kernel counts common
+tree q-grams. Tree q-grams are subtrees isomorphic to paths with with $q$
+nodes.\\
+A subtree $P_i$ matches a tree $T$ at a node $n$ if there exists a one-to-one
+mapping $f$ from the nodes of $P$ into the nodes of $T$ satysfying the following
+constraints:
+\begin{itemize}
+	\item $f$ maps the root of $P$ to $n$;
+	\item The ordering o fhte children is preserved by the mapping;
+	\item The labels of the nodes are preserved by the mapping ($\forall x \in
+	P, \ l(x) = l(f(x))$).
+\end{itemize}
+
+Being $G_q(T)$ the vector collecting information about all $q-grams$ in $T$, the
+kernle is defined as follows:
+\begin{equation}
+	K(T_1, T_2) = \langle G_q(T_1), G_q(T_2) \rangle
+\end{equation}
+
+\subsubsection{Tree Fisher Kernel}
+
+The Fisher Kernel is derived from a generative model. It uses gradient of the
+log likelihood of the data with respect to the model parameters. The Fisher
+kernel assumes that the data is generated from a parametric probability
+distribution: $P(x|\vec{\theta})$, where $\vec{\theta}$ is the parameter vector.
+The idea is to form a representation of the data in terms of those parameters
+which are sufficient to describe $x$. This is achieved by means of the Fisher
+Schore $U_x$:
+\begin{equation}
+	U_x = \nabla_{\vec{\theta}} \log P(x|\vec{\theta})
+\end{equation}
+
+The Fisher kernel is defined as:
+\begin{equation}
+	K(x_i, x_j) = U_{x_i}^T I^{-1} U_{x_j}
+\end{equation}
+
+I didn't quite get how $I$ is defined, but it looks like sometimes the identity
+matrix is used in its place (note that it is called Fisher Information
+Matrix).\\
+It is worth noting that when deriving a kernel from a generative model, the
+value of kernel between two objects depends also on the set used to
+train the generative model.
+

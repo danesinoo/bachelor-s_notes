@@ -2,6 +2,8 @@
 \newcommand{\template}{../../../template}
 \usepackage{\template/packages}
 
+\usepackage[english]{babel}
+
 \newcommand{\titolo}{Appunti della tesi di PhD di Da San Martino}
 \newcommand{\autore}{Rosso Carlo}
 \newcommand{\data}{A.A. 2023/2024}
@@ -11,12 +13,17 @@
 
 \begin{document}
 \copertina
+
+\input{sec/abstract.tex}
+\newpage
+
 \tableofcontents
 \newpage
 
-\input{sec/abstract.tex}
-
 \input{sec/introduction.tex}
+\newpage
 \input{sec/notation.tex}
+\newpage
+\input{sec/tree_kernel_functions.tex}
 
 \end{document}
