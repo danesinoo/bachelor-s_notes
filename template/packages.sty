@@ -85,3 +85,14 @@
 \numberwithin{equation}{section}
 
 \linespread{1.5}
+
+\usepackage{environ}
+\usepackage{xparse}
+
+\NewDocumentEnvironment{mat}{m}{%
+	\begin{bmatrix}
+		\begin{array}{#1}
+}{%
+		\end{array}
+	\end{bmatrix}
+}

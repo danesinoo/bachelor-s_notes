@@ -1,0 +1,21 @@
+\section{Recursive Neural Network}
+
+The simplest model of the three is the standard recursive neural network. First,
+it is determined which parent already has all its children computed (since it is
+a binary tree, it is only one). RNNs use the following equations to compute the
+parent vectors:
+\begin{equation}
+	p = f\left(W 
+	\begin{mat}{cc}
+			l  \\ 
+			r 
+	\end{mat}
+	\right)
+\end{equation}
+
+where $l$ and $r$ are the left and right children of the parent, $f = \tanh$ is
+a standard element-wise nonlinearity, $W \in \mathbb{R}^{d \times (2d + 1)}$ is 
+the main parameter, where the $+1$ is for the bias term, note that it is needed
+to add a bias term to the input vectors. Each parent vector $p_i$ is given to
+the same softmax classifier to compute its label probabilities.
+

@@ -1,0 +1,42 @@
+\section{Introduction}
+
+In this paper they are discussed the differences between three models:
+\begin{itemize}
+	\item Recursive Neural Networks (RNN);
+	\item Matrix-Vector RNN (MV-RNN);
+	\item Recursive Neural Tensor Network (RNTN).
+\end{itemize}
+
+Finally, it is introduced the Standford Sentiment Treebank (SST) dataset, 
+which is used to evaluate the models.\\
+In particular, the paper focuses on the improvement of the RNTN model, which
+seems to be the best one among the three models:
+\begin{itemize}
+	\item it is able to capture the sentiment of single phrases;
+	\item it is the only model able to capture the effect of negation.
+\end{itemize}
+
+\subsection{Semantic Vector Space}
+
+Semantic Vector Space for single words have been widely used as features.
+Particularly, it is interesting how to combine these features to obtain
+a representation of longer phrases properly.\\
+Semantic vector spaces uses distributional similarities of single words. Often,
+co-occurrence statistics of a word and its context are used to describe each
+word. Though, such approach doesn't appropriately capture the differences in
+antonyms because they have similar co-occurrence statistics.\\
+The problem can be solved using neural word vectors. Either way the models here
+describe are able to capture the sentiment of single phrases.
+
+\subsection{Compositionality in Vector Spaces}
+
+Most of the compositionality algorithms capture two word compositions. Somebody
+compute matrix representations for longer phrases and define composition as
+matrix multiplication. Somebody else analyze subject-verb-object triplets and
+find a matrix-based categorical model to correlate well with human judgments.
+
+\subsection{Deep Learning}
+
+The idea to relate inputs through three way interactions, parameterized by a
+tensor have been proposed for relation classification extending Restricted
+Boltzmann machines and as a special layer for speech recognition.

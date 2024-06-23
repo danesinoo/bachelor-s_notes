@@ -1,0 +1,28 @@
+\section{Matrix-Vector RNN}
+
+The main idea of the MV-RNN is to represent every word and longer phrase in a
+parse tree as both a vector, $\vec{v}$, and a matrix, $m$. When two consituents
+are combined the matrix of one is multiplied by the vector of the other and vice
+versa.\\
+Each word's matrix is initialized as a $d \times d$ identity matrix, plus a
+small amout of noise. The MV-RNN computes the first parent vector and its matrix
+via two equations:
+
+\begin{equation}
+	  p = 
+	  f\left(W \begin{mat}{c}
+		Rl \\
+		Lr
+	\end{mat} \right), \quad
+	P = 
+	f\left(W 
+	\begin{mat}{c}
+		L \\
+		R
+	\end{mat} 
+	\right)
+\end{equation}
+
+where $W_M \in \mathbb{R}^{d \times 2d}$ and the result is again a $d \times d$
+matrix. The vectors are used for classyfing each phrase using the same softmax
+classifier.
