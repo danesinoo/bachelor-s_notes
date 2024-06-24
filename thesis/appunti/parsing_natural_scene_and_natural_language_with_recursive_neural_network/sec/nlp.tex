@@ -1,0 +1,37 @@
+\section{Natural Language Processing}
+
+Words are first mapped into a semantic space and then they are merged into
+phrases in a syntactically and semantically meaningful order.
+The RNN computes:
+\begin{itemize}
+	\item a score that is higher when neighboring word should be marged into
+		a words' sequence. Note that the order of the words is important;
+
+	\item a new semantic feature representation for the words' sequence;
+
+	\item the label of the words' sequence.
+\end{itemize}
+
+RNN jointly learns how to parse and how to represent phrases in a continuous
+vector space of features. This allows to embed both single lexical units (words)
+and unseen, variable-sized phrases ina syntactically coherent order.\\
+
+The proposed model uses deep learning for NLP, particularly it handles variable
+sized sentences in a natural way and captures the recursive nature of natural
+language. Furthermore, it jointly learns parsing decisions, categories for each
+phrase and phrase feature embeddings which capture the semantics of their
+consituents.
+
+\subsection{Input representation for natural language sentences}
+
+In order to efficiently use neural networks in NLP, neural language models map
+words to a vector representation. These representations are stored in a word
+embedding matrix $L \in \mathbb{R}^{n \times |V|}$, where $|V|$ is the size of
+the vocabulary and $n$ is the dimensionality of the semantic space.
+This matrix usually captures cooccurence statistics and its values are learned.
+Assume we are given an ordered list of $N_{words}$. Each word $i = 1, \dots,
+N_{words}$ has an associated vocabulary index $k$ into the columns of the
+embedding matrix. Here is how to get the word embedding for the $i$-th word:
+\begin{equation}
+	\mathbf{w}_i = L \mathbf{e}_k \in \mathbb{R}^n
+\end{equation}

@@ -1,0 +1,28 @@
+\section{Summary from the paper}
+
+Further progress towards understanding compositionality in tasks such as
+sentiment detection requires riched supervised training and evaluation resources
+and more powerful models of computation. Particularly, in this note, we will
+discuss about the former. The authors introduce a Sentiment Treebank, which
+includes fine grained sentiment labels for 215,154 phrases in the parse trees of
+11,855 sentences. The \textit{Sentiment Penn Treebank} is the first corpus with
+fully labeled parse trees tha allows for a complete analysis of the
+compositional effects of sentiment in language.\\ 
+The corpus is based on the dataset introduced by Pang and Lee (2005) and
+consists of 11,855 sentences extracted from movie reviews. It was parsed with
+the Stanford parser and includes a total of 215,154 unique phrases from those
+parse trees, each annotated by 3 human judges.
+
+\subsection{Origin}
+
+It is considered the corpus of movie review excerpts from the
+\texttt{rottentomatoes.com} website originally collected and published by Pang
+and Lee (2005).
+The original dataset includes 10.662 sentences, half of which were considered
+positive and the other half negative.\\
+The Stanford Parser (...) in used to parses all 10.662 sentences. In
+approximately 1.100 cases it splits the snippet into multiple sentences. It was
+used Amazon Mechanical Turk to label the resulting 215.154 phrases.\\
+Starting at length 20, the majority are full sentences. One of the findings from
+labeling sentences based on \textit{reader's perception} is that many of them
+could be considered neutral.
