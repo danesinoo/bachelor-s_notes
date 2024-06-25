@@ -96,3 +96,26 @@ print(f'Lunghezza mediana dei testi: {median_length}')
 # Parole più frequenti
 print(most_common_words)
 
+import re
+
+# Funzione di preprocessing per rimuovere punteggiatura e altre entità non utili
+def preprocess(text):
+    text = text.lower()
+    words = re.findall(r'\b\w+\b', text)  # Trova tutte le parole
+    return words
+
+# Applicare la funzione di preprocessing a tutte le frasi
+merged_data['words'] = merged_data['sentence'].apply(preprocess)
+
+# Calcolare il numero totale di parole
+total_words = merged_data['words'].apply(len).sum()
+
+# Raccogliere tutte le parole uniche in un insieme
+unique_words = set()
+merged_data['words'].apply(unique_words.update)
+
+# Calcolare il numero totale di parole uniche
+total_unique_words = len(unique_words)
+
+print(f'\nIl numero totale di parole nel dataset è: {total_words}')
+print(f'\nIl numero totale di parole diverse nel dataset è: {total_unique_words}')

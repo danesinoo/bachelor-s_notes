@@ -35,3 +35,128 @@ embedding matrix. Here is how to get the word embedding for the $i$-th word:
 \begin{equation}
 	\mathbf{w}_i = L \mathbf{e}_k \in \mathbb{R}^n
 \end{equation}
+
+\subsection{RNNs for Structured Prediction}
+
+In the discriminative parsing architecture, the goal is to learn a function $f:
+\mathcal{X} \rightarrow \mathcal{Y}$, where $\mathcal{Y}$ is the set of all
+possibl ebinary parse trees. The input $x$ consists of two parts: a set of
+activation vectors, which represents the words in the sentence; and a symmetric
+adjacency matrix $A$, where $A_{ij} = 1$ if the $i$-th and $j$-th words are
+adjacent in the sentence, and $A_{ij} = 0$ otherwise. \\
+We denote the set of all possible trees that can be constructed from an input
+$x$ as $\mathcal{T}(x)$. During the training phase, we have labels $l$ for all
+the words in the sentence. Using these lables, we can define an equivalence set
+of correct trees $Y(x, l)$. A tree is correct if all adjacent segments that
+belong to the same class are merged into one super node before merges occur with
+super segments of different classes. For training the language parser, the set
+of correct trees only has one element, the annotated groud truth tree: $Y(x) =
+\{y\}$.
+
+\subsubsection{Max-margin Estimation}
+
+It is defined a margin loss $\Delta(x, l, \hat{y})$ for proposing a parse
+$\hat{y}$ for input $x$ with labels $l$. We can formulate the margin loss by
+checking whether the subtree $subTree(d)$ underneath a nonterminal node $d$ in
+$\hat{y}$ is correct:
+\begin{equation}
+	\Delta(x, l, \hat{y}) = \kappa \sum_{d \in N(\hat{y})} 1 \{ subTree(d) \not
+	\in Y(x, l) \}
+\end{equation}
+
+where $N(\hat{y})$ is the set of all nonterminal nodes in $\hat{y}$, and
+$\kappa$ is a hyperparameter that controls the importance of the margin loss
+relative to the likelihood of the parse.\\
+
+Given a training set, we search for a function $f$ with small expected loss on
+unseen inputs. We consider the following functions:
+\begin{equation}
+	f_{\theta}(x) = \arg \max_{\hat{y} \in \mathcal{T}(x)} s(RNN(\theta, x,
+	\hat{y}))
+\end{equation}
+
+where $\theta$ are all the parameters needed to compute a score $s$ with an RNN.
+The highest the score, the more confident the model is that the parse is
+correct. 
+We want to ensure that the highest scoring tree is in the set of
+correct trees: $f_{\theta}(x_i) \in Y(x_i, l_i)$, for all training examples
+$(x_i, l_i)$.
+Furthermore, we want the score of the highest scroring correct tree $y_i$ to be
+larger up to a margin defined by the loss: 
+\begin{equation}
+	s(RNN(\theta, x_i, y_i)) \geq s(RNN(\theta, x_i, \hat{y})) 
+	+ \Delta(x_i, l_i, \hat{y}), \quad \forall i, \hat{y} \in \mathcal{T}(x_i)
+\end{equation}
+
+Which leads to the following regularized risk function:
+\begin{equation}
+	J(\theta) = \frac{1}{N} \sum_{i=1}^{N} r_i(\theta) +
+	\frac{\lambda}{2}||\theta||^2
+\end{equation}
+
+where
+\begin{equation}
+	\label{eq:margin_loss}
+	r_i(\theta) = \max_{\hat{y} \in \mathcal{T}(x_i)} \left( s(RNN(\theta, x_i,
+	\hat{y})) + \Delta(x_i, l_i, \hat{y}) - s(RNN(\theta, x_i, y_i)) \right)
+\end{equation}
+
+Indeed minimizing $r_i$ is equivalent to minimizing the margin loss, which means
+that $\hat{y} \rightarrow y_i$ is the correct transition.
+
+\subsection{Greedy Structure Predicting RNNs}
+
+We find a greedy approximation of the next best merge in the parse tree.\\
+Using the adjacency matrix $A$, the algorithm finds the psirs of neighboring
+segments and adds their activations to a set of potential child node pairs:
+\begin{equation}
+	C = \{ [a_i, a_j) | A_{ij} = 1 \}
+\end{equation}
+
+Each pair of activations is concatenated and given as input to a neural network.
+The network computes the potential parent representation for these possible
+child nodes:
+\begin{equation}
+	p_{(i,j)} = f(W[c_i; c_j] + b)
+\end{equation}
+
+Given the parent representation, the score is computed with a row vector
+$W^{score} \in \mathbb{R}^{1 \times n}$:
+\begin{equation}
+	s_{(i,j)} = W^{score} p_{(i,j)}
+\end{equation}
+
+Training will aim to increse scores of good segment pairs and decrease scores of
+pairs with different labels, unless no more good pairs are left. Then a new
+column is added to the adjacency matrix, the one representing the new merged
+node. The process repeats until all pairs are merged and only one parent
+activation is left in the set $C$. Hence, the same network (with parameters $W$,
+b, $W^{score}$) is recursively applied until all vector pairs are collapsed.\\
+
+The final score that we need for structure prediction is simply the sum of all
+the local decisions:
+\begin{equation}
+	s(RNN(\theta, x, y)) = \sum_{d \in N(y)} s_{d}
+\end{equation}
+
+\subsection{Category Classifiers in the Tree}
+
+One of the main advantages of this approach is that each node of the tree built
+by the RNN has associated with it a distributed feature representation. You can
+leverage this representation by adding to each RNN parent node a simple softmax
+layer to predict class labels, such as part-of-speech tags or named entity
+labels:
+\begin{equation}
+	label_p = softmax(W^{label} p)
+\end{equation}
+
+When minimizing the cross-entropy error, of this softmax layer, the error will
+backpropagate and influence both the RNN parameters and the word
+representations.
+
+\subsection{Improvements for Language Parsing}
+
+Since in a sentence each word only has 2 neighbors you can use bottom-up beam
+search to find the best parse tree.\\
+Since there is only a single correct tree, the second maximization in the
+objective of \autoref{eq:margin_loss} can be dropped.
