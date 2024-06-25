@@ -1,0 +1,23 @@
+\section{Architecture}
+
+\subsection{Labeling RAAM}
+
+The general structure is that of a three-layer feedforward network.\\
+The idea is to obtain a compressed representation for a node of a labeled
+directed graph by allocating a part of the input of the network to represent the
+label and the rest to represent its subgraphs. The network is trained by
+backpropagation in an autoassociative way using the compressed representations
+recursively. As the representations are consistently updated during the
+training, the training set is dynamic, starting with randomly chose
+representations.\\
+Note that this architecture is used to compare the performance with the novel
+one, the folding architecture.
+
+\subsection{Folding architecture}
+
+The frist two layers occupy the role of the encoder, the hidden units are
+connected to a simple sigmoid feedforward layer, in our case just one unit for
+classification. For the classification of a new structure, the network is
+virtually unfolded to compute the structure's representation.\\
+We use the vitual unfolding of the network also for the learning phase and
+propagate the classification error through the whole virtually unfolded network.

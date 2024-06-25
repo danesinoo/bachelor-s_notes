@@ -1,0 +1,32 @@
+\section{Learning}
+
+The objective $J$ is not differentiable due to the hinge loss. Therefore,
+gradient descent is generalized via the subgradient method.\\
+Let $\theta = (L, W, W^{score}, W^{label})$ be the set of the model's
+parameters. The gradient becomes:
+
+\begin{equation}
+\frac{\partial{J}}{\partial{\theta}} = 
+\frac{1}{n} \sum_i 
+\frac{\partial{s(\hat(y_i)}}{\partial{\theta}} 
+- \frac{\partial{s(y_i)}}{\partial{\theta}}
++ \lambda \theta
+\end{equation}
+
+where $s(\hat{y}_i) = s(\text{RNN}(\theta, x_i, \hat{y}_{max(\mathcal{T}(x_i))}))$
+and $s(y_i) = s(\text{RNN}(\theta, x_i, y_{\max(Y(x_i, l_i))}))$.
+To backpropagate the error, it is used another's paper idea in which the error
+is split in two parts, to the left and to the right child (Goller \& Kuchler,
+1996).
+
+\section{Experiments}
+
+The only parameters to be tuned are:
+\begin{itemize}
+	\item $n$ the size of the hidden layer;
+	\item $\kappa$ the penalization term for incorrect parsing decisions;
+	\item $\lambda$ the regularization parameter;
+\end{itemize}
+
+Finally, the chosen values are $n = 100$, $\kappa = 0.05$ and $\lambda = 0.001$.
+

@@ -1,0 +1,14 @@
+\section{Back Propagation Through Structure}
+
+For both the architecture the number of forward and backward phases per epoch is
+linear to the number of nodes in the DAG-representation of the training set.
+
+\subsection{BPTS for Trees}
+
+For reason of simplicity we first restrict our considerations to tree-like
+structures. In the forward phase the computation of the representation doesn't
+differ between the two approaches. The following metaphor helps us to explain
+the backward phase. Imagine the encoder of the folding architecture is virtually
+unfolded (with copied weights) according to the tree structure. Now the error
+passed from the classifier to the hidden layer is propagated throught he
+unfolded encoder network. Follows the exact formulation.
