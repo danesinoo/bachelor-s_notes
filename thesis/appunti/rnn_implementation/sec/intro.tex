@@ -1,0 +1,40 @@
+\section{Introduzione}
+
+\subsection{Descrizione del problema}
+
+Il task affrontato dai modelli allenati sullo Sentiment Penn Treebank riguarda 
+la classificazione del sentimento di frasi e frasi parziali (nodi) all'interno 
+degli alberi sintattici. In particolare, il task principale è la rilevazione del 
+sentimento espresso in ogni frase, che può variare da negativo a positivo su una 
+scala a cinque livelli:
+\begin{itemize}
+	\item negativo (- -);
+	\item un po' negativo (-);
+	\item neutro (0);
+	\item un po' positivo (+);
+	\item positivo (+ +);
+\end{itemize}
+
+In particolare il task si compone di tre sotto-task:
+\begin{itemize}
+	\item \textbf{Classificazione del Sentimento Fine-Grained}: I modelli devono 
+		prevedere l'etichetta di sentimento per ogni frase e sottofrase 
+		all'interno di un albero sintattico. Le etichette sono suddivise in 
+		cinque categorie.
+
+	\item \textbf{Composizionalità del Sentimento}: Il task richiede ai modelli 
+		di catturare e comporre correttamente i sentimenti delle sottofrasi per 
+		prevedere il sentimento della frase completa. Ciò include la gestione di 
+		fenomeni linguistici complessi come la negazione e le congiunzioni 
+		contrastive.
+
+	\item \textbf{Analisi degli Alberi Sintattici}: Utilizzando gli alberi di 
+		parsing sintattico generati dal Stanford Parser, i modelli devono 
+		processare e analizzare ogni nodo per comprendere come il sentimento si 
+		propaga attraverso la struttura dell'albero.
+\end{itemize}
+
+\subsection{Dataset}
+
+La descrizione del dataset viene omessa in quanto presente in un documento a
+parte.

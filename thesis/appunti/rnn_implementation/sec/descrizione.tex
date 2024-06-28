@@ -1,0 +1,85 @@
+\section{Descrizione dei modelli}
+
+Viene richiesto di implementare la \textit{Recursive Neural Network} (RNN)
+descritta nel paper \cite{socher-etal-2013-recursive}. Quindi l'implementazione
+viene svolta a partire dal codice fornito dagli autori del paper. In particolare
+seguono i passaggi svolti per l'implementazione:
+\begin{enumerate}
+	\item \textbf{Clone del repository}: ho clonato il repository
+		\url{https://github.com/stanfordnlp/CoreNLP.git};
+
+	\item \textbf{Installazione delle dipendenze}: ho seguito le istruzioni nel
+		README del repository per installare le dipendenze necessarie;
+
+	\item \textbf{Check del modello fornito}: ho verificato che il modello
+		fornito funzionasse correttamente con il comando\\
+		\texttt{java -cp "*" -mx5g edu.stanford.nlp.sentiment.SentimentPipeline \\ 
+		-file examples/sample-maven-project/sample-english.txt}\\
+		Non ha funzionato;
+
+	\item \textbf{Correzione}: ho sostituito il comando con \\
+		\texttt{mvn exec:java
+		-Dexec.mainClass="edu.stanford.nlp.sentiment.SentimentPipeline" \\
+		-Dexec.args="-file examples/sample-maven-project/sample-english.txt"}\\
+		e ha funzionato;
+
+	\item \textbf{Lettura del codice}: ho letto un po' del codice per orientarmi
+		nella codebase. Ho capito che il modello che tratta il problema che mi
+		interessa si trova all'interno del package 
+		\texttt{edu.stanford.nlp.sentiment};
+
+	\item \textbf{Implementazione del modello}: ho individuato la classe che
+		si occupa dell'allenamento del modello, ovvero
+		\texttt{SentimentTraining};
+
+	\item \textbf{Studio di \texttt{SentimentTraining}}: ho studiato il codice
+		di \texttt{SentimentTraining} per capire come funziona il training del
+		modello. Non solo, ho anche compreso quali sono i parametri in input
+		della classe e come sono utilizzati; 
+
+	\item \textbf{Costruzione del comando di allenamento}: ho costruito il 
+		seguente comando per allenare il modello:\\
+		\begin{texttt}
+			mvn exec:java -Dexec.mainClass="edu.stanford.nlp.sentiment.SentimentTraining"\\
+			-Dexec.args="-train -model rnn.ser.gz -trainpath train.txt -devpath dev.txt \\
+			-nousetensors -lowercasewordvectors -numhid 100 -randomseed 42"
+		\end{texttt}
+
+		In particolare, la classe specificata si occupa di allenare un modello
+		generico. Di seguito spiego gli argomenti passati al comando:
+		\begin{itemize}
+			\item \texttt{-train}: specifica che si vuole allenare il modello;
+			\item \texttt{-model ../rnn.ser.gz}: specifica il percorso in cui
+				salvare il modello allenato;
+			\item \texttt{-trainpath ../train.txt}: specifica il percorso del
+				file o della directory di training;
+			\item \texttt{-devpath ../dev.txt}: specifica il percorso del file
+				o della directory di validazione;
+			\item \texttt{-nousetensors}: specifica che non si vogliono
+					utilizzare i tensori. In questo modo si passa dall'RNTN
+					descritto nel paper all'RNN, proprio come spiegato
+					all'interno del paper medesimo;
+			\item \texttt{-lowercasewordvectors}: specifica che si vogliono
+				utilizzare i vettori delle parole in minuscolo, si tratta di una
+				scelta personale, a dire il vero non so se sia stata usata anche
+				dagli autori del paper;
+			\item \texttt{-numhid 100}: specifica il numero di hidden units;
+			\item \texttt{-randomseed 42}: specifica il seed per la generazione
+				dei numeri casuali, in modo da rendere riproducibile 
+				l'esperimento.
+		\end{itemize}
+
+	\item \textbf{Setup dei dataset}: ho scaricato i dataset nel formato
+		opportuno, si trovano al seguente indirizzo:
+		\url{https://nlp.stanford.edu/sentiment/trainDevTestTrees_PTB.zip}. Poi
+		li ho scompattati e li ho spostati nella directory del progetto;
+
+	\item \textbf{Allenamento del modello}: ho eseguito il comando di
+		allenamento del modello. Il training è durato circa 6 ore;
+
+	\item \textbf{Test del modello}: ho testato il modello con il comando\\
+		\begin{texttt}
+		- mvn exec:java -Dexec.mainClass="edu.stanford.nlp.sentiment.Evaluate" \\
+		-Dexec.args="-model rnn.ser.gz -treebank test.txt"
+		\end{texttt}.
+\end{enumerate}

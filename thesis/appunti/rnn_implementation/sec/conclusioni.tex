@@ -1,0 +1,16 @@
+\section{Conclusioni}
+
+I risultati ottenuti confermano le affermazioni del paper
+\cite{socher-etal-2013-recursive}. Infatti, il modello RNN dimostra una notevole
+robustezza anche variando il numero di unità nascoste. Inoltre, l'accuratezza
+sui singoli nodi si attesta intorno all'80\%, in linea con quanto riportato nel
+paper, che indica un'accuratezza del 79.0\% per la classificazione fine-grained.
+Nel nostro esperimento, il modello con 50 unità nascoste ha raggiunto
+un'accuratezza del 79.4\%, un valore molto vicino a quello del paper.\\
+Anche l'accuratezza relativa al label della root è comparabile: il paper riporta
+un'accuratezza del 43.2\%, mentre il nostro modello con 50 unità nascoste ha
+raggiunto il 42.2\%. Questi risultati suggeriscono che il modello è stato
+allenato correttamente e che le prestazioni ottenute sono soddisfacenti. Le
+differenze riscontrate potrebbero essere dovute all'inizializzazione dei pesi,
+poiché il seed utilizzato nel paper non è stato fornito, impedendoci di valutare
+se tali differenze derivino da questo aspetto.
