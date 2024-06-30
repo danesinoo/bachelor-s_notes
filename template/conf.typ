@@ -1,13 +1,9 @@
 #import "titlepage.typ" : titlepage
 #import "table_of_contents.typ" : table_of_contents
 #import "definition.typ" : *
+#import "styles.typ" : *
 
 #let document_settings(doc) = {
-	set text(
-	   	font: "Galvji",
-	   	size: 11pt,
-	)
-	
 	set heading(
 	   	numbering: "1.1",
 	   	bookmarked: true,
@@ -21,21 +17,23 @@
 	   		left: 3.2cm,
 	   		right: 3.2cm
 	   	),
-	   	fill: rgb(251,248,240),
 	   	header: context {
 			let sections = query(
 				selector(heading.where(level: 1)).before(here()),
 			)
 			if sections.len() < 2 {
-				align(right, document.title)
+				align(right, smallcaps(document.title))
 			} else {
-				document.title + h(1fr) + emph(sections.last().body)
+				smallcaps(document.title) + h(1fr) + emph(sections.last().body)
 			}
 		},
 	)
 	
-	show par: set block(spacing: 0.55em)
-	show heading: set block(above: 1.4em, below: 1em)
+	show par: set block(spacing: 1.5em)
+	show heading: it => {
+		set block(above: 1.4em, below: 1em)
+		smallcaps(it)
+	}
 	show link: set text(blue)
 	show ref: set text(blue)
 
@@ -49,13 +47,17 @@
 	
 	set par(
 	   	leading: 1em,
-	   	first-line-indent: 0.5em,
+	   	first-line-indent: 1em,
 	   	justify: true,
 	)
 
 	set enum(
-		indent: 0.5em,
+		indent: 2em,
 		numbering: "1.",
+	)
+
+	set list(
+		indent: 1em,
 	)
 
 	set math.mat(

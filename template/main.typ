@@ -1,10 +1,12 @@
 #import("conf.typ") : *
 
+#show: doc => comfy(doc)
 #show: doc => main(
-	title: [ Il Titolo ],
-	author: ("Carlo Rosso",),
-	doc
+		title: [ Il Titolo ],
+		author: ("Carlo Rosso",),
+		doc
 )
+
 
 = Hello world <hello>
 
@@ -16,7 +18,6 @@ $1 = 1$
 Infatti $1 = 1$
 ]
 
-@hello
 
 #def()[
 We the people.
@@ -33,7 +34,7 @@ Questa è una nota importante.
 + world
 + wowo
 
-= Hello world
+= Hello world <nb-verace>
 
 #proof()[
 $1 = 1$
@@ -50,10 +51,12 @@ We the people.
 $1 = 1$
 ]
 
-#nb()[
-Questa è teorema è vero.
+#nb(name: "nb-verace")[
+Questa teorema è vero.
 ]
 
+@nb-verace
+
 == Wowo <wowo>
 
 #lorem(50)
@@ -67,9 +70,9 @@ Questa è teorema è vero.
 = Hello world
 
 == Wowo <wowo>
-== Wowo <wowo>
-== Wowo <wowo>
-== Wowo <wowo>
+== Wowo 
+== Wowo
+== Wowo
 
 #lorem(50)
 
@@ -81,7 +84,7 @@ Questa è teorema è vero.
 
 = Hello world
 
-== Wowo <wowo>
+== Wowo
 
 #lorem(50)
 

@@ -4,7 +4,7 @@
 	#def_counter.step()
 	*Definition #context def_counter.display(). #name*
 	#linebreak()
-	#emph(body)
+	#emph(pad(1em, body))
 ]
 
 #let theorem_counter = counter("_theorem")
@@ -13,7 +13,7 @@
 	#theorem_counter.step()
 	*Theorem #context theorem_counter.display(). #name*
 	#linebreak()
-	#emph(body)
+	#emph(pad(1em, body))
 ]
 
 #let proof_counter = counter("_proof")
@@ -22,20 +22,17 @@
 	#proof_counter.step()
 	*Proof #context proof_counter.display(). #name*
 	#linebreak()
-	#emph(body) #h(1em) $square.stroked.big$
+	#emph(pad(1em, body)) #h(1em) $square.stroked.big$
 ]
 
 #let nota_bene_counter = counter("_nota_bene")
 
-#let nb(body, name: none) = block[
-	#nota_bene_counter.step()
-	#block(
-		fill: aqua,
-		inset: 8pt,
+#let nb(body, name: none) = context block(
+		fill: blue.lighten(50%),
+		inset: 16pt,
 		radius: 8pt,
-	)[
-		*NB #context nota_bene_counter.display(). #name*
-		#linebreak()
-		#body
-	]
+)[
+	#nota_bene_counter.step()
+	*NB #context nota_bene_counter.display(). #name*
+	#body
 ]

@@ -7,7 +7,8 @@
 	set page(
 		header: none, 
 		footer: none, 
-		numbering: none
+		numbering: none,
+        columns: 1,
 	)
 
 	set text(
@@ -16,7 +17,7 @@
 	)
 
 	v(4cm)
-	title
+	smallcaps(title)
 	linebreak()
 	v(1em)
 
