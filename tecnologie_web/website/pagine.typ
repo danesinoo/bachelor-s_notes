@@ -53,7 +53,20 @@ Di seguito l'elenco delle pagine web del sito:
 
 / Contatti: Pagina con le informazioni di contatto
 
-#nb()[
-Chiedere il motivo per cui tutti hanno fatto qualcosa di realistico, nel senso
-che ci hanno messo un indirizzo "reale".
-]
+/ Pagina di test: accedendo a questa pagina sono eseguiti tutti gli unit e gli
+integration test e sul sito viene visualizzato il risultato
+
+== Reindirizzamento
+
+- Se l'utente non è loggato e cerca di accedere a una pagina che richiede il 
+  login:
+  + Viene salvato in localStorage l'URL a cui voleva accedere, oppure l'URL di partenza
+  + Viene reindirizzato alla pagina di login
+  + Dopo il login viene reindirizzato all'URL salvato
+
+- Idem per la registrazione
+
+- Se il campo nel localStorage è vuoto, viene reindirizzato alla home
+
+- Si può pensare di usare questa tecnica anche per gestire altri
+  reindirizzamenti

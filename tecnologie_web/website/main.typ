@@ -12,6 +12,8 @@
 Non avendo passato il progetto di tecnologie web alla prima consegna, dobbiamo
 ricominciare il progetto da capo. Abbiamo deciso di fare un sito di ricette.
 
+#include "errori.typ"
+
 #include "pagine.typ"
 
 #include "database.typ"
