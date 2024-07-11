@@ -2,19 +2,19 @@
 
 \subsection{Sentiment vs Syntax vs Subtree}
 
-I modelli focalizzati sulla sintassi hanno mostrato prestazioni inferiori 
+I modelli allenati sulla sintassi hanno mostrato prestazioni inferiori 
 rispetto agli altri due approcci. Questa differenza è particolarmente evidente 
 nell'analisi su tutti i nodi dell'albero. Tale risultato è prevedibile dato 
-che il treebank di test utilizza etichette di riferimento non incluse nella 
-formazione dei modelli, rendendo il confronto meno rilevante. \\
+che il treebank di test utilizza etichette di riferimento non incluse
+nel treebank di allenamento dei modelli, rendendo il confronto meno rilevante.\\
 Nonostante ciò, anche limitando l'analisi alla radice dell'albero, i modelli 
 basati sulla sintassi hanno registrato performance inferiori. Tale tendenza non 
-si verifica nella classificazione dei pattern basata sulla regressione. \\
+si verifica nella regressione. \\
 Al contrario, i modelli che integrano l'analisi del sentiment con quella
 sintattica tendono a superare quelli basati esclusivamente sul sentiment, anche
 se i risultati sono simili quando si focalizzano sulla predizione del target
 alla radice dell'albero.\\
-In aggiunta, i modelli che operano sui sottoalberi hanno dimostrato un'efficacia
+In aggiunta, i modelli allenati sui sottoalberi hanno dimostrato un'efficacia
 notevolmente superiore nella classificazione dei pattern su ogni nodo, pur
 mantenendo risultati comparabili a quelli dei modelli basati sul sentiment per
 quanto riguarda la radice.
@@ -22,11 +22,11 @@ quanto riguarda la radice.
 \subsection{Kernel Methods vs RNN}
 
 Le tecniche basate su Kernel Methods, quando applicate ai sottoalberi, hanno
-evidenziato performance superiori rispetto alle RNN con 50 unità nascoste. Le
-RNN, però, si distinguono nettamente nell'identificazione dei pattern su ciascun
-nodo dell'albero rispetto agli altri modelli.\\
-Si osserva, inoltre, che nei risultati relativi alla radice dell'albero, i
-modelli che combinano il sentiment con i Kernel Methods superano
+evidenziato performance superiori rispetto alle RNN. \\
+Invece, le RNN si distinguono nettamente nell'identificazione dei pattern su 
+ciascun nodo dell'albero rispetto modelli rimanenti (modello allenato su 
+sentiment \& co.).\\
+Si osserva, inoltre, che nei risultati relativi alla radice dell'albero, il
+modello che combina il sentiment con i Kernel Methods supera
 significativamente le RNN (0.12), evidenziando un divario maggiore di quello 
-notato quando le RNN confrontano i loro risultati con quelli dei Kernel Methods
-allenati sulla sintassi (0.3).
+notato tra le RNN e il Kernel Method allenato sulla sintassi (0.3).
