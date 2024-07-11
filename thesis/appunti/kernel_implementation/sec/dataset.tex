@@ -1,0 +1,36 @@
+\section{Dataset}
+
+\begin{itemize}
+
+\item È stata ottenuta una versione modificata del treebank, in cui le etichette 
+    dei nodi sono state sostituite con i rispettivi POS-tag, utilizzando lo 
+    Stanford Parser. In particolare, il parser è stato utilizzato tramite il 
+    container Docker descritto nella repository \cite{docker-parser}.
+\item I due dataset risultanti sono stati convertiti nel formato svmlight.
+\item È stato generato un terzo dataset unendo gli alberi dei due dataset 
+    precedenti.
+\item Poiché il software fornito consente di effettuare sia regressione che 
+    classificazione binaria, i dataset sono stati ulteriormente elaborati.
+\item È stato creato un dataset contenente solo esempi positivi o negativi, 
+    unendo le classi "negativo" e "un po' negativo", e le classi "positivo" e 
+    "un po' positivo". La classe "neutro" è stata eliminata.
+\item Sono stati creati cinque dataset distinti per la classificazione 
+    multiclasse; ciascun dataset è stato progettato per addestrare un modello 
+    specializzato su una singola classe.
+\item Le classi dei modelli sono state normalizzate trattando il valore come un 
+    float. In particolare, nel dataset di partenza le classi variavano da 0 a 4, 
+    quindi è stata applicata l'operazione $(\text{class} - 2) / 2$, ottenendo 
+    valori compresi tra -1 e 1;
+\item Sono stati generati dataset contenenti tutti i sottoalberi (togliendo le
+    foglie) dei dataset con etichette di sentimenti.
+\end{itemize}
+
+Il codice utilizzato per generare i dataset è disponibile nella repository 
+\cite{repo}. Non sono stato in grado di generare i sottoalberi per i dataset
+con etichette di sintassi, poiché gli alberi di sintassi differiscono per poco
+da quelli di sentimenti, per cui diventa complesso assegnare il target corretto
+ai sottoalberi. Per esempio, un un albero di sintassi divide la parola
+"fully-written" in tre foglie "fully", "-", "written", mentre nell'albero di
+sentimenti è una sola foglia con etichetta "fully-written". Questa non è l'unica
+differenza che ho notato, ma anche una differenza così piccola rende complesso
+da abbinare i sottoalberi alla golden label corretta.

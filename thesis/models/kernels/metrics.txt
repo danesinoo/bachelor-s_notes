@@ -1,0 +1,127 @@
+Metrics for binary_subtree_train.sentiment_label:
+  Accuracy: 0.98
+  Precision: 0.99
+  Recall: 0.99
+  F1-Score: 0.99
+
+Metrics for binary_subtree_train.sentiment_root:
+  Accuracy: 0.94
+  Precision: 0.94
+  Recall: 0.94
+  F1-Score: 0.94
+
+Metrics for binary_train.merged_label:
+  Accuracy: 0.96
+  Precision: 0.97
+  Recall: 0.95
+  F1-Score: 0.96
+
+Metrics for binary_train.merged_root:
+  Accuracy: 0.94
+  Precision: 0.94
+  Recall: 0.94
+  F1-Score: 0.94
+
+Metrics for binary_train.sentiment_label:
+  Accuracy: 0.95
+  Precision: 0.97
+  Recall: 0.95
+  F1-Score: 0.96
+
+Metrics for binary_train.sentiment_root:
+  Accuracy: 0.94
+  Precision: 0.95
+  Recall: 0.94
+  F1-Score: 0.94
+
+Metrics for binary_train.syntax_label:
+  Accuracy: 0.45
+  Precision: 0.00
+  Recall: 0.00
+  F1-Score: 0.00
+
+Metrics for binary_train.syntax_root:
+  Accuracy: 0.74
+  Precision: 0.72
+  Recall: 0.78
+  F1-Score: 0.75
+
+
+Metrics for regression_train.merged_label:
+  Mean Absolute Error: 0.47
+  Mean Squared Error: 0.41
+  R-squared: -0.94
+
+Metrics for regression_train.merged_root:
+  Mean Absolute Error: 0.94
+  Mean Squared Error: 1.28
+  R-squared: -1.93
+
+Metrics for regression_train.sentiment_label:
+  Mean Absolute Error: 0.61
+  Mean Squared Error: 0.66
+  R-squared: -2.14
+
+Metrics for regression_train.sentiment_root:
+  Mean Absolute Error: 1.17
+  Mean Squared Error: 1.95
+  R-squared: -3.48
+
+Metrics for regression_train.syntax_label:
+  Mean Absolute Error: 0.49
+  Mean Squared Error: 0.35
+  R-squared: -0.65
+
+Metrics for regression_train.syntax_root:
+  Mean Absolute Error: 0.56
+  Mean Squared Error: 0.48
+  R-squared: -0.11
+
+
+Metrics for subtree_train.sentiment_label:
+  Accuracy: 0.95
+  Precision: 0.92
+  Recall: 0.91
+  F1-Score: 0.92
+
+Metrics for subtree_train.sentiment_root:
+  Accuracy: 0.51
+  Precision: 0.50
+  Recall: 0.48
+  F1-Score: 0.49
+
+Metrics for train.merged_label:
+  Accuracy: 0.44
+  Precision: 0.48
+  Recall: 0.59
+  F1-Score: 0.44
+
+Metrics for train.merged_root:
+  Accuracy: 0.53
+  Precision: 0.52
+  Recall: 0.49
+  F1-Score: 0.49
+
+Metrics for train.sentiment_label:
+  Accuracy: 0.40
+  Precision: 0.45
+  Recall: 0.56
+  F1-Score: 0.40
+
+Metrics for train.sentiment_root:
+  Accuracy: 0.54
+  Precision: 0.54
+  Recall: 0.50
+  F1-Score: 0.50
+
+Metrics for train.syntax_label:
+  Accuracy: 0.18
+  Precision: 0.04
+  Recall: 0.20
+  F1-Score: 0.06
+
+Metrics for train.syntax_root:
+  Accuracy: 0.39
+  Precision: 0.38
+  Recall: 0.34
+  F1-Score: 0.34

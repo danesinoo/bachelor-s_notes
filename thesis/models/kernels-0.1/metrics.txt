@@ -1,0 +1,126 @@
+Metrics for binary_test.merged_0:
+  Accuracy: 0.94
+  Precision: 0.94
+  Recall: 0.94
+  F1-Score: 0.94
+
+Metrics for binary_test.sentiment_0:
+  Accuracy: 0.94
+  Precision: 0.94
+  Recall: 0.95
+  F1-Score: 0.94
+
+Metrics for binary_test.syntax_0:
+  Accuracy: 0.74
+  Precision: 0.76
+  Recall: 0.70
+  F1-Score: 0.72
+
+Metrics for multiclass_test.merged_0:
+  Accuracy: 0.88
+  Precision: 0.58
+  Recall: 0.18
+  F1-Score: 0.27
+
+Metrics for multiclass_test.merged_1:
+  Accuracy: 0.75
+  Precision: 0.60
+  Recall: 0.38
+  F1-Score: 0.46
+
+Metrics for multiclass_test.merged_2:
+  Accuracy: 0.83
+  Precision: 0.75
+  Recall: 0.03
+  F1-Score: 0.06
+
+Metrics for multiclass_test.merged_3:
+  Accuracy: 0.78
+  Precision: 0.55
+  Recall: 0.36
+  F1-Score: 0.43
+
+Metrics for multiclass_test.merged_4:
+  Accuracy: 0.87
+  Precision: 0.72
+  Recall: 0.45
+  F1-Score: 0.56
+
+Metrics for multiclass_test.sentiment_0:
+  Accuracy: 0.88
+  Precision: 0.60
+  Recall: 0.19
+  F1-Score: 0.29
+
+Metrics for multiclass_test.sentiment_1:
+  Accuracy: 0.75
+  Precision: 0.60
+  Recall: 0.38
+  F1-Score: 0.46
+
+Metrics for multiclass_test.sentiment_2:
+  Accuracy: 0.83
+  Precision: 0.83
+  Recall: 0.03
+  F1-Score: 0.05
+
+Metrics for multiclass_test.sentiment_3:
+  Accuracy: 0.79
+  Precision: 0.57
+  Recall: 0.38
+  F1-Score: 0.46
+
+Metrics for multiclass_test.sentiment_4:
+  Accuracy: 0.87
+  Precision: 0.71
+  Recall: 0.47
+  F1-Score: 0.57
+
+Metrics for multiclass_test.syntax_0:
+  Accuracy: 0.87
+  Precision: 0.00
+  Recall: 0.00
+  F1-Score: 0.00
+
+Metrics for multiclass_test.syntax_1:
+  Accuracy: 0.71
+  Precision: 0.80
+  Recall: 0.01
+  F1-Score: 0.01
+
+Metrics for multiclass_test.syntax_2:
+  Accuracy: 0.82
+  Precision: 0.50
+  Recall: 0.00
+  F1-Score: 0.01
+
+Metrics for multiclass_test.syntax_3:
+  Accuracy: 0.77
+  Precision: 0.25
+  Recall: 0.00
+  F1-Score: 0.00
+
+Metrics for multiclass_test.syntax_4:
+  Accuracy: 0.82
+  Precision: 0.75
+  Recall: 0.01
+  F1-Score: 0.01
+
+Metrics for test.merged:
+  Accuracy: 0.53
+  Precision: 0.52
+  Recall: 0.49
+  F1-Score: 0.49
+
+Metrics for test.sentiment:
+  Accuracy: 0.54
+  Precision: 0.54
+  Recall: 0.50
+  F1-Score: 0.50
+
+Metrics for test.syntax:
+  Accuracy: 0.39
+  Precision: 0.38
+  Recall: 0.34
+  F1-Score: 0.34
+

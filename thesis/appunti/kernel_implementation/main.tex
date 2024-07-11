@@ -1,0 +1,30 @@
+\documentclass{article}
+\newcommand{\template}{../../../template}
+\usepackage{\template/packages}
+
+\usepackage[italian]{babel}
+\usepackage[backend=biber,style=alphabetic,citestyle=authoryear]{biblatex}
+\addbibresource{bibliography.bib}
+
+\newcommand{\titolo}{Relazione sulla sperimentazione sui Kernel Method}
+\newcommand{\autore}{Rosso Carlo}
+\newcommand{\data}{A.A. 2023/2024}
+\newcommand{\corso}{Tesi}
+
+\input{\template/copertina}
+
+\begin{document}
+\copertina
+
+\tableofcontents
+\newpage
+
+\input{sec/intro}
+\input{sec/dataset}
+\input{sec/kernel}
+\input{sec/risultati}
+\input{sec/conclusioni}
+
+\printbibliography
+
+\end{document}

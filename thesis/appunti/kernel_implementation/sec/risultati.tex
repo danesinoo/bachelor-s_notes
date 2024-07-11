@@ -1,0 +1,121 @@
+\section{Risultati}
+
+Le differenze tra i modelli sono date dai diversi dataset utilizzati
+nell'allenamento. I test sono stati eseguiti con il medesimo dataset per quanto
+riguarda la classificazione di ciascun nodo dell'albero; mentre è stata
+sottoposta la medesima struttura dell'addestramento per valutare i modelli sulla
+radice dell'albero per ciascun albero.
+
+\subsection{Binary}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    \hline
+    \textbf{Subtree sentiment all} & 0.98 & 0.99 & 0.99 & 0.99 \\
+    \textbf{Subtree sentiment root} & 0.94 & 0.94 & 0.94 & 0.94 \\
+    \hline
+
+    \textbf{Syntax and sentiment all} & 0.96 & 0.97 & 0.95 & 0.96 \\
+    \textbf{Syntax and sentiment root} & 0.94 & 0.94 & 0.94 & 0.94 \\
+    \hline
+
+    \textbf{Sentiment all} & 0.95 & 0.97 & 0.95 & 0.96 \\
+    \textbf{Sentiment root} & 0.94 & 0.95 & 0.94 & 0.94 \\
+    \hline
+
+    \textbf{Syntax all} & 0.45 & 0.00 & 0.00 & 0.00 \\
+    \textbf{Syntax root} & 0.74 & 0.72 & 0.78 & 0.75 \\
+    \hline
+    \end{tabular}
+    \caption{Risultati della classificazione binaria}
+\end{table}
+
+\subsection{Regression}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Modello} & \textbf{Mean Absolute Error} & \textbf{Mean Squared
+    Error} & \textbf{R-Squared} \\
+    \hline
+    \textbf{Subtree sentiment all} & - & - & - \\
+    \textbf{Subtree sentiment root} & - & - & - \\
+    \hline
+
+    \textbf{Syntax and sentiment all} & 0.47 & 0.41 & -0.94 \\
+    \textbf{Syntax and sentiment root} & 0.94 & 1.28 & -1.93 \\
+    \hline
+
+    \textbf{Sentiment all} & 0.61 & 0.66 & -2.14 \\
+    \textbf{Sentiment root} & 1.17 & 1.95 & -3.48 \\
+    \hline
+
+    \textbf{Syntax all} & 0.49 & 0.35 & -0.65 \\
+    \textbf{Syntax root} & 0.56 & 0.48 & -0.11 \\
+    \hline
+    \end{tabular}
+    \caption{Risultati della regressione}
+\end{table}
+
+In questo caso mancano i risultati per i modelli addestrati sui sottoalberi
+perché si sta ancora aggiornando, al momento il modello è arrivato a 20 ore di
+allenamento, stimo che impiegherà 25 ore in totale.
+
+\subsection{Multiclass}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    \hline
+    \textbf{Subtree sentiment all} & 0.95 & 0.92 & 0.91 & 0.92 \\
+    \textbf{Subtree sentiment root} & 0.51 & 0.50 & 0.48 & 0.49 \\
+    \hline
+
+    \textbf{Syntax and sentiment all} & 0.44 & 0.48 & 0.59 & 0.44 \\
+    \textbf{Syntax and sentiment root} & 0.53 & 0.52 & 0.49 & 0.49 \\
+    \hline
+
+    \textbf{Sentiment all} & 0.40 & 0.45 & 0.56 & 0.40 \\
+    \textbf{Sentiment root} & 0.54 & 0.54 & 0.50 & 0.50 \\
+    \hline
+
+    \textbf{Syntax all} & 0.18 & 0.04 & 0.20 & 0.06 \\
+    \textbf{Syntax root} & 0.39 & 0.38 & 0.34 & 0.34 \\
+    \hline
+    \end{tabular}
+    \caption{Risultati della classificazione multiclasse}
+\end{table}
+
+\subsection{RNN}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    \hline
+    \textbf{RNN 50 unità nascoste all} & 0.79 & 0.65 & 0.53 & 0.57 \\
+    \textbf{RNN 50 unità nascoste root} & 0.42 & 0.44 & 0.39 & 0.40 \\
+    \hline
+
+    \textbf{Subtree sentiment all} & 0.95 & 0.92 & 0.91 & 0.92 \\
+    \textbf{Subtree sentiment root} & 0.51 & 0.50 & 0.48 & 0.49 \\
+    \hline
+
+    \textbf{Sentiment all} & 0.40 & 0.45 & 0.56 & 0.40 \\
+    \textbf{Sentiment root} & 0.54 & 0.54 & 0.50 & 0.50 \\
+    \hline
+    \end{tabular}
+    \caption{Risultati della classificazione multiclasse con RNN rispetto al
+    kernel method}
+\end{table}
+ 
+Si noti che l'RNN e il kernel method allenato sul sentiment sono stati allenati
+con lo stesso dataset. Tutti e tre i modelli qui presentati sono
+stati valutati sullo stesso dataset di test.
