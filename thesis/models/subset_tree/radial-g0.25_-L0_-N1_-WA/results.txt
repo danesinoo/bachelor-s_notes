@@ -1,0 +1,4 @@
+Label:
+{'Accuracy': 0.04234357507152631, 'Precision': np.float64(0.008468715014305262), 'Recall': np.float64(0.2), 'F1-Score': np.float64(0.016249373463493807)}
+Root:
+{'Accuracy': 0.1262443438914027, 'Precision': np.float64(0.02524886877828054), 'Recall': np.float64(0.2), 'F1-Score': np.float64(0.0448372840498192)}

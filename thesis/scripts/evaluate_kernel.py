@@ -71,32 +71,6 @@ def evaluate_multiclass(y_true, y_pred):
 def is_binary(y_true):
     return len(np.unique(y_true)) == 2
 
-def evaluate_label(model_name):
-    y_true = get_targets(model_name)
-    y_pred = get_predictions(model_name)
-
-    if 'regression' in model_name:
-        metrics[model_name] = evaluate_regression(y_true, y_pred)
-    elif 'binary' in model_name or 'multiclass' in model_name:
-        y_true = [1 if x > 0 else 0 for x in y_true]
-        y_pred = [1 if x > 0 else 0 for x in y_pred]
-        metrics[model_name] = evaluate_binary(y_true, y_pred)
-    else:
-        metrics[model_name] = evaluate_multiclass(y_true, y_pred)
-
-def evaluate_root(model_name):
-    y_true = get_targets(model_name)
-    y_pred = get_predictions(model_name)
-
-    if 'regression' in model_name:
-        metrics[model_name] = evaluate_regression(y_true, y_pred)
-    elif 'binary' in model_name or 'multiclass' in model_name:
-        y_true = [1 if x > 0 else 0 for x in y_true]
-        y_pred = [1 if x > 0 else 0 for x in y_pred]
-        metrics[model_name] = evaluate_binary(y_true, y_pred)
-    else:
-        metrics[model_name] = evaluate_multiclass(y_true, y_pred)
-
 def evaluate_kernel(model_name):
     y_true = get_targets(model_name)
     y_pred = get_predictions(model_name)

@@ -1,0 +1,104 @@
+\section{Proposed Model}
+
+In this paper, we balance the model capability and computation complexity by
+incorporating the inductive bias. The key insight is that instead attending to
+every token, the input token attends to different spans away from it in a
+fine-to-coarse fashion.
+
+% not every token needs
+% to be attended to for context representation. Instead, for a given token, we can
+% group its context into different-scale non-overlapping spans, and the scale of a
+% span increases with its relative distance.
+
+\subsection{Transformer as Graph Neural Networks}
+
+A valid perspective is to view information fusing with self-attention in
+Transformer as message passing on a fully-connected graph, with input tokens as
+nodes and attentions between nodes as edges (there is a citation).
+Thus, different graph structure encodes different inductive bias of attention
+and results in different time/space complexity.\\
+To describe Transformer in GNN framework, we first construct a fully-connected
+graph $\mathcal{G}$, in which each node is a token of the input sequence. All
+nodes in $\mathcal{G}$ are interconnected and each node has a self-loop edge.\\
+We extend the self-attention mechanism of Transformer to graph, called Graph
+Self-Attention (GSA). For a given node $u$ we update its representation
+according to its neighbour nodes, formulated as $h^u \leftarrow
+\text{GSA}(\mathcal{G}, h^u)$. Let $\mathcal{A}(u)$ be the set of the neighbour
+nodes of $u$ in $\mathcal{G}$, GSA$(\mathcal{G}, h^u)$ is detailed as follows:
+\begin{align}
+    A^u = concat \left( \left\{ h_v \mid v \in \mathcal{A}(u) \right\}
+    \right),\\
+    Q_i^u = H_k W_i^Q, \quad K_i^u = A^u W_i^K, \quad V_i^u = A^u W_i^V,\\
+    \text{head}_i^u = \text{softmax} \left( \frac{Q_i^u K_i^{uT}}{\sqrt{d_k}}
+    \right) V_i^u,
+    \label{eq:head}
+    \\
+    \text{GSA}(\mathcal{G}, h^u) = [\text{head}_1^u, \dots, \text{head}_h^u]
+    W^O,
+\end{align}
+
+where $d$ is the dimension of $h$, and $W_i^Q, W_i^K, W_i^V, W^O$ are learnable
+parameters of the $i$-th head.
+
+\subsection{Node Construction}
+
+To achieve the effect of fine-to-coarse attention, we partition a sequence into
+mulit-granular spans via binary partitioning (BP). Each partition can be
+regarded as a node in GNN and its representation is computed according to its
+contained tokens. Each leaf corresponds to an input token in the sequence.\\
+We simply divide the nodes into two types: token and span.
+
+\subsection{Edge Construction}
+
+Formally, let $u_{l, m}$ denote the $m-th$ node at level $l$. The level of token
+nodes is set to 0. A span node $u_{l, m}$ represents a partition consisting of
+token nodes $u_{0, 2^l \cdot m + 1}, \dots, u_{0, 2^l \cdot (m + 1)}$.\\
+We construct two kind of edges:
+
+\paragraph{Affiliated Edges} For each span node $u_{l, m}$, we add a directed
+edge from each of its contained token nodes ($u_{0, 2^l \cdot m + 1}, \dots,
+u_{0, 2^l \cdot (m + 1)}$) to $u_{l, m}$. The role of afiiliated edges is to
+shorten the path between a span node and its corresponding token nodes.
+
+\paragraph{Contextual Edges} For a leaf node $u_{0, i}$, we add the incoming
+edges from the different granularity. For simplicity, we describe the process of
+constructing edges from its right context of node $u_{0, i}$. The left context
+is similar.\\
+We use a hyperparameter $k$ to determine the connection density of the graph. We
+add $k$ edges per level to capture the information from the right context. For
+node $u_{0, i}$ its contextual nodes are 
+\begin{align*}
+    u_{0, p_0}, \dots, u_{0, p_0 + k-1} \\
+    u_{1, p_1}, \dots, u_{1, p_1 + k-1} \\
+    \dots \\
+    u_{l, p_l}, \dots, u_{l, p_l + k-1} \\
+    \dots
+\end{align*}
+
+where $p_l$ is the start index at level $l$ and can be computed recursively:
+$p_l = \text{parent}(p_{l-1} + k)$ and $p_0 = i + 1$.\\
+We can see that the distances between any two token nodes are no greater than 2
+in graph $\mathcal{G}$.
+
+\subsection{Graph Update}
+
+The representations of span nodes are initialized with all zeros, while the
+representations of token nodes are initialized with the corresponding word
+embeddings. And it is used the same GSA mechanism to update the representations
+of all nodes in $\mathcal{G}$.
+
+\subsection{Relative Positional Encoding}
+
+We modify \autoref{eq:head} to include positional representations:
+
+\begin{align*}
+    R^u = \text{concat} \left( \left\{ r_v \mid v \in \mathcal{A}(u) \right\}
+    \right),\\
+    head_i^u = \text{softmax} \left( \frac{Q_i^u (K_i^u + R^u)^T }{\sqrt{d_k}}
+    \right) V_i^u.
+\end{align*}
+
+Note that the relative positional representations are shared across attention
+heads and each layer gets its own set of positional representations.\\
+Then the paper shows that a small $k$ (e.g. 4) is enough for achieving good
+performance in word level NLP tasks.

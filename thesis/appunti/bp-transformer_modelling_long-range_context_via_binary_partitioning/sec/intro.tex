@@ -1,0 +1,41 @@
+\section{Introduction}
+
+The Transformer model is widely successful on many natural language processing
+tasks. However, the quadratic complexity of self-attention limit its application
+on long text. In this paper, adopting a fine-to-coarse attention mechanism on
+multi-scale spans via binary partitioning (BP), we propose BP-Transformer. BPT
+yields to $O(K \cdot log(n/k))$ complexity, where $n$ is the sequence length and
+$k$ is a hyperparameter to control the density of attention. Note that if 
+$k = n$, BPT degenerates to the vanilla Transformer.\\
+
+% Some previous works have explored different directions:
+% \begin{itemize}
+%     \item \textbf{Hierarchical Transformers}: one Transformer models the
+%         sentence representation with word-level context; the second one the 
+%         document representation with the sentence-level context;
+% 
+%     \item \textbf{Lightweight Transformers}: reduce the complexity by
+%         reconstructing the connections between tokens (?);
+% 
+%     \item 
+% \end{itemize}
+
+The dependency relations between token are totally learned from scratch.
+Therefore, Transformer usually performs better on huge datasets and is easy to
+overfit on small datasets (there is a citation, for this statement).\\
+The above observation motivates us to explore better structure for
+self-attention models to balance the capability and computation complexity.
+We propose a new architecture, BP-Transformer, which partitions the input
+sequence into different multi-scale spans via binary partitioning (BP). BPT
+incorporates an inductive bias of attending the context information from
+fine-grain to coarse-grain as the relative distance increases.\\
+Thus, BPT has the following advantages over the vanilla Transformer:
+\begin{itemize}
+    \item long-range context in an hierarchical fashion;
+    \item reduces computation cost with fewer edges;
+    \item introduces coarse-to-fine connections to approximate the reasonable
+        inductive bias of the language.
+\end{itemize}
+
+We show that the inductive bias of BPT works nicely on short text and can scale
+to large datasets.

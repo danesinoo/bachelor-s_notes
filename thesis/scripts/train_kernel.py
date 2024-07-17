@@ -14,13 +14,21 @@ def run_command(command):
         print("Error:\n", e.stderr.decode())
 
 def train_kernel(train_set):
-    cmd = f'./models/SVM-Light-TK-1.5/svm_learn -t 5 datasets/{train_set}.txt models/kernels/{train_set}.model'
+    cmd = f'./models/SVM-Light-TK-1.5/svm_learn -t 5 -F 3 datasets/{train_set}.txt models/kernels-pt-standard/{train_set}.model'
     run_command(cmd)
 
 def main():
-    directory = 'datasets'
-    entries = os.listdir(directory)
-    entries = list(filter(lambda x: x.endswith('.txt') and "train" in x, entries))
+    # directory = 'datasets'
+    # entries = os.listdir(directory)
+    # entries = list(filter(lambda x: x.endswith('.txt') and "train" in x, entries))
+
+    entries = [
+            "multiclass_train.merged_0.txt",
+            "multiclass_train.merged_1.txt",
+            "multiclass_train.merged_2.txt",
+            "multiclass_train.merged_3.txt",
+            "multiclass_train.merged_4.txt",
+]
 
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
         futures = [executor.submit(train_kernel, e.replace('.txt', '')) for e in entries]

@@ -2,11 +2,42 @@
 
 Per l'allenamento dei modelli, è stato sviluppato un programma che utilizza i 
 dataset forniti. L'allenamento complessivo ha avuto una durata media di circa 
-4 ore per ciascun modello. Tuttavia, il modello allenato per la regressione 
-dei sottoalberi del dataset ha richiesto un tempo di allenamento 
-significativamente maggiore, oltre le 20 ore (si sta ancora allenando).
+1 ore per ciascun modello.\\
+Il kernel method utilizzato è stato esclusivamente il subset tree 
+kernel. Abbimao provato ad utilizzare anche il partial tree kernel,
+l'allenamento è andato a buon fine, tuttavia non è stato possibile predire i
+risultati sul dataset di test, perché il programma che esegue la classificazione
+termina con un segmentation fault. Risalendo alla causa del problema, abbiamo
+scoperto che il problema è dovuto alla normalizzazione dell'albero di test,
+durante la lettura del pattern.\\
 
-Il kernel method utilizzato è stato esclusivamente il partial tree 
-kernel, sviluppato da Alessandro Moschitti \cite{kernel}. Questo metodo è 
-stato scelto per le sue buone prestazioni e per i tempi di allenamento ridotti 
-rispetto agli altri kernel.
+Abbiamo provato a modificare la funzione di attivazione, in particolare abbiamo
+sperimentato:
+\begin{itemize}
+    \item \textbf{linear}: l'allenamento non funziona, perché il programma va in
+        segmentation fault;
+
+    \item \textbf{polynomial}: l'allenamento non funziona, perché viene allenato
+        un modello vuoto;
+
+    \item \textbf{radial basis function}: l'allenamento non funziona, perché
+        viene allenato un modello vuoto;
+
+    \item \textbf{sigmoid}: l'allenamento non funziona, perché viene allenato un
+        modello vuoto.
+
+    \item \textbf{reranking}: l'allenamento funziona e il modello è in grado di
+        predire i risultati sul dataset di test;
+\end{itemize}
+
+Ancora, per quanto riguarda il reranking, come funzione di attivazione, abbiamo
+modificato i seguenti iperparametri:
+\begin{itemize}
+    \item decay factor;
+    \item normalizzazione;
+    \item metodo di somma degli alberi.
+\end{itemize}
+
+In particolare, non è stato possibile ottenere l'acurattezza dei modelli sui
+nodi degli alberi che hanno decay factor diverso da 0. Non siamo stati in grado
+di capire il motivo di questo comportamento.

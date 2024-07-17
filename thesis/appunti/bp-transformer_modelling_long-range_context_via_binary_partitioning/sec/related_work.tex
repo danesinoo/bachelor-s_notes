@@ -1,0 +1,84 @@
+\section{Related Work}
+
+\subsection{Transformer}
+
+The Transformer model revolutionized NLP by leveraging self-attention mechanisms
+to process sequences of data. Here's a breakdown of its core components:
+
+\begin{itemize}
+    \item \textbf{Input Representation}: It is used an embedding layer that
+        converts words or subwords into dense vectors;
+
+    \item \textbf{Positional Encoding}: Since the Transformer doens't inherently
+        capture the order of tokens, positional encodings are added to the input
+        embeddings to provide information about the position of each token in 
+        the sequence;
+
+    \item \textbf{Multi-head Self-Attention}: 
+
+        \begin{itemize}
+
+        \item \textbf{Self-Attention Mechanism}:
+        Self-attention allows each token
+        to attend to every other token in the sequence, enabling the model to
+        capture dependencies regardless of distance. This is done by computing
+        attention scores between pairs of tokens and then using these scores to
+        weight the importance of each token’s contribution to the representation
+        of the others;
+
+        \item \textbf{Multi-head Mechanism}:
+        Instead of using a single attention mechanism, the Transformer uses
+        multiple attention mechanisms (or heads) in parallel.
+
+        \item \textbf{Formulas}:
+        Given a sentence with $n$ input tokens, the Transformer model
+        iteratively computes at layer $t$ the $d$-dimensional representations of
+        each input token $H^t \in \mathbb{R}^{n \times d}$, where $H^0$
+        represents the initial token embeddings. The core of a Transformer step
+        is Multi-head Self-Attention (MSA), which can be formulated as follows:
+
+        \begin{align*}
+            \text{MSA}(H) = \left[ \text{head}_1, \dots, \text{head}_h \right]
+            W^O,\\
+            \text{head}_i = \text{softmax}\left( \frac{Q_i K_i^T}{\sqrt{d}} 
+            \right) V_i,\\
+            Q_i = H W_i^Q, \quad K_i = H W_i^K, \quad V_i = H W_i^V
+        \end{align*}
+
+        Where $h$ is the number of heads, and $W_i^Q, W_i^K, W_i^V, W^O$ are
+        learnable parameters;
+    \end{itemize}
+
+    \item \textbf{Feed-Forward Networks}:
+        Transformer then computes $H^{t+1}$ from $H^t$ as follows:
+        \begin{align}
+            Z^t = \text{norm} \left( {H^t + \text{MSA}(H^t)} \right),\\
+            H^{t+1} = \text{norm} \left( {Z^t + \text{FFN}(Z^t)} \right)
+        \end{align}
+        where $\text{norm}{\cdot}$ is layer normalization and $\text{FFN}$ 
+        stands for Position-wise Feed-Forward Networks. Note that each step $t$ 
+        has its own parameters;
+
+    \item \textbf{Layer Normalization and Residual Connections}:
+        Each sub-layer (self-attention and feed-forward) if followed by layer
+        normalization and residual connections to stabilize training and help
+        the model learn more effectively;
+
+    \item \textbf{Stacking Layers}:
+        The Transformer model stacks multiple identical layers of self-attention
+        and feed-forward networks. This allows the model to learn increasingly
+        abstract representations of the input.
+\end{itemize}
+
+\subsection{Lightweight Self-Attention}
+
+Recently there has also been several works focusing on reducing the
+computational cost of Self-Attention mechanisms. Sparse Transformer decomposes
+attention into two categories: for a sequence of length $n$, we divide it into
+$\sqrt{n}$ equal-sized blocks. Each token attends to its previous tokens inside
+a $\sqrt{n}$ block it lies in, and to $\sqrt{n}$ previous blocks.\\
+Transformer-XL introduces the notion of recurrence into Transformer. It divides
+the input sequence into multiple segments and recurrently attends to the hidden
+states of the previous segments. Transformer-XL can only model sequences in one
+direction, making it hard to deal with tasks where bi-directional information is
+required.
