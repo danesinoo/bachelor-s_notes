@@ -1,0 +1,2 @@
+Root:
+{'Accuracy': 0.4104072398190045, 'Precision': np.float64(0.3894859786063525), 'Recall': np.float64(0.3773466066136099), 'F1-Score': np.float64(0.3747050163343813)}

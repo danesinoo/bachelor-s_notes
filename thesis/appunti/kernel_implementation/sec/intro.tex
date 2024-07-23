@@ -14,10 +14,31 @@ sperimentazioni:
         \item Cinque dataset, ciascuno rappresentante una classe distinta.
         \item Dataset sui sottoalberi.
     \end{itemize}
-    \item Sperimentazione esclusiva su Partial Tree Kernels, scelti per le loro 
-    buone prestazioni e tempi di allenamento ridotti.
+\item Sperimentazione su diversi kernel:
+    \begin{itemize}
+        \item Moschitti et. al. (2007): non sono sicuro sia il Partial Tree
+            Kernel;
+
+        \item VISHTANAM and SMOLA 2002: Subtree Kernel;
+
+        \item COLLINS and DUFFY 2002: Subset Tree Kernel;
+
+        \item ZHANG, 2003: Subset Tree Bow Kernel;
+
+        \item MOSCHITTI, 2006: Partial Tree Kernel.
+
+        \item Something ibrid.
+    \end{itemize}
 \end{itemize}
 
-In realtà non è stato possibile sperimentare sul Partial Tree Kernel, perché il
-programma di classificazione va in segmentation fault. Per questo motivo,
-ho sperimentato sul Subset Tree Kernel,
+In particolare dei kernel sperimentati, per quanto riguarda gli ultimi due non 
+sono stato in grado di effettuare delle predizioni perché il programma di 
+classificazione fallisce in segmentation fault. 
+Non sono stato in grado di sperimentare la funzione
+di kernel lineare per nessun modello, perché il programma di allenamento
+fallisce in segmentation fault. Infine, per tutti i modelli con funzione di
+kernel polinomiale, radiale o sigmoidale, il programma di allenamento ritorna un
+modello vuoto, ovvero un modello senza alcun support vector. Da questo
+deriva che le predizioni sono casuali perché il modello non impara. Dunque,
+l'unica funzione di kernel effettivamente sperimentata risulta essere quella di
+re-ranking.

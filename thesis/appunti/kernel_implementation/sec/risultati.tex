@@ -1,13 +1,12 @@
 \section{Risultati}
 
-I risultati qui riportati sono ottenuti allenando e testando il modello di
-default fornito da svmlight.
-
-Le differenze tra i modelli sono date dai diversi dataset utilizzati
-nell'allenamento. I test sono stati eseguiti con il medesimo dataset per quanto
+In primo luogo è stato allenato lo stesso modello di dafault su ciascun dataset
+generato. In questo modo è stato individuato il dataset su cui confrontare i
+diversi modelli.\\
+I test sono stati eseguiti con il medesimo dataset per quanto
 riguarda la classificazione di ciascun nodo dell'albero; mentre ciascun modello 
-è testato su un dataset con la medesima struttura del dataset di allenamento per 
-valutare i modelli sulla radice dell'albero.
+è viene valutato sulla radice dell'albero con un dataset che ha la medesima 
+struttura del dataset di allenamento.
 
 \subsection{Binary}
 
@@ -15,22 +14,23 @@ valutare i modelli sulla radice dell'albero.
     \centering
     \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    Modello & Accuracy & Precision & Recall & F1 \\
     \hline
-    \textbf{Subtree sentiment all} & 0.98 & 0.99 & 0.99 & 0.99 \\
-    \textbf{Subtree sentiment root} & 0.94 & 0.94 & 0.94 & 0.94 \\
-    \hline
-
-    \textbf{Syntax and sentiment all} & 0.96 & 0.97 & 0.95 & 0.96 \\
-    \textbf{Syntax and sentiment root} & 0.94 & 0.94 & 0.94 & 0.94 \\
+    \textbf{Subtree sentiment all} & \textbf{0.98} & \textbf{0.99} & \textbf{0.99} & \textbf{0.99} \\
+    Subtree sentiment root & 0.94 & 0.94 & 0.94 & 0.94 \\
     \hline
 
-    \textbf{Sentiment all} & 0.95 & 0.97 & 0.95 & 0.96 \\
-    \textbf{Sentiment root} & 0.94 & 0.95 & 0.94 & 0.94 \\
+    Syntax and sentiment all & 0.96 & 0.97 & 0.95 & 0.96 \\
+    Syntax and sentiment root & 0.94 & 0.94 & 0.94 & 0.94 \\
     \hline
 
-    \textbf{Syntax all} & 0.45 & 0.00 & 0.00 & 0.00 \\
-    \textbf{Syntax root} & 0.74 & 0.72 & 0.78 & 0.75 \\
+    Sentiment all & 0.95 & 0.97 & 0.95 & 0.96 \\
+    \textbf{Sentiment root} & \textbf{0.94} & \textbf{0.95} & \textbf{0.94}
+        & \textbf{0.94} \\
+    \hline
+
+    Syntax all & 0.45 & 0.00 & 0.00 & 0.00 \\
+    Syntax root & 0.74 & 0.72 & 0.78 & 0.75 \\
     \hline
     \end{tabular}
     \caption{Risultati della classificazione binaria}
@@ -42,23 +42,23 @@ valutare i modelli sulla radice dell'albero.
     \centering
     \begin{tabular}{|l|c|c|c|c|}
     \hline
-    \textbf{Modello} & \textbf{Mean Absolute Error} & \textbf{Mean Squared
-    Error} & \textbf{R-Squared} \\
+    Modello & Mean Absolute Error & Mean Squared Error & R-Squared \\
     \hline
-    \textbf{Subtree sentiment all} & - & - & - \\
-    \textbf{Subtree sentiment root} & - & - & - \\
-    \hline
-
-    \textbf{Syntax and sentiment all} & 0.47 & 0.41 & -0.94 \\
-    \textbf{Syntax and sentiment root} & 0.94 & 1.28 & -1.93 \\
+    Subtree sentiment all & - & - & - \\
+    Subtree sentiment root & - & - & - \\
     \hline
 
-    \textbf{Sentiment all} & 0.61 & 0.66 & -2.14 \\
-    \textbf{Sentiment root} & 1.17 & 1.95 & -3.48 \\
+    \textbf{Syntax and sentiment all} & \textbf{0.47} & \textbf{0.41} &
+        \textbf{-0.94} \\
+    Syntax and sentiment root & 0.94 & 1.28 & -1.93 \\
     \hline
 
-    \textbf{Syntax all} & 0.49 & 0.35 & -0.65 \\
-    \textbf{Syntax root} & 0.56 & 0.48 & -0.11 \\
+    Sentiment all & 0.61 & 0.66 & -2.14 \\
+    Sentiment root & 1.17 & 1.95 & -3.48 \\
+    \hline
+
+    Syntax all & 0.49 & 0.35 & -0.65 \\
+    \textbf{Syntax root} & \textbf{0.56} & \textbf{0.48} & \textbf{-0.11} \\
     \hline
     \end{tabular}
     \caption{Risultati della regressione}
@@ -74,22 +74,24 @@ a 40h di allenamento, ma non è stato sufficiente per il completamento.
     \centering
     \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    Modello & Accuracy & Precision & Recall & F1 \\
     \hline
-    \textbf{Subtree sentiment all} & 0.95 & 0.92 & 0.91 & 0.92 \\
-    \textbf{Subtree sentiment root} & 0.51 & 0.50 & 0.48 & 0.49 \\
-    \hline
-
-    \textbf{Syntax and sentiment all} & 0.44 & 0.48 & 0.59 & 0.44 \\
-    \textbf{Syntax and sentiment root} & 0.53 & 0.52 & 0.49 & 0.49 \\
+    \textbf{Subtree sentiment all} & \textbf{0.95} & \textbf{0.92} &
+        \textbf{0.91} & \textbf{0.92} \\
+    Subtree sentiment root & 0.51 & 0.50 & 0.48 & 0.49 \\
     \hline
 
-    \textbf{Sentiment all} & 0.40 & 0.45 & 0.56 & 0.40 \\
-    \textbf{Sentiment root} & 0.54 & 0.54 & 0.50 & 0.50 \\
+    Syntax and sentiment all & 0.44 & 0.48 & 0.59 & 0.44 \\
+    Syntax and sentiment root & 0.53 & 0.52 & 0.49 & 0.49 \\
     \hline
 
-    \textbf{Syntax all} & 0.18 & 0.04 & 0.20 & 0.06 \\
-    \textbf{Syntax root} & 0.39 & 0.38 & 0.34 & 0.34 \\
+    Sentiment all & 0.40 & 0.45 & 0.56 & 0.40 \\
+    \textbf{Sentiment root} & \textbf{0.54} & \textbf{0.54} & \textbf{0.50}
+        & \textbf{0.50} \\
+    \hline
+
+    Syntax all & 0.18 & 0.04 & 0.20 & 0.06 \\
+    Syntax root & 0.39 & 0.38 & 0.34 & 0.34 \\
     \hline
     \end{tabular}
     \caption{Risultati della classificazione multiclasse}
@@ -101,18 +103,20 @@ a 40h di allenamento, ma non è stato sufficiente per il completamento.
     \centering
     \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    \textbf{Modello} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} \\
+    Modello & Accuracy & Precision & Recall & F1 \\
     \hline
-    \textbf{RNN 50 unità nascoste all} & 0.79 & 0.65 & 0.53 & 0.57 \\
-    \textbf{RNN 50 unità nascoste root} & 0.42 & 0.44 & 0.39 & 0.40 \\
-    \hline
-
-    \textbf{Subtree sentiment all} & 0.95 & 0.92 & 0.91 & 0.92 \\
-    \textbf{Subtree sentiment root} & 0.51 & 0.50 & 0.48 & 0.49 \\
+    RNN 50 unità nascoste all & 0.79 & 0.65 & 0.53 & 0.57 \\
+    RNN 50 unità nascoste root & 0.42 & 0.44 & 0.39 & 0.40 \\
     \hline
 
-    \textbf{Sentiment all} & 0.40 & 0.45 & 0.56 & 0.40 \\
-    \textbf{Sentiment root} & 0.54 & 0.54 & 0.50 & 0.50 \\
+    \textbf{Subtree sentiment all} & \textbf{0.95} & \textbf{0.92} &
+        \textbf{0.91} & \textbf{0.92} \\
+    Subtree sentiment root & 0.51 & 0.50 & 0.48 & 0.49 \\
+    \hline
+
+    Sentiment all & 0.40 & 0.45 & 0.56 & 0.40 \\
+    \textbf{Sentiment root} & \textbf{0.54} & \textbf{0.54} & \textbf{0.50}
+        & \textbf{0.50} \\
     \hline
     \end{tabular}
     \caption{Risultati della classificazione multiclasse con RNN rispetto al
@@ -128,34 +132,134 @@ stati valutati sullo stesso dataset di test.
 Per confrontare gli iperparametri è stato utilizzato come dataset di allenamento
 il treebank di Penn che ha sia le etichette sintattiche che quelle di sentiment.
 L'accuratezza sulla radice dell'albero è stata calcolata sul test set che ha
-sia le etichette sintattiche che quelle di sentiment. Come ho anticipato, ho
-provato a testare i modelli anche su ciascun nodo dell'albero, però i modelli
-che hanno decay factor diverso da 0 non sono in grado di classificare pattern
-che hanno solo etichette di sentiment.
+sia le etichette sintattiche che quelle di sentiment. 
+% Come ho anticipato, ho
+% provato a testare i modelli anche su ciascun nodo dell'albero, però i modelli
+% che hanno decay factor diverso da 0 non sono in grado di classificare pattern
+% che hanno solo etichette di sentiment.
 
-\begin{table}[h]
+\subsubsection{Subset Tree Kernel}
+
+\begin{table}[H]
     \centering
     \begin{tabular}{cc|ccccc}
         \toprule
-        \multicolumn{2}{c}{} & \multicolumn{4}{c}{Normalizzazione} \\
-        \multicolumn{2}{c}{} & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì} \\
-        \cmidrule{3-6}
-        \multicolumn{2}{c}{} & \multicolumn{4}{c}{Forest Sum} \\
-        \multicolumn{2}{c}{} & A & S & A & S \\
-        \midrule
-        \multirow{5}{*}{\begin{sideways}Decay factor\end{sideways}} & 0 & 12.624 & 12.624 & 12.624 & 12.624 \\
-        & 0.1 & 53.981 & 53.981 & 53.755 & 53.755 \\
-        & 0.2 & 54.389 & 54.389 & 53.484 & 53.484 \\
-        & 0.25 & 54.434 & - & 53.619 & - \\
-        & 0.3 & 54.479 & - & 53.393 & - \\
-        & 0.35 & 54.524 & - & 53.167 & - \\
-        & 0.4 & \textbf{54.660} & \textbf{54.660} & 53.257 & 53.257 \\
-        & 0.42 & 54.479 & - & 53.167 & - \\
-        & 0.45 & 54.298 & - & 53.484 & - \\
-        & 0.5 & 53.891 & - & 53.755 & - \\
-        & 0.6 & 51.990 & 51.990 & 53.167 & 53.167 \\
+        &       & \multicolumn{4}{c}{Normalizzazione}                           \\
+        &       & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}               \\
+        \hline
+        &       & \multicolumn{4}{c}{Forest Sum}                                \\
+        &       & A                 & S                 & A         & S         \\
+        \hline
+        \multirow{12}{*}{\begin{sideways}Decay factor\end{sideways}} 
+        & 0     & 12.624            & 12.624            & 12.624    & 12.624    \\
+        & 0.1   & 53.981            & 53.981            & 53.755    & 53.755    \\
+        & 0.2   & 54.389            & 54.389            & 53.484    & 53.484    \\
+        & 0.25  & 54.434            & -                 & 53.619    & -         \\
+        & 0.3   & 54.479            & -                 & 53.393    & -         \\
+        & 0.35  & 54.524            & -                 & 53.167    & -         \\
+        & 0.4   & \textbf{54.660}   & \textbf{54.660}   & 53.257    & 53.257    \\
+        & 0.42  & 54.479            & -                 & 53.167    & -         \\
+        & 0.45  & 54.298            & -                 & 53.484    & -         \\
+        & 0.5   & 53.891            & -                 & 53.755    & -         \\
+        & 0.6   & 51.990            & 51.990            & 53.167    & 53.167    \\
         \bottomrule
     \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: percentuale di
-    accuratezza sulla radice dell'albero.}
+    \caption{Tabella di comparazione degli iperparametri: SST kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsubsection{Subtree Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccccc}
+        \toprule
+        & & \multicolumn{4}{c}{Normalizzazione}                         \\
+        & & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}             \\
+        \hline
+        & & \multicolumn{4}{c}{Forest Sum}                              \\
+        & & A & S & A & S                                               \\
+        \hline
+        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}} 
+        & 0.1   & 40.633            & -         & 40.995    & -         \\
+        & 0.2   & 40.859            & -         & 40.950    & -         \\
+        & 0.25  & 41.040            & -         & 41.040    & -         \\
+        & 0.3   & \textbf{41.131}   & 41.131    & 40.950    & 40.950    \\
+        & 0.35  & 40.950            & 40.950    & 40.859    & 40.859    \\
+        & 0.4   & 41.085            & 41.085    & 40.679    & 40.679    \\
+        & 0.45  & 40.950            & 40.950    & 40.498    & 40.498    \\
+        & 0.5   & 40.950            & 40.950    & 40.542    & 40.542    \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: Subtree kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+Dal momento che ho notato che non c'è differenza tra la modalità di somma di
+foreste di alberi S e A, arbitrariamente ho allenato i modelli sono con la
+modalità di somma di foreste di alberi A.
+
+\subsubsection{Subset Tree Bow Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccc}
+        \toprule
+        &           & \multicolumn{2}{c}{Normalizzazione}           \\
+        &           & No                    & Sì                    \\
+        \hline
+        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}}
+        & 0.1       & 54.117                & 53.710                \\
+        & 0.2       & 54.524                & 53.710                \\
+        & 0.25      & 54.660                & 53.891                \\
+        & 0.3       & 54.615                & 53.846                \\
+        & 0.35      & 54.524                & 53.484                \\
+        & 0.4       & \textbf{54.841}       & 53.348                \\
+        & 0.45      & 54.434                & 53.619                \\
+        & 0.5       & 53.981                & 53.981                \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: SST-bow kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsubsection{Partial Tree Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccc}
+        \toprule
+        &           & \multicolumn{2}{c}{Normalizzazione}           \\
+        &           & No                    & Sì                    \\
+        \hline
+        \multirow{5}{*}{\begin{sideways}Decay factor\end{sideways}}
+        & 0.3       & 54.479                & 53.393                \\
+        & 0.35      & 54.524                & 53.167                \\
+        & 0.4       & \textbf{54.660}       & 53.257                \\
+        & 0.45      & 54.298                & 53.484                \\
+        & 0.5       & 53.891                & 53.756                \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: PT kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsection{Riassunto}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|cccc}
+        \toprule
+        Model   & Decay Factor  & Normalizzazione   & Accuracy          \\ 
+        \hline
+        SST     & 0.4           & No                & 54.660            \\
+        \textbf{SST-bow} & \textbf{0.4} & \textbf{No} & \textbf{54.841} \\
+        PT      & 0.4           & No                & 54.660            \\
+        ST      & 0.3           & No                & 41.131            \\
+        \hline
+        RNN 50 unità nascoste root & - & -          & 0.42              \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: PT kernel con
+    reranking come funzione di kernel.}
 \end{table}

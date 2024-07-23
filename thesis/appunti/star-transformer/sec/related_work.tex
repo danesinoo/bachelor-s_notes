@@ -1,0 +1,31 @@
+\section{Related Work}
+
+\subsection{CNN/RNN}
+
+A popular approach si to represent each word as a low-dimentional vector and
+then learn local semantic composition functions over the given funtions over the
+given sentence structures.
+These methods are biased for learning local compositional functions and are hard
+to capture the long-term dependencies in a text sequence.
+% In order to augment the ability to model the non-local compositionality, a class
+% of improved methods utilizes various self-attention mechanisms to aggregate the
+% weighted information of each word.
+
+\subsection{Kernel Methods}
+
+One method to model the non-local semantic comopsitions in a text sequence
+directly is to incorporate syntactic tree into the network structure for
+leanring sentence representations (there is a citation).
+
+\subsection{Tranformer}
+
+Another type of models learns the dependencies between words based entirely on
+self-attention without any recurrent or convolutional layers. However those
+Tranformer-based methods usually requires a large training corpus.
+
+\subsection{Graph Neural Networks}
+
+Star-Tranformer is also inspired by the recent graph networks, in which the
+information fusion progresses via message-passing across the whole graph.
+Due to its better parallel capacity and lower complexity, the Star-Tranformer is
+faster than RNNs or Tranformer, especially on modeling long sequences.

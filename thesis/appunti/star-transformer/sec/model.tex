@@ -1,0 +1,79 @@
+\section{model}
+
+\subsection{Architecture}
+
+The Star-Transformer consists of one relay node and $n$ satellite nodes. The
+state of $i$-th satellite node represents the features of the $i$-th token in a
+text sequence. The relay node acts as a virtual hub to gather and scatter
+information from and to all the satellite nodes.\\
+Star-Transformer has two kinds of connections:
+\begin{itemize}
+    \item \textbf{Radial Connections}: for a netweork of $n$ satellite nodes,
+    there are $n$ radial connections. With the radial connections, every two
+    non-adjacent satellite nodes are two-hop neighbors and can receive non-local
+    information with a two-step update;
+
+    \item \textbf{Ring Connections}: since text input is a sequence, we bake
+    such prior as an inductive bias. Therefore, we connect the adjacent
+    satellite nodes.
+\end{itemize}
+
+\subsection{Implementation}
+
+The implementation is very similar to BP-Transformer and to Transformer itself.
+
+\subsubsection{Multi-head Attention}
+Just as in the standard Tranformer, we use the scaled dot-product attention.
+Given a sequence of vectors $H \in \mathbb{R}^{n \times d}$, we can use a query
+vector $q \in \mathbb{R}^{1 \times d}$ to soft select the relevant information
+with attention.
+
+\begin{equation}
+    \text{Attention}(q, L, V) =
+    \text{softmax}\left(\frac{qK^T}{\sqrt{d}}\right)V,
+\end{equation}
+
+where $K = HW^K$, $V = HW^V$ and $W^K$ and $W^V$ are learnable parameters.\\
+To gatehr more useful information from $H$, similar to multi filters in CNNs, we
+can use multi-head attention with $k$ heads:
+
+\begin{align}
+    & \text{MultiHead}(q, H) = (a_1 \oplus \dots \oplus a_k)W^O,\\
+    & a_i = \text{Attention}(qW_i^Q, HW_i^K, HW_i^V), \forall i \in [1, k],
+\end{align}
+
+where $W_i^Q$, $W_i^K$, $W_i^V$ and $W^O$ are learnable parameters and $\oplus$
+denotes the concatenation operation.
+
+\subsubsection{Update}
+
+Let $s^t \in \mathbb{R}^{1 \times d}$ and $H^t \in \mathbb{R}^{n \times d}$
+denote the states for the realy node and all the $n$ satellite nodes at step
+$t$.
+We start from the embedding of the input $E = [e_1, \dots, e_n]$, where $e_i \in
+\mathbb{R}^{1 \times d}$ is the embedding of the $i$-th token.\\
+We initialize the state with $H^0 = E$ and $s^0 = average(E)$.\\
+\begin{enumerate}
+    \item the state of each satellite node $h_i$ are updated:
+        \begin{align}
+            C_i^t &= [h_{i-1}^{t-1}; h_i^{t-1}; h_{i+1}^{t-1}; e^i, s^{t-1}],\\
+            h_i^t &= MultiAtt(h_i^{t-1}, C_i^t).
+        \end{align}
+
+        where $C_i^t$ denotes the context information for the $i$-th satellite
+        node. After the infomration exchange, a layer normalization is applied:
+        \begin{equation}
+            h_i^t = \text{LayerNorm}(\text{ReLU}(h_i^t)), \forall i \in [1, n].
+        \end{equation}
+
+    \item the state of the relay node $s$ is updated:
+        \begin{align}
+            s^t &= MultiAtt(s^{t-1}, [s^{t-1}; H^t]), \\
+            s^t &= \text{LayerNorm}(\text{ReLU}(s^t)).
+        \end{align}
+\end{enumerate}
+
+By alternatively updating the satellite and relay nodes (why plural?), the
+Star-Tranformer gets the output $H^T$.
+
+        

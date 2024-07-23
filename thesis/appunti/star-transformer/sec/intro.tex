@@ -1,0 +1,23 @@
+\section{Introduction}
+
+Some recent work suggest that Tranformer can be an alternative to recurrent
+neural netwerks (RNNs) and convolutional neural networks (CNNs). For example
+GPT, BERT, Transformer-XL and Universal Transformer.\\
+However there are two limitations: the computation and memory overhead of the
+Tranformer are quadratic to the sequence length; Tranformer needs to be trained
+on large-scale datasets to achieve good performance.\\
+A key observation is that Tranformer does not exploit prior knowledge well. The
+key insight is then whether leveraging strong prior knowledge can help to
+"lighten up" the architecture.\\
+Star Transformer has two kinds of connections:
+\begin{itemize}
+    \item \textbf{Radial connections}: preserve the non-local communication and
+        remove the redundancy in fully-connected networks (making the 
+        computation and memory complexity linear to the sequence length);
+
+    \item \textbf{Ring connections}: embody the local-compositionality prior,
+        which has the same role as in CNNs/RNNs.
+\end{itemize}
+
+What remains to be tested is whether one shared relay node is capable of
+capturing the long-range dependencies.

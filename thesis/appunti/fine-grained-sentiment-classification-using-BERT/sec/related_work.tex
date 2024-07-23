@@ -1,0 +1,19 @@
+\section{Related Work}
+
+Sentiment classification is one of the most popular tasks in NLP.\\
+The first step in sentiment classification of a text is the embedding, where a
+text is converted into a fixed-size vector. Since the number of words in the
+vocabulary after tokenization and stemming is limited, researchers first
+tackled the problem of learning word embeddings.\\
+The next step is to combine a variable number of word vectors into a single
+fixed-size document vector. The trivial way is to take the sum or the average,
+but they don't lose the ordering information fo words and thus don't give good
+results.\\
+All the approaches seen this far are context-free: they generate single word
+embedding for each word in the vocabulary. Recent language model research has
+been trying to train contextual embeddings.\\
+Someone proposed BERT (Bidirectional Encoder Representations from Transformers),
+an attention-based Transformer architecture, to train deep bidirectional
+representations from unlabeled texts. Their architecture not only obrains
+state-of-the-art results on many NLP tasks, but allows a high degree of
+paralleism.
