@@ -1,0 +1,46 @@
+\section{Introduction}
+
+Existing approaches to explaining deep learning models in NLP usually suffer
+from two major drawbacks:
+\begin{itemize}
+    \item the main model and the explaining model are decoupled, thus existing
+        explaining tools are not self-explainable;
+
+    \item the probing model is only able to explain a model's predictions by
+        operating on low-level features;
+\end{itemize}
+
+We propose a simple yet general and effective self-explianing framework fro deep
+learning models in NLP. The key idea is to put an additional layer,
+\textit{interpretation layer}, on top of any existing NLP model.
+This layer aggregates the information for each text span, which is then
+associated with a specific weight, and their weighted combination is fed to the
+softmax function for the final prediction.\\
+The proposed model comes with the following merits:
+\begin{itemize}
+    \item span weights make the model self-explainable;
+    \item the proposed model is general;
+    \item the weight associated with each span provides direct importance
+        scores.
+\end{itemize}
+
+We, for the first time, show that interpretability does not come at the cost of
+performance.\\
+
+A long term criticism against deep learning models is the lack of
+interpretability. The black-box nature of neural models limits the scope of
+applications of deep learning models, and also hinders model behavior analysis
+and error analysis.\\
+Therefore we rise the following question: what makes a good interpretation
+method for NLP?
+\begin{itemize}
+    \item the method should be self-explainable;
+    \item the model should offer precise and clear saliency scores for any level
+        of text units;
+    \item the self-explainable nature does not trade off performances.
+\end{itemize}
+
+The key point is to put an additional layer on top of any existing NLP model and
+this layer aggregates the information for all (i.e. $O(n^2)$) text spans.
+Therefore, no additional information is incorporated, nor any information is
+lost at the interpretation layer.

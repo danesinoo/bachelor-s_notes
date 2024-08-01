@@ -1,0 +1,28 @@
+\section{Introduction}
+
+We introduce a new type of \textit{deep contextualized} word representation
+that models:
+\begin{itemize}
+    \item syntax;
+    \item semantics;
+    \item polysemy: how the words uses vary across linguistic contexts.
+\end{itemize}
+
+Our word vectors are learned functions of the internal stated of a deep
+bidirectiona language model (biLM).
+We also present an analysis showing that exposign the deep internals of the
+pre-trained network is crucial, allowing downstream models to mix different
+types of semi-supervision seignals.\\
+
+Pre-trained word representations are a key compoennt in many neural language
+understanding models.\\
+Our representations differ from traditional word type embeddings in that each
+token is assigned a representation that is a function of the entire input
+sentence. We use vectors derived from a bidirectional LSTM (Long Short-Term
+Memory) that is trained with a coupled language model. 
+We call them ELMo (Embeddings from Language Models) representations.
+ELMo representations are deep: we learn a linear combination of the vectors
+stacked above above each input word for each end task.\\
+We show that higher-level LSTM capture semantic; while lower-level states
+model capture syntax. It allows the finetuned model over ELMo select the type
+of information that is most useful for end task.

@@ -16,10 +16,10 @@ kernel_to_string = {
     5: 'combination of tree forests',
 }
 
-TRAIN_PATH = f"multiclass_train.sentiment"
-MODEL_NAME = f"multiclass_train.sentiment"
+TRAIN_PATH = f"multiclass_train.syntax"
+MODEL_NAME = f"multiclass_train.syntax"
 TEST_LABEL = f"multiclass_subtree_test.sentiment"
-TEST_ROOT = f"multiclass_test.sentiment"
+TEST_ROOT = f"multiclass_test.syntax"
 
 def run_command(command):
     try:

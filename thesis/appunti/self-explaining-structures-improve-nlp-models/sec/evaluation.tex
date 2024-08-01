@@ -1,0 +1,39 @@
+\section{Evaluation}
+
+We want an evaluation method that is flexible upder any task and dataset, and
+the extracted rationales ought to semantically influence the model's prediction
+for the same instance.\\
+Intuitively, if extracted rationales can faithfully represent (be equivalent to)
+their corresponding text inputs with respect to model predictions the following
+should hold:
+\begin{enumerate}
+    \item a model trained on the original inputs should perform comparably well
+        when tested on the extracted rationales;
+
+    \item a model trained on the extracted rationales should perform comparably
+        well when tested on the original inputs;
+
+    \item a model trained on the extracted rationales should perform comparably
+    well when tested on other extracted rationales.
+\end{enumerate}
+
+We use \textit{full} to refer to the situation of training or testing a model on
+the original texts, and \textit{span} to refer to the situation of training or
+testing a model on the extracted rationales. By denoting the original full
+dataset by $D_{\text{train}}, D_{\text{dev}}, D_{\text{test}}$, and the newly
+constructed rationale-based dataset by $D'_{\text{train}}, D'_{\text{dev}},
+D'_{\text{test}}$, the settings are as follows:
+
+\begin{itemize}
+    \item \textbf{FullTrain $\rightarrow$ SpanTest}: train a model on
+        $D_{\text{train}}$ and test it on $D'_{\text{test}}$;
+
+    \item \textbf{SpanTrain $\rightarrow$ FullTest}: train a model on
+        $D'_{\text{train}}$ and test it on $D_{\text{test}}$;
+
+    \item \textbf{SpanTrain $\rightarrow$ SpanTest}: train a model on
+        $D'_{\text{train}}$ and test it on $D'_{\text{test}}$.
+\end{itemize}
+
+Note that this system is not perfect: the system can be gamed if the extracted
+plan is just the same as the original span.

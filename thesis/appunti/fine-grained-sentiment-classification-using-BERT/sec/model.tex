@@ -12,13 +12,13 @@ all layers. It is pretrained from a large unsupervised text corpus using the
 following objectives:
 
 \begin{itemize}
-    \item \textit{Masked word prediction}: 15\% of the words in the input
-    sequence are masked out, the entire sequence is fed to a deep bidirectional
-    Transformer encoder, and then the model learns to predict the masked words.
+	\item \textit{Masked word prediction}: 15\% of the words in the input
+	      sequence are masked out, the entire sequence is fed to a deep bidirectional
+	      Transformer encoder, and then the model learns to predict the masked words.
 
-    \item \textit{Next sentence prediction}: to learn the relationship between
-    sentences, BERT takes two sentences $A$ and $B$ as inputs and learns to
-    classify whether $B$ actually follows $A$ or is it just a random sentence.
+	\item \textit{Next sentence prediction}: to learn the relationship between
+	      sentences, BERT takes two sentences $A$ and $B$ as inputs and learns to
+	      classify whether $B$ actually follows $A$ or is it just a random sentence.
 \end{itemize}
 
 Unlike traditional sequential or recurrent models, the attention architecture
@@ -27,21 +27,21 @@ processed in parallel. Pretrained BERT model can be fine-tuned with just one
 additional layer to obtain state-of-the-art results in a wide range of NLP
 tasks.
 
-\subsectin{Preprocessing}
+\subsection{Preprocessing}
 
 BERT requires its input token sequence to have a certain format. So we perform
 the follwoing preprocessing steps on the review text before we feed them into
 our model:
 \begin{enumerate}
-    \item \textit{Canonicalization}: first, we remove all the digits,
-    punctuation sumbols and acent marks, and convert everything to lowercase;
+	\item \textit{Canonicalization}: first, we remove all the digits,
+	      punctuation sumbols and acent marks, and convert everything to lowercase;
 
-    \item \textit{Tokenization}: we then tokenize the text using the word-piece
-    tokenizer. It breaks the words down to their prefix, root and suffix to
-    handle unseen words better;
+	\item \textit{Tokenization}: we then tokenize the text using the word-piece
+	      tokenizer. It breaks the words down to their prefix, root and suffix to
+	      handle unseen words better;
 
-    \item \textit{Sepcial toekn addition}: finally we add the \texttt{[CLS]} and
-    \texttt{[SEP]} tokens at the appropriate positions.
+	\item \textit{Sepcial toekn addition}: finally we add the \texttt{[CLS]} and
+	      \texttt{[SEP]} tokens at the appropriate positions.
 \end{enumerate}
 
 \subsection{Architecture}
@@ -52,21 +52,24 @@ produce gread resulsta even without any sophisticated task-specific
 architecture. There are four main stages:
 
 \begin{enumerate}
-    \item preprocessing: described above;
+	\item preprocessing: described above;
 
-    \item sequence embedding: from BERT;
+	\item sequence embedding: from BERT;
 
-    \item regularization: dropout layer with a dropout rate of 0.1 to prevent
-        overfitting;
+	\item regularization: dropout layer with a dropout rate of 0.1 to prevent
+	      overfitting;
 
-    \item softmax classification: it will output the probabilities of the input
-    text belonging to each of the class labels such that the sum of the
-    probabilities is 1. The softmax layer is just a fully connected neural
-    network with the softmax activation function. The softmax function $\sigma:
-    \mathbb{R}^K \rightarrow \mathbb{R}^K$ is given by:
-    \begin{equation}
-        \sigma(x)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}} for i = 1, \ldots, K
-    \end{equation}
+	\item softmax classification: it will output the probabilities of the input
+	      text belonging to each of the class labels such that the sum of the
+	      probabilities is 1. The softmax layer is just a fully connected neural
+	      network with the softmax activation function. The softmax function $\sigma:
+		      \mathbb{R}^K \rightarrow \mathbb{R}^K$ is given by:
+	      \begin{equation}
+		      \sigma(x)_i = \frac{e^{z_i}}{\sum_{j=1}^K e^{z_j}} for i = 1, \ldots, K
+	      \end{equation}
 
-    where $z = (z_1, \ldots, z_K) \in \mathbb{R}^K$ is the intemediate output of
-    the softmax layer (also called logits).
+	      where $z = (z_1, \ldots, z_K) \in \mathbb{R}^K$ is the intemediate output of
+	      the softmax layer (also called logits). The output node wiht the
+	      highest probability is then chosen as the predicted label for the
+	      input.
+\end{enumerate}

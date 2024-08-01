@@ -1,0 +1,125 @@
+\subsubsection{Subset Tree Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccccc}
+        \toprule
+        &       & \multicolumn{4}{c}{Normalizzazione}                           \\
+        &       & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}               \\
+        \hline
+        &       & \multicolumn{4}{c}{Forest Sum}                                \\
+        &       & A                 & S                 & A         & S         \\
+        \hline
+        \multirow{12}{*}{\begin{sideways}Decay factor\end{sideways}} 
+        & 0     & 12.624            & 12.624            & 12.624    & 12.624    \\
+        & 0.1   & 53.981            & 53.981            & 53.755    & 53.755    \\
+        & 0.2   & 54.389            & 54.389            & 53.484    & 53.484    \\
+        & 0.25  & 54.434            & -                 & 53.619    & -         \\
+        & 0.3   & 54.479            & -                 & 53.393    & -         \\
+        & 0.35  & 54.524            & -                 & 53.167    & -         \\
+        & 0.4   & \textbf{54.660}   & \textbf{54.660}   & 53.257    & 53.257    \\
+        & 0.42  & 54.479            & -                 & 53.167    & -         \\
+        & 0.45  & 54.298            & -                 & 53.484    & -         \\
+        & 0.5   & 53.891            & -                 & 53.755    & -         \\
+        & 0.6   & 51.990            & 51.990            & 53.167    & 53.167    \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: SST kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsubsection{Subtree Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccccc}
+        \toprule
+        & & \multicolumn{4}{c}{Normalizzazione}                         \\
+        & & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}             \\
+        \hline
+        & & \multicolumn{4}{c}{Forest Sum}                              \\
+        & & A & S & A & S                                               \\
+        \hline
+        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}} 
+        & 0.1   & 40.633            & -         & 40.995    & -         \\
+        & 0.2   & 40.859            & -         & 40.950    & -         \\
+        & 0.25  & 41.040            & -         & 41.040    & -         \\
+        & 0.3   & \textbf{41.131}   & 41.131    & 40.950    & 40.950    \\
+        & 0.35  & 40.950            & 40.950    & 40.859    & 40.859    \\
+        & 0.4   & 41.085            & 41.085    & 40.679    & 40.679    \\
+        & 0.45  & 40.950            & 40.950    & 40.498    & 40.498    \\
+        & 0.5   & 40.950            & 40.950    & 40.542    & 40.542    \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: Subtree kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+Dal momento che ho notato che non c'è differenza tra la modalità di somma di
+foreste di alberi S e A, arbitrariamente ho allenato i modelli sono con la
+modalità di somma di foreste di alberi A.
+
+\subsubsection{Subset Tree Bow Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccc}
+        \toprule
+        &           & \multicolumn{2}{c}{Normalizzazione}           \\
+        &           & No                    & Sì                    \\
+        \hline
+        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}}
+        & 0.1       & 54.117                & 53.710                \\
+        & 0.2       & 54.524                & 53.710                \\
+        & 0.25      & 54.660                & 53.891                \\
+        & 0.3       & 54.615                & 53.846                \\
+        & 0.35      & 54.524                & 53.484                \\
+        & 0.4       & \textbf{54.841}       & 53.348                \\
+        & 0.45      & 54.434                & 53.619                \\
+        & 0.5       & 53.981                & 53.981                \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: SST-bow kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsubsection{Partial Tree Kernel}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc|ccc}
+        \toprule
+        &           & \multicolumn{2}{c}{Normalizzazione}           \\
+        &           & No                    & Sì                    \\
+        \hline
+        \multirow{5}{*}{\begin{sideways}Decay factor\end{sideways}}
+        & 0.3       & 54.479                & 53.393                \\
+        & 0.35      & 54.524                & 53.167                \\
+        & 0.4       & \textbf{54.660}       & 53.257                \\
+        & 0.45      & 54.298                & 53.484                \\
+        & 0.5       & 53.891                & 53.756                \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: PT kernel con
+    reranking come funzione di kernel.}
+\end{table}
+
+\subsection{Riassunto}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|cccc}
+        \toprule
+        Model   & Decay Factor  & Normalizzazione   & Accuracy          \\ 
+        \hline
+        SST     & 0.4           & No                & 54.660            \\
+        \textbf{SST-bow} & \textbf{0.4} & \textbf{No} & \textbf{54.841} \\
+        PT      & 0.4           & No                & 54.660            \\
+        ST      & 0.3           & No                & 41.131            \\
+        \hline
+        RNN 50 unità nascoste root & - & -          & 0.42              \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabella di comparazione degli iperparametri: PT kernel con
+    reranking come funzione di kernel.}
+\end{table}

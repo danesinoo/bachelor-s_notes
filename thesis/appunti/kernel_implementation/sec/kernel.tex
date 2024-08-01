@@ -28,6 +28,9 @@ sperimentato:
 
     \item \textbf{reranking}: l'allenamento funziona e il modello è in grado di
         predire i risultati sul dataset di test;
+
+    \item \textbf{forest combination}: l'allenamento funziona e il modello è in
+        grado di predire i risultati sul dataset di test.
 \end{itemize}
 
 Ancora, per quanto riguarda il reranking, come funzione di attivazione, abbiamo
@@ -40,4 +43,9 @@ modificato i seguenti iperparametri:
 
 In particolare, non è stato possibile ottenere l'acurattezza dei modelli sui
 nodi degli alberi che hanno decay factor diverso da 0. Non siamo stati in grado
-di capire il motivo di questo comportamento.
+di capire il motivo di questo comportamento.\\
+Per quanto riguarda la combinazione di foreste, abbiamo sperimentato con gli
+stessi iperparametri del reranking, ottenendo risultati simili.\\
+Si noti che è possibile usare reranking come funzione di attivazione solo sul
+dataset che combina la sintassi e il sentiment, mentre la combinazione di
+foreste può essere utilizzata su tutti i dataset.

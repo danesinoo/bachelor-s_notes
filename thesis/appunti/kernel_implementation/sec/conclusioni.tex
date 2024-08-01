@@ -44,15 +44,19 @@ oppure non è in grado di classificare i pattern come richiesto.\\
 I risultati mostrano che l'iperparametro 'W', ovvero forest sum, non è
 rilevante, infatti qualunque valore assuma non influisce sulle performance del
 modello.\\
-La normalizzazione degli alberi peggiora le performance dei modelli migliori,
-tuttavia ogni tanto può portare ad una maggiore accuratezza delle predizioni. In
-ogni caso, un modello che normalizza l'albero richiede un tempo di allenamento
-in media 2 volte superiore rispetto allo stesso modello non normalizzato.\\
+La normalizzazione degli alberi tendenzialmente peggiora le performance dei 
+modelli e ne allunga il tempo di allenamento. 
 Infine, il decay factor migliore risulta essere di 0.4 per i modelli subset
-tree, subset tree-bow e partial tree, mentre il modello subtree con decay factor
-0.3 ha performance migliori.\\
+tree, partial tree, mentre il subset tree-bow kernel con decay factor di 0.45
+ottiene un'accuratezza migliore.\\
 Infine si nota che i modelli subset tree, subset tree-bow e partial tree
-ottengono performance comparabili: più del 54\% di accuratezza nella
+ottengono performance comparabili: più del 55\% di accuratezza nella
 classificazione dei pattern sulla radice dell'albero. Mentre il modello con
-kernel subtree raggiunge un'accuratezza poco superiore al 41\%, simile all'RNN
-con 50 unità nascoste.
+kernel subtree raggiunge un'accuratezza poco inferiore al 42\%, simile all'RNN
+con 50 unità nascoste.\\
+Infine, si nota come le informazioni sintattiche aggiuntive non migliorino le
+performance dei modelli, ma le peggiorino. Probabilmente si ottiene questo
+risultato perché le frasi sono già divise in sottoalberi secondo la sintassi e
+probabilmente è questa l'informazione sintattica che i modelli utilizzano per
+classificare i pattern, mentre le etichette di sintassi aggiuntive non sono
+rilevanti.

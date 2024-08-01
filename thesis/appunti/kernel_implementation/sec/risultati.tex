@@ -129,137 +129,441 @@ stati valutati sullo stesso dataset di test.
 
 \subsection{Confronto degli iperparametri}
 
-Per confrontare gli iperparametri è stato utilizzato come dataset di allenamento
-il treebank di Penn che ha sia le etichette sintattiche che quelle di sentiment.
-L'accuratezza sulla radice dell'albero è stata calcolata sul test set che ha
-sia le etichette sintattiche che quelle di sentiment. 
-% Come ho anticipato, ho
-% provato a testare i modelli anche su ciascun nodo dell'albero, però i modelli
-% che hanno decay factor diverso da 0 non sono in grado di classificare pattern
-% che hanno solo etichette di sentiment.
+Per confrontare gli iperparametri sono stati utilizzati due database: uno con le
+etichette sia sintattiche che di sentiment, ci riferiamo ad esso come
+\textit{merged}; l'altro con le etichette di sentiment, ci riferiamo ad esso
+come \textit{sentiment}. L'accuratezza è stata calcolata sui test set che hanno
+la medesima struttura del dataset di allenamento.\\
 
 \subsubsection{Subset Tree Kernel}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{cc|ccccc}
-        \toprule
-        &       & \multicolumn{4}{c}{Normalizzazione}                           \\
-        &       & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}               \\
-        \hline
-        &       & \multicolumn{4}{c}{Forest Sum}                                \\
-        &       & A                 & S                 & A         & S         \\
-        \hline
-        \multirow{12}{*}{\begin{sideways}Decay factor\end{sideways}} 
-        & 0     & 12.624            & 12.624            & 12.624    & 12.624    \\
-        & 0.1   & 53.981            & 53.981            & 53.755    & 53.755    \\
-        & 0.2   & 54.389            & 54.389            & 53.484    & 53.484    \\
-        & 0.25  & 54.434            & -                 & 53.619    & -         \\
-        & 0.3   & 54.479            & -                 & 53.393    & -         \\
-        & 0.35  & 54.524            & -                 & 53.167    & -         \\
-        & 0.4   & \textbf{54.660}   & \textbf{54.660}   & 53.257    & 53.257    \\
-        & 0.42  & 54.479            & -                 & 53.167    & -         \\
-        & 0.45  & 54.298            & -                 & 53.484    & -         \\
-        & 0.5   & 53.891            & -                 & 53.755    & -         \\
-        & 0.6   & 51.990            & 51.990            & 53.167    & 53.167    \\
-        \bottomrule
-    \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: SST kernel con
-    reranking come funzione di kernel.}
-\end{table}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+      axis lines = middle,
+      xlabel = decay factor,
+      ylabel = accuracy,
+      minor tick num = 1,
+      legend pos=outer north east,
+      xlabel style = {
+          at={(axis description cs:0.5,-0.1)},
+          anchor=north,
+      },
+      ylabel style = {
+          at={(axis description cs:-0.2,0.5)},
+          anchor=south,
+      },
+  ]
+  \addplot[
+      color=blue,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          % (0     , 12.624)           
+          (0.1   , 53.981)           
+          (0.2   , 54.389)           
+          (0.25  , 54.434)           
+          (0.3   , 54.479)           
+          (0.35  , 54.524)           
+          (0.4   , 54.660)
+          (0.42  , 54.479)           
+          (0.45  , 54.298)           
+          (0.5   , 53.891)           
+          (0.6   , 51.990)           
+      };
+      \addlegendentry{SST Merged - Not Normalized}
+
+  \addplot[
+      color=blue,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          % (0     , 12.624)           
+          (0.1   , 53.755)           
+          (0.2   , 53.484)           
+          (0.25  , 53.619)           
+          (0.3   , 53.393)           
+          (0.35  , 53.167)           
+          (0.4   , 53.257)
+          (0.42  , 53.167)           
+          (0.45  , 53.484)           
+          (0.5   , 53.755)           
+          (0.6   , 53.167)           
+      };
+  \addlegendentry{SST Merged - Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          (0.2, 54.8868778280543)
+          (0.3, 54.93212669683258)
+          (0.35, 55.067873303167424)
+          (0.4, 55.158371040723985)
+          (0.45, 55.067873303167424)
+          (0.5, 54.8868778280543)
+};
+  \addlegendentry{SST Sentiment - Not Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.2, 54.11764705882353)
+          (0.3, 54.34389140271493)
+          (0.35, 54.25339366515837)
+          (0.4, 54.43438914027149)
+          (0.45, 54.52488687782805)
+          (0.5, 54.52488687782805)
+    };
+  \addlegendentry{SST Sentiment - Normalized}
+
+  \end{axis}
+\end{tikzpicture}
+\caption{Confronto degli iperparametri del subset tree kernel.}
+\end{figure}
 
 \subsubsection{Subtree Kernel}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{cc|ccccc}
-        \toprule
-        & & \multicolumn{4}{c}{Normalizzazione}                         \\
-        & & \multicolumn{2}{c}{No} & \multicolumn{2}{c}{Sì}             \\
-        \hline
-        & & \multicolumn{4}{c}{Forest Sum}                              \\
-        & & A & S & A & S                                               \\
-        \hline
-        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}} 
-        & 0.1   & 40.633            & -         & 40.995    & -         \\
-        & 0.2   & 40.859            & -         & 40.950    & -         \\
-        & 0.25  & 41.040            & -         & 41.040    & -         \\
-        & 0.3   & \textbf{41.131}   & 41.131    & 40.950    & 40.950    \\
-        & 0.35  & 40.950            & 40.950    & 40.859    & 40.859    \\
-        & 0.4   & 41.085            & 41.085    & 40.679    & 40.679    \\
-        & 0.45  & 40.950            & 40.950    & 40.498    & 40.498    \\
-        & 0.5   & 40.950            & 40.950    & 40.542    & 40.542    \\
-        \bottomrule
-    \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: Subtree kernel con
-    reranking come funzione di kernel.}
-\end{table}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+      axis lines = middle,
+      xlabel = decay factor,
+      ylabel = accuracy,
+      minor tick num = 1,
+      legend pos=outer north east,
+      xlabel style = {
+          at={(axis description cs:0.5,-0.1)},
+          anchor=north,
+      },
+      ylabel style = {
+          at={(axis description cs:-0.25,0.5)},
+          anchor=south,
+      },
+  ]
+  \addplot[
+      color=blue,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          (0.1   , 40.633)          
+          (0.2   , 40.859)          
+          (0.25  , 41.040)          
+          (0.3   , 41.131)
+          (0.35  , 40.950)          
+          (0.4   , 41.085)          
+          (0.45  , 40.950)          
+          (0.5   , 40.950)          
+      };
+      \addlegendentry{ST Merged - Not Normalized}
 
-Dal momento che ho notato che non c'è differenza tra la modalità di somma di
-foreste di alberi S e A, arbitrariamente ho allenato i modelli sono con la
-modalità di somma di foreste di alberi A.
+  \addplot[
+      color=blue,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.1   , 40.995)          
+          (0.2   , 40.950)          
+          (0.25  , 41.040)          
+          (0.3   , 40.950)
+          (0.35  , 40.859)          
+          (0.4   , 40.679)          
+          (0.45  , 40.498)          
+          (0.5   , 40.542)          
+
+      };
+  \addlegendentry{ST Merged - Normalized}
+
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+            (0.2, 41.26696832579185)
+            (0.3, 41.13122171945701)
+            (0.35, 40.99547511312217)
+            (0.4, 41.22171945701357)
+            (0.45, 41.22171945701357)
+            (0.5, 41.26696832579185)
+    };
+  \addlegendentry{ST Sentiment - Not Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.2, 41.6289592760181)
+          (0.3, 41.80995475113122)
+          (0.35, 41.76470588235294)
+          (0.4, 41.71945701357466)
+          (0.45, 41.58371040723982)
+          (0.5, 41.31221719457013)
+    };
+  \addlegendentry{ST Sentiment - Normalized}
+
+  \end{axis}
+\end{tikzpicture}
+\caption{Confronto degli iperparametri del subtree kernel.}
+\end{figure}
 
 \subsubsection{Subset Tree Bow Kernel}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{cc|ccc}
-        \toprule
-        &           & \multicolumn{2}{c}{Normalizzazione}           \\
-        &           & No                    & Sì                    \\
-        \hline
-        \multirow{8}{*}{\begin{sideways}Decay factor\end{sideways}}
-        & 0.1       & 54.117                & 53.710                \\
-        & 0.2       & 54.524                & 53.710                \\
-        & 0.25      & 54.660                & 53.891                \\
-        & 0.3       & 54.615                & 53.846                \\
-        & 0.35      & 54.524                & 53.484                \\
-        & 0.4       & \textbf{54.841}       & 53.348                \\
-        & 0.45      & 54.434                & 53.619                \\
-        & 0.5       & 53.981                & 53.981                \\
-        \bottomrule
-    \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: SST-bow kernel con
-    reranking come funzione di kernel.}
-\end{table}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+      axis lines = middle,
+      xlabel = decay factor,
+      ylabel = accuracy,
+      minor tick num = 1,
+      legend pos=outer north east,
+      xlabel style = {
+          at={(axis description cs:0.5,-0.1)},
+          anchor=north,
+      },
+      ylabel style = {
+          at={(axis description cs:-0.25,0.5)},
+          anchor=south,
+      },
+  ]
+  \addplot[
+      color=blue,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          (0.1       , 54.117)         
+          (0.2       , 54.524)         
+          (0.25      , 54.660)         
+          (0.3       , 54.615)         
+          (0.35      , 54.524)         
+          (0.4       , 54.841)
+          (0.45      , 54.434)         
+          (0.5       , 53.981)         
+      };
+      \addlegendentry{SST-bow Merged - Not Normalized}
+
+  \addplot[
+      color=blue,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.1   , 53.710)          
+          (0.2   , 53.710)          
+          (0.25  , 53.891)          
+          (0.3   , 53.846)
+          (0.35  , 53.484)          
+          (0.4   , 53.348)          
+          (0.45  , 53.619)          
+          (0.5   , 53.981)          
+
+      };
+  \addlegendentry{SST-bow Merged - Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+        (0.2, 54.61538461538461)
+        (0.3, 54.660633484162894)
+        (0.35, 54.75113122171946)
+        (0.4, 54.8868778280543)
+        (0.45, 55.248868778280546)
+        (0.5, 55.067873303167424)
+};
+  \addlegendentry{SST-bow Sentiment - Not Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+        (0.2, 53.755656108597286)
+        (0.3, 54.29864253393665)
+        (0.35, 54.07239819004525)
+        (0.4, 54.07239819004525)
+        (0.45, 54.16289592760181)
+        (0.5, 54.25339366515837)
+    };
+  \addlegendentry{SST-bow Sentiment - Normalized}
+
+  \end{axis}
+\end{tikzpicture}
+\caption{Confronto degli iperparametri del subset tree-bow kernel.}
+\end{figure}
 
 \subsubsection{Partial Tree Kernel}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{cc|ccc}
-        \toprule
-        &           & \multicolumn{2}{c}{Normalizzazione}           \\
-        &           & No                    & Sì                    \\
-        \hline
-        \multirow{5}{*}{\begin{sideways}Decay factor\end{sideways}}
-        & 0.3       & 54.479                & 53.393                \\
-        & 0.35      & 54.524                & 53.167                \\
-        & 0.4       & \textbf{54.660}       & 53.257                \\
-        & 0.45      & 54.298                & 53.484                \\
-        & 0.5       & 53.891                & 53.756                \\
-        \bottomrule
-    \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: PT kernel con
-    reranking come funzione di kernel.}
-\end{table}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+      axis lines = middle,
+      xlabel = decay factor,
+      ylabel = accuracy,
+      minor tick num = 1,
+      legend pos=outer north east,
+      xlabel style = {
+          at={(axis description cs:0.5,-0.1)},
+          anchor=north,
+      },
+      ylabel style = {
+          at={(axis description cs:-0.25,0.5)},
+          anchor=south,
+      },
+  ]
+  \addplot[
+      color=blue,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          (0.3       , 54.479)         
+          (0.35      , 54.524)         
+          (0.4       , 54.660)
+          (0.45      , 54.298)         
+          (0.5       , 53.891)         
+      };
+      \addlegendentry{PT Merged - Not Normalized}
 
-\subsection{Riassunto}
+  \addplot[
+      color=blue,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.3       , 53.393)         
+          (0.35      , 53.167)         
+          (0.4       , 53.257)
+          (0.45      , 53.484)         
+          (0.5       , 53.756)         
+      };
+  \addlegendentry{PT Merged - Normalized}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{l|cccc}
-        \toprule
-        Model   & Decay Factor  & Normalizzazione   & Accuracy          \\ 
-        \hline
-        SST     & 0.4           & No                & 54.660            \\
-        \textbf{SST-bow} & \textbf{0.4} & \textbf{No} & \textbf{54.841} \\
-        PT      & 0.4           & No                & 54.660            \\
-        ST      & 0.3           & No                & 41.131            \\
-        \hline
-        RNN 50 unità nascoste root & - & -          & 0.42              \\
-        \bottomrule
-    \end{tabular}
-    \caption{Tabella di comparazione degli iperparametri: PT kernel con
-    reranking come funzione di kernel.}
-\end{table}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+        (0.2, 54.8868778280543)
+        (0.3, 54.93212669683258)
+        (0.35, 55.067873303167424)
+        (0.4, 55.158371040723985)
+        (0.45, 55.067873303167424)
+        (0.5, 54.8868778280543)
+      };
+  \addlegendentry{PT Sentiment - Not Normalized}
+
+  \addplot[
+      color=red,
+      mark=*,
+      style=dashed,
+      ]
+      coordinates {
+          (0.2, 54.11764705882353)
+          (0.3, 54.34389140271493)
+          (0.35, 54.25339366515837)
+          (0.4, 54.43438914027149)
+          (0.45, 54.52488687782805)
+          (0.5, 54.52488687782805)
+    }
+;
+  \addlegendentry{PT Sentiment - Normalized}
+
+  \end{axis}
+\end{tikzpicture}
+\caption{Confronto degli iperparametri del partial tree kernel.}
+\end{figure}
+
+\subsubsection{Riassumendo}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+      axis lines = middle,
+      xlabel = decay factor,
+      ylabel = accuracy,
+      minor tick num = 1,
+      legend pos=outer north east,
+      xlabel style = {
+          at={(axis description cs:0.5,-0.1)},
+          anchor=north,
+      },
+      ylabel style = {
+          at={(axis description cs:-0.25,0.5)},
+          anchor=south,
+      },
+  ]
+
+  \addplot[
+      color=blue,
+      mark=*,
+      style=solid,
+      ]
+      coordinates {
+          (0.2, 54.8868778280543)
+          (0.3, 54.93212669683258)
+          (0.35, 55.067873303167424)
+          (0.4, 55.158371040723985)
+          (0.45, 55.067873303167424)
+          (0.5, 54.8868778280543)
+};
+  \addlegendentry{SST Sentiment - Not Normalized}
+
+  \addplot[
+      color=green,
+      mark=+,
+      style=solid,
+      ]
+      coordinates {
+        (0.2, 54.61538461538461)
+        (0.3, 54.660633484162894)
+        (0.35, 54.75113122171946)
+        (0.4, 54.8868778280543)
+        (0.45, 55.248868778280546)
+        (0.5, 55.067873303167424)
+};
+  \addlegendentry{SST-bow Sentiment - Not Normalized}
+
+  \addplot[
+      color=red,
+      mark=x,
+      style=solid,
+      ]
+      coordinates {
+        (0.2, 54.8868778280543)
+        (0.3, 54.93212669683258)
+        (0.35, 55.067873303167424)
+        (0.4, 55.158371040723985)
+        (0.45, 55.067873303167424)
+        (0.5, 54.8868778280543)
+      };
+  \addlegendentry{PT Sentiment - Not Normalized}
+
+  \end{axis}
+\end{tikzpicture}
+\caption{Confronto dei kernel method sugli iperparametri migliori, si noti che
+SST e PT ottengono valutazioni identiche.}
+\end{figure}

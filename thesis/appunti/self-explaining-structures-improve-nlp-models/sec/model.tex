@@ -1,0 +1,90 @@
+\section{Model}
+
+\subsection{Notation}
+
+Given an input sequence $x = \{ x_1, \dots, x_n \}$, where $n$ denotes the
+length of $x$. Let $x(i, j) = \{ x_i, x_{i+1}, \dots, x_{j-1}, x_j \}$. We wish
+to predict the label $y$ for $x$ based on $p(y|x)$. Let $v$ denote vocabulary
+size, and word representations are stored in $W \in \mathbb{R}^{v \times d}$.
+The input $x$ is associated with the label $y \in Y$.
+
+\subsection{Architecture}
+
+\subsubsection{Input Layer}
+
+The input layer for the proposed model consists of the stack of word
+representations for words in the input sequence, where $x_t$ is represented as a
+$d$-dimensional vector $W_{[x_t,:]}$.
+
+\subsubsection{Intermediate Layer}
+
+On the top of the input layer are the $k$ encoder stacks, where each stack
+consists of multi-head attentions, layer normalization and residual connections.
+The representation for $i$-th layer at position $t$ is denoted by $h_t^i \in
+\mathbb{R}^{1 \times d}$.
+
+\subsubsection{Span Infor Collecting Layer (SIC)}
+
+For an arbitrary test span $x(i, j)$, we first obrain a dense representation
+$h(i, j)$ of the span:
+\begin{equation}
+    h(i, j) = F(h_i^k, h_j^k)
+\end{equation}
+
+where $F$ denotes the mapping function, which we will detail soon. 
+The strategy of using the first and last representations to represent the whole
+span is inspired by some recent works. The SIC layer iterates over all text
+spans, and collects $h(i, j)$ for all $i, j \in [1, n]$, with the complexity
+being $O(n^2)$.
+
+\subsubsection{Interpretation Layer}
+
+The interpretation layer aggregates information from all text spans $h(i, j)$:
+
+\begin{align*}
+    o(i, j) &= \hat{h}^T h(i, j)\\
+    \alpha(i, j) &= \frac{\exp(o(i, j))}
+    {\sum_{i \in [1, n], j \in [i, n]} \exp(o(i, j))}\\
+    \tilde{h} &= \sum_{i \in [1, n], j \in [i, n]} \alpha(i, j)h(i, j)
+\end{align*}
+
+where $\hat{h} \in \mathbb{R}^{1 \times d}$ is a learnable parameter, and
+$\tilde{h} \in \mathbb{R}^{1 \times d}$ is the aggregated representation of all
+text spans.
+
+\subsubsection{Output Layer}
+
+The output layer is the probability distribution over labels using the softmax
+function:
+
+\begin{equation}
+    p(y|x) = \frac{u_y^T \tilde{h}}{\sum_{y \in Y} u_y^T \tilde{h}}
+\end{equation}
+
+where $u_y \in \mathbb{R}^{1 \times d}$ is a learnable parameter.
+As can be seen, $\alpha(i, j)$ is the weight associated with the span $x(i, j)$,
+thus indicates the importance of the text span to the final prediction.
+
+\subsubsection{Efficient Computing}
+
+Towards efficient computations, we propose that $F$ takes the following form:
+
+\begin{equation}
+    F(h_i, h_j) = \tanh[W(h_i, h_j, h_i - h_j, h_i \odot h_j)]
+\end{equation}
+
+where $W = [W_1, W_2, W_3, W_4] \in \mathbb{R}^{d \times 4d}$, and $W_i$ are
+learnable parameters. The complexity of computing $F(h_i, h_j)$ is $O(n^2d)$.
+
+\subsection{Training}
+
+The training objective is the standard cross entropy loss. An additional
+regularization on $\alpha$ is needed:
+
+\begin{equation}
+    \mathcal{L} = \log p(y|x) + \lambda \sum_{i, j} \alpha^2(i, j)
+\end{equation}
+
+With the constraint $\sum_{i, j} \alpha(i, j) = 1$.
+This is done because we want the model to focus on a very small number of text
+spans, thus we wanto the distribution of $\alpha$ to be sharp.

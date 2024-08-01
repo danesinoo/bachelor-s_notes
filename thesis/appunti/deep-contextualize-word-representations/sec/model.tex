@@ -1,0 +1,93 @@
+\section{Model}
+
+ELMo word representations are functions of the entire input sentence. They are
+computed on top of two-layer biLMs with character convolutions, as a linear
+function of the internal network states.
+
+\subsection{BiLM}
+
+Given a sentence of $n$ tokens, $(t_1, \dots, t_n)$, a forward language model
+computes the probability of the sequence by modeling the probability of token
+$t_k$ given the history $(t_1, \dots, t_{k-1})$:
+\begin{equation}
+    p(t_1, \dots, t_n) = \prod_{k=1}^n p(t_k | t_1, \dots, t_{k-1})
+\end{equation}
+
+To compute $p(t_k | t_1, \dots, t_{k-1})$, we first compute a
+context-independent token representation $x_k^{LM}$ via token embeddings or a
+CNN over characters, then we pass it through $L$ layers of forward LSTMs. At
+each position $k$, each LSTM layer outputs a context-dependent representation
+$\overleftarrow{h}_{k, j}^{LM}$ where $j \in \{1, \dots, L\}$. Finally $h_{k, L}^{LM}$ is
+used to predict the next token $t_{k+1}$ wiht a softmax layer.
+
+A backward LM is similar to a forward LM, except it runs over the sequence in
+reverse, predicting the previous token given the future context:
+\begin{equation}
+    p(t_1, \dots, t_n) = \prod_{k=1}^n p(t_k | t_{k+1}, \dots, t_n).
+\end{equation}
+
+A biLM combines both a forward and backward LM. Our fomulation jointly maximizes
+the log likelihood of the forward and backward directions:
+\begin{equation}
+    \sum_{k=1}^n 
+    \left( \log p
+    \left(t_k | t_1, \dots, t_{k-1}; \theta_x, \theta^{forward}, \theta_s\right)
+    + \log p\left(t_k | t_{k+1}, \dots, t_n; \theta_x, \theta^{backward},
+    \theta_s\right)
+    \right)
+\end{equation}
+
+We tie the parameters for both the token representation $\theta_x$ and softmax
+layer $\theta_s$ in the forward and backward directions, while maintaining
+separate parameters for the LSTMs in each direction.
+
+\subsection{ELMo}
+
+ELMo is a task specific combination of the intermediate layer representations in
+the biLM. Fro each token $t_k$, a $L$-layer biLM computes a set of $2L+1$
+representations:
+\begin{align*}
+    R_k &= \{x_k^{LM}, \overrightarrow{h}_{k, j}^{LM}, \overleftarrow{h}_{k, j}^{LM} \mid 
+    j \in \{1, \dots, L\}\} \\
+    &= \{h_{k, j}^{LM} \mid j \in \{0, \dots, L\}\}
+\end{align*}
+
+For inclusion in a downstream model, ELMo collapses all layers in $R$ into a
+single vector:
+\begin{equation}
+   \text{ELMo}_k^{task} = E(R_k; \theta^{task}) = \gamma^{task} \sum_{j=0}^L s_j^{task}
+   h_{k, j}^{LM}
+\end{equation}
+
+where $s^{task}$ are softmax-normalized weights and the scalar parameter
+$\gamma^{task}$ allows the task model to scale the entire ELMo vector.
+
+\subsection{Using ELMo}
+
+Given a pre-trained biLM and a supervised architecture for a target NLP task, it
+is a simple process to use the biLM to improve the task model. We run the biLM
+and record all of the layer representations for each word. Then, we let the end
+task model learn a linear combination of these representations, as descrived
+below.\\
+First consider the lowest layers of the supervised model without the biLM.
+Given a sequence of tokens $(t_1, \dots, t_n)$, it is a standard to form a
+context-independent token representation $x_k$ for each token position using
+pre-trained word embeddings.\\
+To add ELMo to the supervised model, we first freeze the weights of the biLM and
+then concateneate the ELMo vecotr ELMo$_k^{task}$ with $x_k$ and pass the ELMo
+enhances representation into the task RNN.\\
+Finally, we found it beneficial to add a moderate amount of dropout to ELMo and
+in some cases to regularize the ELMo weights by adding $\lambda ||w||_2^2$ to
+the loss.
+
+\subsection{Pre-trained biLM architecture}
+
+The final model uses $L=2$ biLMs with 4096 units and 512 dimension projections
+and a residual connection from the first to second layer. The context
+insensitive type representation uses 2048 character n-gram convolutional filters
+followed by two highway layers and a linear projection down to a 512
+representation. As a result, the biLM provides three layers of representations
+for each input token.\\
+Once pretrained, the biLM can compute representations fro any task. In some
+cases, fine tuning the biLM on domain specific data leads to significant drops
+in perplexity and an increase in downstream task performance.
