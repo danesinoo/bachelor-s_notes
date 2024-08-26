@@ -16,10 +16,10 @@ kernel_to_string = {
     5: 'combination of tree forests',
 }
 
-TRAIN_PATH = f"multiclass_train.syntax"
-MODEL_NAME = f"multiclass_train.syntax"
+TRAIN_PATH = f"multiclass_train.sentiment"
+MODEL_NAME = f"multiclass_train.sentiment"
 TEST_LABEL = f"multiclass_subtree_test.sentiment"
-TEST_ROOT = f"multiclass_test.syntax"
+TEST_ROOT = f"multiclass_test.sentiment"
 
 def run_command(command):
     try:
@@ -32,12 +32,12 @@ def run_command(command):
         print(f"Command failed with error code {e.returncode}.")
         print("Error:\n", e.stderr.decode())
 
-def train_kernel(train_set, model_name, params):
-    cmd = f'../../SVM-Light-TK-1.5/svm_learn -F {KERNEL_TYPE} {params} ../../../datasets/{train_set}.txt {model_name}.model'
+def train_kernel(train_set, model_name, params, dataset_path="../../../datasets"):
+    cmd = f'../../SVM-Light-TK-1.5/svm_learn -F {KERNEL_TYPE} {params} {dataset_path}/{train_set}.txt {model_name}.model'
     run_command(cmd)
 
-def classify(test_path, model_name, output_path):
-    cmd = f'../../SVM-Light-TK-1.5/svm_classify ../../../datasets/{test_path}.txt {model_name}.model {output_path}.results'
+def classify(test_path, model_name, output_path, dataset_path="../../../datasets"):
+    cmd = f'../../SVM-Light-TK-1.5/svm_classify {dataset_path}/{test_path}.txt {model_name}.model {output_path}.results'
     run_command(cmd)
 
 def softmax(x):
@@ -59,8 +59,8 @@ def get_predictions(predict_file):
         predictions = list(map(lambda line: float(line), f.readlines()))
     return predictions
 
-def get_targets(target_file):
-    with open(f"../../../datasets/{target_file}.txt") as f:
+def get_targets(target_file, dataset_path="../../../datasets"):
+    with open(f"{dataset_path}/{target_file}.txt") as f:
         targets = list(map(lambda line: float(line.split()[0]), f.readlines()))
     return targets
 
@@ -77,7 +77,7 @@ def evaluate_multiclass(y_true, y_pred):
         "F1-Score": f1
     }
 
-def build_model(kernel_type, decay_factor, normalization, forest_sum, res):
+def build_and_test_model(kernel_type, decay_factor, normalization, forest_sum, res, dataset_path="../../../datasets"):
     kernel_type_str = kernel_to_string[kernel_type[0]] + kernel_type[1]
     decay_factor = "-L " + str(decay_factor)
     normalization = "-N " + str(normalization)
@@ -96,9 +96,9 @@ def build_model(kernel_type, decay_factor, normalization, forest_sum, res):
         test_label = TEST_LABEL + f"_{i}"
         test_root = TEST_ROOT + f"_{i}"
 
-        train_kernel(f"{train_path}", f"{dir}/{model_name}", params)
-        classify(f"{test_label}", f"{dir}/{model_name}", f"{dir}/{test_label}")
-        classify(f"{test_root}", f"{dir}/{model_name}", f"{dir}/{test_root}")
+        train_kernel(f"{train_path}", f"{dir}/{model_name}", params, dataset_path = dataset_path)
+        classify(f"{test_label}", f"{dir}/{model_name}", f"{dir}/{test_label}", dataset_path = dataset_path)
+        classify(f"{test_root}", f"{dir}/{model_name}", f"{dir}/{test_root}", dataset_path = dataset_path)
 
     # Classify multiclass
     predictions_label_paths = [f"{dir}/{TEST_LABEL}_{i}.results" for i in range(5)]
@@ -107,8 +107,8 @@ def build_model(kernel_type, decay_factor, normalization, forest_sum, res):
     classify_multiclass(predictions_root_paths, f"{dir}/root.results")
 
     # Evaluate multiclass
-    y_true_label = get_targets("subtree_test.sentiment")
-    y_true_root = get_targets("test.sentiment")
+    y_true_label = get_targets("subtree_test.sentiment", dataset_path = dataset_path)
+    y_true_root = get_targets("test.sentiment", dataset_path = dataset_path)
     y_pred_label = get_predictions(f"{dir}/label")
     y_pred_root = get_predictions(f"{dir}/root")
 
@@ -146,14 +146,18 @@ KERNEL_TYPE = args.kernel
 if __name__ == "__main__":
     parsers = argparse.ArgumentParser(description="Run SVM-Light-TK with different hyperparameters.")
     parsers.add_argument("--kernel", type=int, default=0, help="Kernel type. Values are -1 (PT), 0 (ST), 1 (SST), 2 (SST-bow), 4 (Something hybrid).")
+    parsers.add_argument("--dataset", type=str, default="../../../datasets",
+                         help="Path to the dataset.")
     args = parsers.parse_args()
 
     KERNEL_TYPE = args.kernel
+    dataset_path = args.dataset
 
     manager = Manager()
     results = manager.dict()
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = [executor.submit(build_model, i[0], i[1], i[2], i[3], results) for i in iperparams]
+        futures = [executor.submit(build_and_test_model, i[0], i[1], i[2], i[3], results,
+                                   dataset_path) for i in iperparams]
     
         for future in as_completed(futures):
             try:

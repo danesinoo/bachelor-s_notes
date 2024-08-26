@@ -52,6 +52,3 @@ if __name__ == "__main__":
         base_file_name = re.sub(r'multiclass_', '', base_file_name)
         with open(f'{directory}/{base_file_name}', 'w') as f:
             f.write('\n'.join(map(str, prediction)))
-
-
-

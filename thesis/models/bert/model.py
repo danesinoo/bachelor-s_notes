@@ -7,7 +7,7 @@ class SentimentClassifier:
     def __init__(self, model_name='bert-base-uncased', num_labels=5, lr=2e-5, batch_size=16):
         self.tokenizer = BertTokenizer.from_pretrained(model_name)
         self.model = BertForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
-        self.optimizer = AdamW(self.model.parameters(), lr=lr)
+        self.optimizer = AdamW(self.model.parameters(), lr=lr, weight_decay=0.1)
         self.batch_size = batch_size
     
     def preprocess_data(self, sentences, labels):
@@ -18,10 +18,7 @@ class SentimentClassifier:
 
     def train(self, train_sentences, train_labels, dev_sentences, dev_labels, epochs=3):
         train_dataset = self.preprocess_data(train_sentences, train_labels)
-        dev_dataset = self.preprocess_data(dev_sentences, dev_labels)
-        
         train_dataloader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
-        dev_dataloader = DataLoader(dev_dataset, batch_size=self.batch_size)
 
         for epoch in range(epochs):
             self.model.train()
