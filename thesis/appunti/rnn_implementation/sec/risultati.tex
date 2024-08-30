@@ -1,235 +1,235 @@
 \section{Risultati}
 
 Ho deciso di implementare 4 versioni del modello, rispettivamente con 25, 50, 75
-e 100 hidden units. Riporto le matrici di confusione, la precision, la recall e 
-l'f1-score per ciascun modello, oltre che l'accuratezza e l'accuratezza delle 
+e 100 hidden units. Riporto le matrici di confusione, la precision, la recall e
+l'f1-score per ciascun modello, oltre che l'accuratezza e l'accuratezza delle
 radici.
 
 \subsection{25 unità nascoste}
 
 \begin{itemize}
-    \item \textbf{Label Accuracy:} 0.784891 \%;
-    \item \textbf{Root Label Accuracy:} 0.396833 \%;
+	\item \textbf{Label Accuracy:} 0.784891 \%;
+	\item \textbf{Root Label Accuracy:} 0.396833 \%;
 \end{itemize}
 
 \subsubsection{Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 809 & 1028 & 696 & 329 & 105 & 2967 \\
-\textbf{1} & 864 & 5340 & 2930 & 834 & 154 & 10122 \\
-\textbf{2} & 257 & 2378 & 50767 & 2859 & 348 & 56609 \\
-\textbf{3} & 47 & 391 & 1875 & 5959 & 1227 & 9499 \\
-\textbf{4} & 31 & 118 & 280 & 1017 & 1957 & 3403 \\
-\hline
-\textbf{Marg. (Gold)} & 2008 & 9255 & 56548 & 10998 & 3791 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 809        & 1028       & 696        & 329        & 105        & 2967                   \\
+		\textbf{1}            & 864        & 5340       & 2930       & 834        & 154        & 10122                  \\
+		\textbf{2}            & 257        & 2378       & 50767      & 2859       & 348        & 56609                  \\
+		\textbf{3}            & 47         & 391        & 1875       & 5959       & 1227       & 9499                   \\
+		\textbf{4}            & 31         & 118        & 280        & 1017       & 1957       & 3403                   \\
+		\hline
+		\textbf{Marg. (Gold)} & 2008       & 9255       & 56548      & 10998      & 3791       &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.27267, Recall = 0.40289, Specificity = 0.97322, F1-score = 0.32523
-    \item \textbf{Class 1:} Precision = 0.52756, Recall = 0.57699, Specificity = 0.9348, F1-score = 0.55117
-    \item \textbf{Class 2:} Precision = 0.8968, Recall = 0.89777, Specificity = 0.77576, F1-score = 0.89728
-    \item \textbf{Class 3:} Precision = 0.62733, Recall = 0.54183, Specificity = 0.95056, F1-score = 0.58145
-    \item \textbf{Class 4:} Precision = 0.57508, Recall = 0.51622, Specificity = 0.98165, F1-score = 0.54406
+	\item \textbf{Class 0:} Precision = 0.27267, Recall =   0.40289, Specificity = 0.97322, F1-score = 0.32523
+	\item \textbf{Class 1:} Precision = 0.52756, Recall =   0.57699, Specificity = 0.9348,  F1-score = 0.55117
+	\item \textbf{Class 2:} Precision = 0.8968,  Recall =   0.89777, Specificity = 0.77576, F1-score = 0.89728
+	\item \textbf{Class 3:} Precision = 0.62733, Recall =   0.54183, Specificity = 0.95056, F1-score = 0.58145
+	\item \textbf{Class 4:} Precision = 0.57508, Recall =   0.51622, Specificity = 0.98165, F1-score = 0.54406
 \end{itemize}
 
 \subsubsection{Root Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 129 & 198 & 90 & 71 & 30 & 518 \\
-\textbf{1} & 124 & 311 & 129 & 99 & 30 & 693 \\
-\textbf{2} & 17 & 67 & 72 & 52 & 20 & 228 \\
-\textbf{3} & 5 & 41 & 75 & 150 & 104 & 375 \\
-\textbf{4} & 4 & 16 & 23 & 138 & 215 & 396 \\
-\hline
-\textbf{Marg. (Gold)} & 279 & 633 & 389 & 510 & 399 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 129        & 198        & 90         & 71         & 30         & 518                    \\
+		\textbf{1}            & 124        & 311        & 129        & 99         & 30         & 693                    \\
+		\textbf{2}            & 17         & 67         & 72         & 52         & 20         & 228                    \\
+		\textbf{3}            & 5          & 41         & 75         & 150        & 104        & 375                    \\
+		\textbf{4}            & 4          & 16         & 23         & 138        & 215        & 396                    \\
+		\hline
+		\textbf{Marg. (Gold)} & 279        & 633        & 389        & 510        & 399        &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Root Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.24903, Recall = 0.46237, Specificity = 0.79855, F1-score = 0.32371
-    \item \textbf{Class 1:} Precision = 0.44877, Recall = 0.49131, Specificity = 0.75777, F1-score = 0.46908
-    \item \textbf{Class 2:} Precision = 0.31579, Recall = 0.18509, Specificity = 0.91433, F1-score = 0.23339
-    \item \textbf{Class 3:} Precision = 0.4, Recall = 0.29412, Specificity = 0.86765, F1-score = 0.33898
-    \item \textbf{Class 4:} Precision = 0.54293, Recall = 0.53885, Specificity = 0.90006, F1-score = 0.54088
+	\item \textbf{Class 0:} Precision = 0.24903, Recall = 0.46237, Specificity = 0.79855, F1-score = 0.32371
+	\item \textbf{Class 1:} Precision = 0.44877, Recall = 0.49131, Specificity = 0.75777, F1-score = 0.46908
+	\item \textbf{Class 2:} Precision = 0.31579, Recall = 0.18509, Specificity = 0.91433, F1-score = 0.23339
+	\item \textbf{Class 3:} Precision = 0.40000, Recall = 0.29412, Specificity = 0.86765, F1-score = 0.33898
+	\item \textbf{Class 4:} Precision = 0.54293, Recall = 0.53885, Specificity = 0.90006, F1-score = 0.54088
 \end{itemize}
 
 \subsection{50 unità nascoste}
 
 \begin{itemize}
-    \item \textbf{Label Accuracy:} 0.794286 \%;
-    \item \textbf{Root Label Accuracy:} 0.424434 \%;
+	\item \textbf{Label Accuracy:} 0.794286 \%;
+	\item \textbf{Root Label Accuracy:} 0.424434 \%;
 \end{itemize}
 
 \subsubsection{Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 448 & 289 & 53 & 11 & 7 & 808 \\
-\textbf{1} & 999 & 4746 & 1896 & 480 & 98 & 8219 \\
-\textbf{2} & 405 & 3436 & 52196 & 3213 & 346 & 59596 \\
-\textbf{3} & 144 & 748 & 2319 & 6741 & 1863 & 11815 \\
-\textbf{4} & 12 & 36 & 84 & 553 & 1477 & 2162 \\
-\hline
-\textbf{Marg. (Gold)} & 2008 & 9255 & 56548 & 10998 & 3791 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 448        & 289        & 53         & 11         & 7          & 808                    \\
+		\textbf{1}            & 999        & 4746       & 1896       & 480        & 98         & 8219                   \\
+		\textbf{2}            & 405        & 3436       & 52196      & 3213       & 346        & 59596                  \\
+		\textbf{3}            & 144        & 748        & 2319       & 6741       & 1863       & 11815                  \\
+		\textbf{4}            & 12         & 36         & 84         & 553        & 1477       & 2162                   \\
+		\hline
+		\textbf{Marg. (Gold)} & 2008       & 9255       & 56548      & 10998      & 3791       &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.55446, Recall = 0.22311, Specificity = 0.99553, F1-score = 0.31818
-    \item \textbf{Class 1:} Precision = 0.57744, Recall = 0.5128, Specificity = 0.95265, F1-score = 0.54321
-    \item \textbf{Class 2:} Precision = 0.87583, Recall = 0.92304, Specificity = 0.71595, F1-score = 0.89882
-    \item \textbf{Class 3:} Precision = 0.57055, Recall = 0.61293, Specificity = 0.92914, F1-score = 0.59098
-    \item \textbf{Class 4:} Precision = 0.68316, Recall = 0.38961, Specificity = 0.99131, F1-score = 0.49622
+	\item \textbf{Class 0:} Precision = 0.55446, Recall = 0.22311, Specificity = 0.99553, F1-score = 0.31818
+	\item \textbf{Class 1:} Precision = 0.57744, Recall = 0.5128,  Specificity = 0.95265, F1-score = 0.54321
+	\item \textbf{Class 2:} Precision = 0.87583, Recall = 0.92304, Specificity = 0.71595, F1-score = 0.89882
+	\item \textbf{Class 3:} Precision = 0.57055, Recall = 0.61293, Specificity = 0.92914, F1-score = 0.59098
+	\item \textbf{Class 4:} Precision = 0.68316, Recall = 0.38961, Specificity = 0.99131, F1-score = 0.49622
 \end{itemize}
 
 \subsubsection{Root Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 60 & 64 & 10 & 1 & 2 & 137 \\
-\textbf{1} & 152 & 317 & 117 & 67 & 13 & 666 \\
-\textbf{2} & 38 & 125 & 120 & 73 & 26 & 382 \\
-\textbf{3} & 27 & 123 & 131 & 293 & 210 & 784 \\
-\textbf{4} & 2 & 4 & 11 & 76 & 148 & 241 \\
-\hline
-\textbf{Marg. (Gold)} & 279 & 633 & 389 & 510 & 399 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 60         & 64         & 10         & 1          & 2          & 137                    \\
+		\textbf{1}            & 152        & 317        & 117        & 67         & 13         & 666                    \\
+		\textbf{2}            & 38         & 125        & 120        & 73         & 26         & 382                    \\
+		\textbf{3}            & 27         & 123        & 131        & 293        & 210        & 784                    \\
+		\textbf{4}            & 2          & 4          & 11         & 76         & 148        & 241                    \\
+		\hline
+		\textbf{Marg. (Gold)} & 279        & 633        & 389        & 510        & 399        &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Root Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.43796, Recall = 0.21505, Specificity = 0.96012, F1-score = 0.28846
-    \item \textbf{Class 1:} Precision = 0.47598, Recall = 0.50079, Specificity = 0.77869, F1-score = 0.48807
-    \item \textbf{Class 2:} Precision = 0.31414, Recall = 0.30848, Specificity = 0.85612, F1-score = 0.31128
-    \item \textbf{Class 3:} Precision = 0.37372, Recall = 0.57451, Specificity = 0.71118, F1-score = 0.45286
-    \item \textbf{Class 4:} Precision = 0.61411, Recall = 0.37093, Specificity = 0.94865, F1-score = 0.4625
+	\item \textbf{Class 0:} Precision = 0.43796, Recall = 0.21505, Specificity = 0.96012, F1-score = 0.28846
+	\item \textbf{Class 1:} Precision = 0.47598, Recall = 0.50079, Specificity = 0.77869, F1-score = 0.48807
+	\item \textbf{Class 2:} Precision = 0.31414, Recall = 0.30848, Specificity = 0.85612, F1-score = 0.31128
+	\item \textbf{Class 3:} Precision = 0.37372, Recall = 0.57451, Specificity = 0.71118, F1-score = 0.45286
+	\item \textbf{Class 4:} Precision = 0.61411, Recall = 0.37093, Specificity = 0.94865, F1-score = 0.4625
 \end{itemize}
 
 \subsection{75 unità nascoste}
 
 \begin{itemize}
-    \item \textbf{Label Accuracy:} 0.792264 \%;
-    \item \textbf{Root Label Accuracy:} 0.387783 \%;
+	\item \textbf{Label Accuracy:} 0.792264 \%;
+	\item \textbf{Root Label Accuracy:} 0.387783 \%;
 \end{itemize}
 
 \subsubsection{Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 682 & 687 & 246 & 107 & 42 & 1764 \\
-\textbf{1} & 835 & 4721 & 1919 & 568 & 177 & 8220 \\
-\textbf{2} & 429 & 3582 & 53098 & 4300 & 643 & 62052 \\
-\textbf{3} & 54 & 235 & 1187 & 5556 & 1545 & 8577 \\
-\textbf{4} & 8 & 30 & 98 & 467 & 1384 & 1987 \\
-\hline
-\textbf{Marg. (Gold)} & 2008 & 9255 & 56548 & 10998 & 3791 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 682        & 687        & 246        & 107        & 42         & 1764                   \\
+		\textbf{1}            & 835        & 4721       & 1919       & 568        & 177        & 8220                   \\
+		\textbf{2}            & 429        & 3582       & 53098      & 4300       & 643        & 62052                  \\
+		\textbf{3}            & 54         & 235        & 1187       & 5556       & 1545       & 8577                   \\
+		\textbf{4}            & 8          & 30         & 98         & 467        & 1384       & 1987                   \\
+		\hline
+		\textbf{Marg. (Gold)} & 2008       & 9255       & 56548      & 10998      & 3791       &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.38662, Recall = 0.33964, Specificity = 0.98657, F1-score = 0.36161
-    \item \textbf{Class 1:} Precision = 0.57433, Recall = 0.5101, Specificity = 0.95229, F1-score = 0.54031
-    \item \textbf{Class 2:} Precision = 0.8557, Recall = 0.93899, Specificity = 0.6563, F1-score = 0.89541
-    \item \textbf{Class 3:} Precision = 0.64778, Recall = 0.50518, Specificity = 0.95781, F1-score = 0.56766
-    \item \textbf{Class 4:} Precision = 0.69653, Recall = 0.36508, Specificity = 0.99235, F1-score = 0.47906
+	\item \textbf{Class 0:} Precision = 0.38662, Recall = 0.33964, Specificity = 0.98657, F1-score = 0.36161
+	\item \textbf{Class 1:} Precision = 0.57433, Recall = 0.5101,  Specificity = 0.95229, F1-score = 0.54031
+	\item \textbf{Class 2:} Precision = 0.8557,  Recall = 0.93899, Specificity = 0.6563,  F1-score = 0.89541
+	\item \textbf{Class 3:} Precision = 0.64778, Recall = 0.50518, Specificity = 0.95781, F1-score = 0.56766
+	\item \textbf{Class 4:} Precision = 0.69653, Recall = 0.36508, Specificity = 0.99235, F1-score = 0.47906
 \end{itemize}
 
 \subsubsection{Root Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 125 & 171 & 55 & 34 & 11 & 396 \\
-\textbf{1} & 108 & 269 & 108 & 83 & 42 & 610 \\
-\textbf{2} & 35 & 158 & 153 & 145 & 47 & 538 \\
-\textbf{3} & 10 & 29 & 59 & 195 & 184 & 477 \\
-\textbf{4} & 1 & 6 & 14 & 53 & 115 & 189 \\
-\hline
-\textbf{Marg. (Gold)} & 279 & 633 & 389 & 510 & 399 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 125        & 171        & 55         & 34         & 11         & 396                    \\
+		\textbf{1}            & 108        & 269        & 108        & 83         & 42         & 610                    \\
+		\textbf{2}            & 35         & 158        & 153        & 145        & 47         & 538                    \\
+		\textbf{3}            & 10         & 29         & 59         & 195        & 184        & 477                    \\
+		\textbf{4}            & 1          & 6          & 14         & 53         & 115        & 189                    \\
+		\hline
+		\textbf{Marg. (Gold)} & 279        & 633        & 389        & 510        & 399        &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Root Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.31566, Recall = 0.44803, Specificity = 0.85966, F1-score = 0.37037
-    \item \textbf{Class 1:} Precision = 0.44098, Recall = 0.42496, Specificity = 0.78377, F1-score = 0.43282
-    \item \textbf{Class 2:} Precision = 0.28439, Recall = 0.39332, Specificity = 0.78858, F1-score = 0.3301
-    \item \textbf{Class 3:} Precision = 0.40881, Recall = 0.38235, Specificity = 0.83412, F1-score = 0.39514
-    \item \textbf{Class 4:} Precision = 0.60847, Recall = 0.28822, Specificity = 0.95914, F1-score = 0.39116
+	\item \textbf{Class 0:} Precision = 0.31566, Recall = 0.44803, Specificity = 0.85966, F1-score = 0.37037
+	\item \textbf{Class 1:} Precision = 0.44098, Recall = 0.42496, Specificity = 0.78377, F1-score = 0.43282
+	\item \textbf{Class 2:} Precision = 0.28439, Recall = 0.39332, Specificity = 0.78858, F1-score = 0.3301
+	\item \textbf{Class 3:} Precision = 0.40881, Recall = 0.38235, Specificity = 0.83412, F1-score = 0.39514
+	\item \textbf{Class 4:} Precision = 0.60847, Recall = 0.28822, Specificity = 0.95914, F1-score = 0.39116
 \end{itemize}
 
 \subsection{100 unità nascoste}
 
 \begin{itemize}
-    \item \textbf{Label Accuracy:} 0.782930 \%;
-    \item \textbf{Root Label Accuracy:} 0.397738 \%;
+	\item \textbf{Label Accuracy:} 0.782930 \%;
+	\item \textbf{Root Label Accuracy:} 0.397738 \%;
 \end{itemize}
 
 \subsubsection{Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 457 & 345 & 79 & 25 & 5 & 911 \\
-\textbf{1} & 973 & 4808 & 1961 & 435 & 79 & 8256 \\
-\textbf{2} & 242 & 2533 & 50450 & 2459 & 222 & 55906 \\
-\textbf{3} & 251 & 1302 & 3610 & 6734 & 1264 & 13161 \\
-\textbf{4} & 85 & 267 & 448 & 1345 & 2221 & 4366 \\
-\hline
-\textbf{Marg. (Gold)} & 2008 & 9255 & 56548 & 10998 & 3791 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 457        & 345        & 79         & 25         & 5          & 911                    \\
+		\textbf{1}            & 973        & 4808       & 1961       & 435        & 79         & 8256                   \\
+		\textbf{2}            & 242        & 2533       & 50450      & 2459       & 222        & 55906                  \\
+		\textbf{3}            & 251        & 1302       & 3610       & 6734       & 1264       & 13161                  \\
+		\textbf{4}            & 85         & 267        & 448        & 1345       & 2221       & 4366                   \\
+		\hline
+		\textbf{Marg. (Gold)} & 2008       & 9255       & 56548      & 10998      & 3791       &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.50165, Recall = 0.22759, Specificity = 0.99437, F1-score = 0.31312
-    \item \textbf{Class 1:} Precision = 0.58236, Recall = 0.5195, Specificity = 0.95299, F1-score = 0.54914
-    \item \textbf{Class 2:} Precision = 0.90241, Recall = 0.89216, Specificity = 0.79057, F1-score = 0.89726
-    \item \textbf{Class 3:} Precision = 0.51166, Recall = 0.61229, Specificity = 0.91024, F1-score = 0.55747
-    \item \textbf{Class 4:} Precision = 0.5087, Recall = 0.58586, Specificity = 0.97278, F1-score = 0.54456
+	\item \textbf{Class 0:} Precision = 0.50165, Recall = 0.22759, Specificity = 0.99437, F1-score = 0.31312
+	\item \textbf{Class 1:} Precision = 0.58236, Recall = 0.5195,  Specificity = 0.95299, F1-score = 0.54914
+	\item \textbf{Class 2:} Precision = 0.90241, Recall = 0.89216, Specificity = 0.79057, F1-score = 0.89726
+	\item \textbf{Class 3:} Precision = 0.51166, Recall = 0.61229, Specificity = 0.91024, F1-score = 0.55747
+	\item \textbf{Class 4:} Precision = 0.5087,  Recall = 0.58586, Specificity = 0.97278, F1-score = 0.54456
 \end{itemize}
 
 \subsubsection{Root Label Confusion Matrix}
 \begin{table}[h]
-\centering
-\begin{tabular}{c|ccccc|c}
-\textbf{Guess/Gold} & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
-\hline
-\textbf{0} & 47 & 62 & 11 & 3 & 1 & 124 \\
-\textbf{1} & 142 & 273 & 92 & 38 & 10 & 555 \\
-\textbf{2} & 16 & 58 & 53 & 26 & 12 & 165 \\
-\textbf{3} & 46 & 176 & 159 & 212 & 82 & 675 \\
-\textbf{4} & 28 & 64 & 74 & 231 & 294 & 691 \\
-\hline
-\textbf{Marg. (Gold)} & 279 & 633 & 389 & 510 & 399 & \\
-\end{tabular}
+	\centering
+	\begin{tabular}{c|ccccc|c}
+		\textbf{Guess/Gold}   & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{Marg. (Guess)} \\
+		\hline
+		\textbf{0}            & 47         & 62         & 11         & 3          & 1          & 124                    \\
+		\textbf{1}            & 142        & 273        & 92         & 38         & 10         & 555                    \\
+		\textbf{2}            & 16         & 58         & 53         & 26         & 12         & 165                    \\
+		\textbf{3}            & 46         & 176        & 159        & 212        & 82         & 675                    \\
+		\textbf{4}            & 28         & 64         & 74         & 231        & 294        & 691                    \\
+		\hline
+		\textbf{Marg. (Gold)} & 279        & 633        & 389        & 510        & 399        &                        \\
+	\end{tabular}
 \end{table}
 
 \subsubsection{Root Label Metrics}
 \begin{itemize}
-    \item \textbf{Class 0:} Precision = 0.37903, Recall = 0.16846, Specificity = 0.96012, F1-score = 0.23325
-    \item \textbf{Class 1:} Precision = 0.49189, Recall = 0.43128, Specificity = 0.82118, F1-score = 0.4596
-    \item \textbf{Class 2:} Precision = 0.32121, Recall = 0.13625, Specificity = 0.9385, F1-score = 0.19134
-    \item \textbf{Class 3:} Precision = 0.31407, Recall = 0.41569, Specificity = 0.72765, F1-score = 0.35781
-    \item \textbf{Class 4:} Precision = 0.42547, Recall = 0.73684, Specificity = 0.78078, F1-score = 0.53945
+	\item \textbf{Class 0:} Precision = 0.37903, Recall = 0.16846, Specificity = 0.96012, F1-score = 0.23325
+	\item \textbf{Class 1:} Precision = 0.49189, Recall = 0.43128, Specificity = 0.82118, F1-score = 0.4596
+	\item \textbf{Class 2:} Precision = 0.32121, Recall = 0.13625, Specificity = 0.9385,  F1-score = 0.19134
+	\item \textbf{Class 3:} Precision = 0.31407, Recall = 0.41569, Specificity = 0.72765, F1-score = 0.35781
+	\item \textbf{Class 4:} Precision = 0.42547, Recall = 0.73684, Specificity = 0.78078, F1-score = 0.53945
 \end{itemize}
 
